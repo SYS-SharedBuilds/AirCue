@@ -1,0 +1,80 @@
+# AirCue LLM Benchmark Configuration
+
+# OpenRouter Settings
+openrouter:
+  base_url: "https://openrouter.ai/api/v1"
+  api_key_env: "OPENROUTER_API_KEY"
+  http_referer: "https://github.com/yusufmalubhaiwala/AirCue"
+  x_title: "AirCue Outdoor School Voice Alert System"
+  timeout_seconds: 30
+  max_retries: 3
+
+# Quota and Execution Pace
+quota:
+  daily_request_budget: 180  # Default conservative limit for OpenRouter free tier
+  stop_on_quota_exhaustion: true
+  state_file: "results/quota.json"
+
+# Model Selection and Resolution Strategy
+selection:
+  preferred_families:
+    - "deepseek"
+    - "moonshotai"  # Kimi models
+  min_models: 4
+  allow_paid_preferred: false  # When true, pulls cheapest DeepSeek/Kimi paid models
+  min_parameter_billions: 7.0  # Excludes models smaller than 7B
+  exclude_slug_keywords:
+    - "-preview"
+    - "preview"
+    - "-music"
+    - "-audio"
+    - "-vl"
+    - "-code"
+    - "-exp"
+    - "promo"
+    - "openrouter/free"
+
+# Direct Providers (Alternative OpenAI-compatible endpoints)
+direct_providers:
+  deepseek:
+    enabled: false
+    base_url: "https://api.deepseek.com"
+    api_key_env: "DEEPSEEK_API_KEY"
+    models:
+      - "deepseek-chat"
+  moonshot:
+    enabled: false
+    base_url: "https://api.moonshot.ai/v1"
+    api_key_env: "MOONSHOT_API_KEY"
+    models:
+      - "moonshot-v1-8k"
+
+# Future Anthropic Integration (Config-only enablement)
+anthropic:
+  enabled: false
+  api_key_env: "ANTHROPIC_API_KEY"
+  models:
+    - "claude-haiku-5-5"
+    - "claude-sonnet-5-5"
+    - "claude-opus-5-5"
+    - "claude-fable-5-2"
+
+# Benchmark Tasks and Sampling Parameters
+tasks:
+  task1_generation:
+    enabled: true
+    samples_per_model: 160
+    repeat_subset_size: 20
+    temperature: 0.7
+  task2_decision:
+    enabled: true
+    samples_per_model: 100
+    window_hours: 6
+    temperature: 0.0
+  task3_reliability:
+    enabled: true
+    speaker_latency_budget_seconds: 2.0
+
+judge:
+  enabled: false  # Off by default to conserve free-tier quota
+  model: "google/gemma-4-31b-it:free"

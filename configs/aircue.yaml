@@ -1,0 +1,112 @@
+# AirCue System Configuration
+
+# Target Deployment Site Details
+site:
+  id: "indore_school_01"
+  name: "PIEMR Campus Grounds, Indore"
+  timezone: "Asia/Kolkata"
+
+# AQI Trigger Engine Configuration
+trigger:
+  # Source can be 'cpcb_computed' (default, uses PM2.5 and PM10 sub-indices),
+  # 'us_aqi', or 'european_aqi'
+  aqi_source: "cpcb_computed"
+
+  # Source profiles: 'api_hourly' (3600s confirm) or 'local_sensor' (600s confirm)
+  profile: "api_hourly"
+
+  # Confirmation window in seconds (escalation requires condition sustained this long)
+  confirm_seconds: 3600
+  # Minimum valid samples spanning the confirmation window
+  min_confirm_samples: 2
+
+  # Maximum gap in seconds between valid readings before data is considered stale
+  # Defaults to 3x sample interval (3 * 3600s = 10800s for api_hourly)
+  max_gap_seconds: 10800
+
+  # Alert level threshold bands and reminder cadence
+  levels:
+    0:
+      name: "Normal"
+      enter_aqi: 0
+      exit_aqi: 0
+      reminder_seconds: 0
+    1:
+      name: "Moderate"
+      enter_aqi: 101
+      exit_aqi: 90
+      reminder_seconds: 10800  # 180 min
+    2:
+      name: "Poor"
+      enter_aqi: 201
+      exit_aqi: 185
+      reminder_seconds: 7200   # 120 min
+    3:
+      name: "Very Poor"
+      enter_aqi: 301
+      exit_aqi: 280
+      reminder_seconds: 3600   # 60 min
+    4:
+      name: "Severe"
+      enter_aqi: 401
+      exit_aqi: 375
+      reminder_seconds: 1800   # 30 min
+
+  # Optical PM sensor humidity correction
+  humidity_correction:
+    enabled: false
+    # Empirical Kohler factor: PM_corr = PM / (1 + factor * (RH / (100 - RH)))
+    factor: 0.25
+    rh_threshold: 65.0
+
+# Schedule & School Operations
+schedule:
+  school_days: [0, 1, 2, 3, 4, 5]  # Mon = 0 to Sat = 5
+  start_time: "08:00"
+  end_time: "15:00"
+  holidays:
+    - "2026-01-26"  # Republic Day
+    - "2026-08-15"  # Independence Day
+    - "2026-10-02"  # Gandhi Jayanti
+
+  # Timetable outdoor activity slots
+  outdoor_slots:
+    assembly:
+      start: "08:15"
+      end: "08:45"
+      name: "Morning Assembly"
+    sports_pt:
+      start: "09:30"
+      end: "10:30"
+      name: "Sports & Physical Training"
+    recess:
+      start: "11:45"
+      end: "12:15"
+      name: "Lunch & Recess Play"
+    dismissal:
+      start: "14:30"
+      end: "15:00"
+      name: "Dismissal & Bus Boarding"
+
+# Messaging & Voice
+messages:
+  default_language: "en"  # "en" or "hi"
+  default_tone: "neutral" # "neutral" or "young"
+  allow_masks_recommendation: false
+
+# Audio Playback
+audio:
+  backend: "beep"  # 'piper', 'gtts', or 'beep' (test tone generator)
+  clips_dir: "clips"
+  volume_gain: 1.0
+
+# MQTT Transport
+mqtt:
+  broker: "localhost"
+  port: 1883
+  keepalive: 60
+  topics:
+    telemetry: "aircue/+/telemetry"
+    led: "aircue/{site}/led"
+    button: "aircue/{site}/button"
+    status: "aircue/{site}/status"

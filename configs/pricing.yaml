@@ -1,0 +1,28 @@
+# Model Pricing Overrides (USD per 1M tokens)
+# Null / 0 values denote free models. Update when testing paid models.
+
+models:
+  "google/gemma-4-26b-a4b-it:free":
+    prompt: 0.0
+    completion: 0.0
+  "google/gemma-4-31b-it:free":
+    prompt: 0.0
+    completion: 0.0
+  "nvidia/nemotron-3.5-lightning:free":
+    prompt: 0.0
+    completion: 0.0
+  "nvidia/nemotron-3-ultra-550b-a55b:free":
+    prompt: 0.0
+    completion: 0.0
+  "deepseek/deepseek-v4.1-flash":
+    prompt: 0.30
+    completion: 1.20
+  "moonshotai/kimi-k3.1-pro":
+    prompt: 0.253
+    completion: 8.80
+  "claude-haiku-5-5":
+    prompt: 0.80
+    completion: 4.00
+  "claude-sonnet-5-5":
+    prompt: 3.00
+    completion: 15.00

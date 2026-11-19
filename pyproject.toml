@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aircue"
+version = "0.1.0"
+description = "Event-driven outdoor air-quality voice announcer and benchmark system for schools"
+authors = [{ name = "Yusuf Malu Bhai Wala" }]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "httpx>=0.25.0",
+    "python-dotenv>=1.0.0",
+    "matplotlib>=3.7.0",
+    "scikit-learn>=1.3.0",
+    "tenacity>=8.2.0",
+    "pyarrow>=12.0.0",
+    "paho-mqtt>=1.6.1",
+]
+
+[project.optional-dependencies]
+dashboard = [
+    "streamlit>=1.30.0",
+    "plotly>=5.18.0",
+]
+tts = [
+    "gtts>=2.4.0",
+]
+anthropic = [
+    "anthropic>=0.18.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "respx>=0.20.0",
+    "ruff>=0.1.0",
+    "mypy>=1.6.0",
+    "hypothesis>=6.88.0",
+]
+
+[project.scripts]
+aircue = "aircue.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "aircue.trigger.*"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=aircue --cov-report=term-missing"
+testpaths = ["tests"]
+asyncio_mode = "auto"
