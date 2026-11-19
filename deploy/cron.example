@@ -1,0 +1,3 @@
+# AirCue Daily Dataset Update Cron Job
+# Runs daily at 01:00 AM IST to fetch new data and expand historical archive beyond 92 days
+0 1 * * * cd /home/yusuf/Desktop/AirCue && /home/yusuf/Desktop/AirCue/.venv/bin/aircue data update >> /home/yusuf/Desktop/AirCue/results/cron.log 2>&1

@@ -14,6 +14,10 @@ from aircue.data.providers.open_meteo import fetch_open_meteo_city
 from aircue.data.store import load_latest_snapshot, save_snapshot
 from aircue.data.synthetic import generate_synthetic_fixture
 
+from aircue.control.service import AirCueService
+from aircue.control.sim_node import run_simulated_node
+from aircue.transport.sources import ApiPollSource, CsvReplaySource
+
 app = typer.Typer(
     name="aircue",
     help="AirCue: Outdoor Air-Quality Voice Announcer & LLM Benchmark System",
@@ -135,6 +139,45 @@ def clips_build(
 def main() -> None:
     """AirCue: Event-driven outdoor school voice alert system."""
     pass
+
+
+@app.command("run")
+def service_run(
+    source: str = typer.Option("replay", "--source", "-s", help="Telemetry source: replay, api, or mqtt"),
+    location: str = typer.Option("Indore", "--location", "-l", help="Location name"),
+    speed: float = typer.Option(5.0, "--speed", help="Replay speed factor"),
+    config_file: str = typer.Option("configs/aircue.yaml", "--config", "-c"),
+) -> None:
+    """Run AirCue speech alert service."""
+    console = Console()
+    cfg = load_config(config_file)
+    console.print(f"[bold green]Starting AirCue Service[/bold green] (Site: {cfg.site.id}, Source: {source})")
+
+    if source == "replay":
+        try:
+            snapshot_path = sorted(Path("data/snapshots").glob("aqi_snapshot_*.csv"))[-1]
+        except Exception:
+            snapshot_path = Path("data/sample/sample_aqi.csv")
+        telemetry_source = CsvReplaySource(str(snapshot_path), location=location, speed=speed)
+    elif source == "api":
+        telemetry_source = ApiPollSource(lat=22.7196, lon=75.8577, location=location)
+    else:
+        # Default fallback to replay for local demo
+        snapshot_path = sorted(Path("data/snapshots").glob("aqi_snapshot_*.csv"))[-1]
+        telemetry_source = CsvReplaySource(str(snapshot_path), location=location, speed=speed)
+
+    svc = AirCueService(config=cfg, source=telemetry_source)
+    svc.run()
+
+
+@app.command("sim-node")
+def sim_node_cmd(
+    site: str = typer.Option("indore_school_01", "--site", "-s"),
+    interval: float = typer.Option(2.0, "--interval", "-i"),
+    count: int = typer.Option(0, "--count", "-n", help="Number of telemetry packets to send (0 = infinite)"),
+) -> None:
+    """Run simulated outdoor sensor node publishing telemetry over MQTT."""
+    run_simulated_node(site=site, interval_seconds=interval, count=count)
 
 
 if __name__ == "__main__":

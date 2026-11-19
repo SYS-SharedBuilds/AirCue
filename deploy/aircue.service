@@ -1,0 +1,15 @@
+[Unit]
+Description=AirCue Outdoor School Voice Alert Service
+After=network.target mosquitto.service
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/AirCue
+ExecStart=/home/pi/AirCue/.venv/bin/aircue run --source mqtt
+Restart=on-failure
+RestartSec=5s
+EnvironmentFile=-/home/pi/AirCue/.env
+
+[Install]
+WantedBy=multi-user.target
