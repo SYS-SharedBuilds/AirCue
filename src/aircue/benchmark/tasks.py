@@ -1,8 +1,7 @@
 """Benchmark tasks definition and evaluation execution."""
 from __future__ import annotations
 
-import asyncio
-from typing import Any, Dict, List
+from typing import Any
 
 from aircue.benchmark.quota import QuotaManager
 from aircue.llm.base import LLMClient
@@ -19,9 +18,9 @@ from aircue.llm.validators import validate_announcement
 
 async def run_task1_generation(
     client: LLMClient,
-    scenarios: List[Dict[str, Any]],
+    scenarios: list[dict[str, Any]],
     quota: QuotaManager,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Execute Task 1: Spoken Announcement Generation Quality."""
     results = []
     for sc in scenarios:
@@ -59,9 +58,9 @@ async def run_task1_generation(
 
 async def run_task2_decision(
     client: LLMClient,
-    scenarios: List[Dict[str, Any]],
+    scenarios: list[dict[str, Any]],
     quota: QuotaManager,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Execute Task 2: Trigger Decision vs Ground Truth State Machine."""
     results = []
     for sc in scenarios:

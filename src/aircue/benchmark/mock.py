@@ -2,10 +2,8 @@
 from __future__ import annotations
 
 import random
-from typing import Optional
 
 from aircue.llm.base import CompletionResult, LLMClient
-from aircue.llm.prompts import PROMPT_VERSION
 
 
 class MockClient(LLMClient):
@@ -23,7 +21,7 @@ class MockClient(LLMClient):
     async def complete(
         self,
         prompt: str,
-        system_prompt: Optional[str] = None,
+        system_prompt: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 150,
     ) -> CompletionResult:

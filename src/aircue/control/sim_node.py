@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import time
+
 from rich.console import Console
+
 from aircue.transport.mqtt import MqttClient
 
 

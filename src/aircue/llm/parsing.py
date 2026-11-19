@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 def strip_reasoning_artifacts(text: str) -> str:
@@ -15,7 +15,7 @@ def strip_reasoning_artifacts(text: str) -> str:
     return cleaned.strip()
 
 
-def parse_json_robust(text: str) -> Optional[Dict[str, Any]]:
+def parse_json_robust(text: str) -> dict[str, Any] | None:
     """Attempt robust extraction and parsing of JSON dictionary from LLM response text."""
     cleaned = strip_reasoning_artifacts(text)
 

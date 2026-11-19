@@ -1,11 +1,9 @@
 """Benchmark runner orchestrating tasks, saving raw logs, and enforcing quota stops."""
 from __future__ import annotations
 
-import asyncio
 import json
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-import pandas as pd
+from typing import Any
 
 from aircue.benchmark.metrics import compute_metrics
 from aircue.benchmark.mock import MockClient
@@ -15,15 +13,14 @@ from aircue.benchmark.scenarios import generate_task1_scenarios, generate_task2_
 from aircue.benchmark.tasks import run_task1_generation, run_task2_decision
 from aircue.data.store import load_latest_snapshot
 from aircue.llm.base import LLMClient
-from aircue.llm.discovery import resolve_benchmark_models
 from aircue.llm.openrouter import OpenRouterClient
 
 
 async def run_benchmark_suite(
     use_mock: bool = True,
-    limit: Optional[int] = None,
+    limit: int | None = None,
     raw_log_path: str | Path = "results/raw/latest_run.jsonl",
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Execute complete benchmark suite across resolved models and tasks."""
     raw_path = Path(raw_log_path)
     raw_path.parent.mkdir(parents=True, exist_ok=True)
@@ -37,7 +34,7 @@ async def run_benchmark_suite(
 
     quota = QuotaManager()
 
-    clients: List[LLMClient] = []
+    clients: list[LLMClient] = []
     if use_mock:
         clients = [
             MockClient(model="gemma-4-31b-it:mock", seed=1),
@@ -54,7 +51,7 @@ async def run_benchmark_suite(
         for m in disc.get("models", []):
             clients.append(OpenRouterClient(model=m["id"]))
 
-    all_raw_results: List[Dict[str, Any]] = []
+    all_raw_results: list[dict[str, Any]] = []
 
     for client in clients:
         # Task 1
@@ -67,8 +64,7 @@ async def run_benchmark_suite(
 
     # Append to raw results log
     with open(raw_path, "w", encoding="utf-8") as f:
-        for r in all_raw_results:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+        f.writelines(json.dumps(r, ensure_ascii=False) + "\n" for r in all_raw_results)
 
     # Compute metrics and generate reports
     metrics = compute_metrics(all_raw_results)

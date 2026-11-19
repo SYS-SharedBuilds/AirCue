@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from datetime import datetime, time
-from typing import Dict, List, Optional
 from zoneinfo import ZoneInfo
 
 from aircue.config import ScheduleConfig
@@ -11,7 +10,7 @@ from aircue.config import ScheduleConfig
 class SchoolSchedule:
     """Manages school operational windows and timetable slots."""
 
-    def __init__(self, config: Optional[ScheduleConfig] = None, timezone: str = "Asia/Kolkata") -> None:
+    def __init__(self, config: ScheduleConfig | None = None, timezone: str = "Asia/Kolkata") -> None:
         self.config = config or ScheduleConfig()
         self.tz = ZoneInfo(timezone)
 
@@ -42,7 +41,7 @@ class SchoolSchedule:
         curr_t = local_dt.time()
         return self.start_t <= curr_t <= self.end_t
 
-    def get_current_slot(self, dt: datetime) -> Optional[str]:
+    def get_current_slot(self, dt: datetime) -> str | None:
         """Return identifier of active outdoor timetable slot (e.g. 'assembly', 'sports_pt')."""
         if not self.is_school_hours(dt):
             return None

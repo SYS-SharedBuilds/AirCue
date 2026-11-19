@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import os
 import time
-from typing import Optional
+
 import httpx
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential
 
@@ -32,7 +32,7 @@ class OpenRouterClient(LLMClient):
     def __init__(
         self,
         model: str,
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         base_url: str = "https://openrouter.ai/api/v1",
         timeout_seconds: float = 30.0,
         cost_per_m_in: float = 0.0,
@@ -53,7 +53,7 @@ class OpenRouterClient(LLMClient):
     async def complete(
         self,
         prompt: str,
-        system_prompt: Optional[str] = None,
+        system_prompt: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 150,
     ) -> CompletionResult:

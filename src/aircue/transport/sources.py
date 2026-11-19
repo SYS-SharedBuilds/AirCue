@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import time
 from abc import ABC, abstractmethod
-from typing import Any, Callable, Dict, Iterator, Optional
+from collections.abc import Callable, Iterator
+
 import pandas as pd
 
 from aircue.data.providers.open_meteo import fetch_open_meteo_city
@@ -15,11 +16,11 @@ class TelemetryReading:
     def __init__(
         self,
         timestamp: float,
-        pm2_5: Optional[float] = None,
-        pm10: Optional[float] = None,
-        temperature: Optional[float] = None,
-        humidity: Optional[float] = None,
-        aqi: Optional[float] = None,
+        pm2_5: float | None = None,
+        pm10: float | None = None,
+        temperature: float | None = None,
+        humidity: float | None = None,
+        aqi: float | None = None,
         site: str = "default",
     ) -> None:
         self.timestamp = timestamp

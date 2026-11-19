@@ -6,7 +6,6 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Optional
 
 
 class NullPlayer:
@@ -29,7 +28,7 @@ class AudioPlayer:
     def __init__(self, muted: bool = False, gain: float = 1.0) -> None:
         self.muted = muted
         self.gain = gain
-        self._current_process: Optional[subprocess.Popen] = None
+        self._current_process: subprocess.Popen | None = None
 
     def play(self, audio_path: str | Path) -> bool:
         """Play the specified audio clip if not muted."""

@@ -5,7 +5,7 @@ Strictly excludes all indoor, ventilation, window, and door references.
 """
 from __future__ import annotations
 
-from typing import Dict, NamedTuple
+from typing import NamedTuple
 
 
 class ActivityAdvice(NamedTuple):
@@ -16,7 +16,7 @@ class ActivityAdvice(NamedTuple):
     action_hi: str
 
 
-OUTDOOR_ADVICE_TABLE: Dict[int, ActivityAdvice] = {
+OUTDOOR_ADVICE_TABLE: dict[int, ActivityAdvice] = {
     0: ActivityAdvice(
         level=0,
         name="Normal",

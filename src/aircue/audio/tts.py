@@ -12,7 +12,6 @@ import os
 import struct
 import wave
 from pathlib import Path
-from typing import Optional
 
 
 def synthesize_beep_wav(output_path: str | Path, duration_s: float = 0.5, freq_hz: float = 440.0) -> str:
@@ -54,7 +53,7 @@ def synthesize_speech(
     language: str,
     output_path: str | Path,
     backend: str = "beep",
-    piper_voice: Optional[str] = None,
+    piper_voice: str | None = None,
 ) -> str:
     """Synthesize speech for given text into output_path using requested backend."""
     out = Path(output_path)

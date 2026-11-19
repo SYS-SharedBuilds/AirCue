@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import dataclass
-from typing import Optional
 
 from aircue.messages.templates import TEMPLATES_EN, TEMPLATES_HI
 from aircue.trigger.engine import Event
@@ -14,7 +13,7 @@ class Message:
     text: str
     language: str
     tone: str
-    slot: Optional[str]
+    slot: str | None
     clip_id: str
     event_key: str
 
@@ -30,7 +29,7 @@ def build_message(
     event: Event,
     language: str = "en",
     tone: str = "neutral",
-    slot: Optional[str] = None,
+    slot: str | None = None,
 ) -> Message:
     """Assemble a deterministic speech message from templates and return with stable clip ID."""
     lang = "hi" if language.lower() in ("hi", "hindi") else "en"

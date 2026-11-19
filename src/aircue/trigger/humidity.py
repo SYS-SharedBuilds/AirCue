@@ -6,15 +6,13 @@ particle diameter, causing the sensor to overestimate dry particle mass concentr
 """
 from __future__ import annotations
 
-from typing import Optional
-
 
 def correct_pm_for_humidity(
-    pm_raw: Optional[float],
-    humidity_rh: Optional[float],
+    pm_raw: float | None,
+    humidity_rh: float | None,
     factor: float = 0.25,
     rh_threshold: float = 65.0,
-) -> Optional[float]:
+) -> float | None:
     """Apply empirical Kohler/hygroscopic aerosol correction to optical PM readings.
 
     Formula (Chakrabarti et al. / US EPA low-cost sensor correction form):

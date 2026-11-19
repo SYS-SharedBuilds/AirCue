@@ -1,13 +1,13 @@
 """AirCue Streamlit Interactive Exploration Dashboard."""
 from __future__ import annotations
 
-import pandas as pd
-import streamlit as st
-import plotly.express as px
 from pathlib import Path
 
+import pandas as pd
+import plotly.express as px
+import streamlit as st
+
 from aircue.data.store import load_latest_snapshot
-from aircue.trigger.levels import DEFAULT_LEVELS
 from aircue.messages.builder import build_message
 from aircue.trigger.engine import Event
 

@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 import yaml
 from pydantic import BaseModel, Field
 
@@ -14,11 +15,11 @@ class OutdoorSlot(BaseModel):
 
 
 class ScheduleConfig(BaseModel):
-    school_days: List[int] = Field(default_factory=lambda: [0, 1, 2, 3, 4, 5])
+    school_days: list[int] = Field(default_factory=lambda: [0, 1, 2, 3, 4, 5])
     start_time: str = "08:00"
     end_time: str = "15:00"
-    holidays: List[str] = Field(default_factory=list)
-    outdoor_slots: Dict[str, OutdoorSlot] = Field(default_factory=dict)
+    holidays: list[str] = Field(default_factory=list)
+    outdoor_slots: dict[str, OutdoorSlot] = Field(default_factory=dict)
 
 
 class LevelConfig(BaseModel):
@@ -40,7 +41,7 @@ class TriggerConfig(BaseModel):
     confirm_seconds: int = 3600
     min_confirm_samples: int = 2
     max_gap_seconds: int = 10800
-    levels: Dict[int, LevelConfig] = Field(default_factory=dict)
+    levels: dict[int, LevelConfig] = Field(default_factory=dict)
     humidity_correction: HumidityCorrectionConfig = Field(default_factory=HumidityCorrectionConfig)
 
 
@@ -60,7 +61,7 @@ class MqttConfig(BaseModel):
     broker: str = "localhost"
     port: int = 1883
     keepalive: int = 60
-    topics: Dict[str, str] = Field(default_factory=dict)
+    topics: dict[str, str] = Field(default_factory=dict)
 
 
 class SiteConfig(BaseModel):
@@ -78,7 +79,7 @@ class AirCueConfig(BaseModel):
     mqtt: MqttConfig = Field(default_factory=MqttConfig)
 
 
-def load_config(config_path: Optional[str | Path] = None) -> AirCueConfig:
+def load_config(config_path: str | Path | None = None) -> AirCueConfig:
     """Load configuration from a YAML file, falling back to configs/aircue.yaml."""
     if config_path is None:
         config_path = Path("configs/aircue.yaml")
@@ -94,7 +95,7 @@ def load_config(config_path: Optional[str | Path] = None) -> AirCueConfig:
     return AirCueConfig.model_validate(data)
 
 
-def load_yaml(path: str | Path) -> Dict[str, Any]:
+def load_yaml(path: str | Path) -> dict[str, Any]:
     """Helper to safely read an arbitrary YAML file."""
     p = Path(path)
     if not p.exists():

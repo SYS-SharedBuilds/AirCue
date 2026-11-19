@@ -2,9 +2,9 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 
 class QuotaManager:
@@ -14,11 +14,11 @@ class QuotaManager:
         self.state_path = Path(state_file)
         self.state_path.parent.mkdir(parents=True, exist_ok=True)
         self.daily_budget = daily_budget
-        self._state: Dict[str, Any] = {}
+        self._state: dict[str, Any] = {}
         self._load()
 
     def _today_key(self) -> str:
-        return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        return datetime.now(UTC).strftime("%Y-%m-%d")
 
     def _load(self) -> None:
         if self.state_path.exists():

@@ -5,7 +5,7 @@ official CPCB breakpoint bands for PM2.5 and PM10.
 """
 from __future__ import annotations
 
-from typing import List, NamedTuple, Optional
+from typing import NamedTuple
 
 
 class BreakpointBand(NamedTuple):
@@ -22,7 +22,7 @@ class BreakpointBand(NamedTuple):
 # Poor (201-300): 91-120
 # Very Poor (301-400): 121-250
 # Severe (401-500): 250+ (capped at 500 for index)
-PM25_BREAKPOINTS: List[BreakpointBand] = [
+PM25_BREAKPOINTS: list[BreakpointBand] = [
     BreakpointBand(0.0, 30.0, 0.0, 50.0),
     BreakpointBand(30.0, 60.0, 51.0, 100.0),
     BreakpointBand(60.0, 90.0, 101.0, 200.0),
@@ -38,7 +38,7 @@ PM25_BREAKPOINTS: List[BreakpointBand] = [
 # Poor (201-300): 251-350
 # Very Poor (301-400): 351-430
 # Severe (401-500): 430+ (capped at 500 for index)
-PM10_BREAKPOINTS: List[BreakpointBand] = [
+PM10_BREAKPOINTS: list[BreakpointBand] = [
     BreakpointBand(0.0, 50.0, 0.0, 50.0),
     BreakpointBand(50.0, 100.0, 51.0, 100.0),
     BreakpointBand(100.0, 250.0, 101.0, 200.0),
@@ -48,7 +48,7 @@ PM10_BREAKPOINTS: List[BreakpointBand] = [
 ]
 
 
-def interpolate_sub_index(conc: float, breakpoints: List[BreakpointBand]) -> Optional[float]:
+def interpolate_sub_index(conc: float, breakpoints: list[BreakpointBand]) -> float | None:
     """Linearly interpolate sub-index for a concentration value across breakpoint bands.
 
     Returns None if concentration is negative or non-finite.
@@ -75,21 +75,21 @@ def interpolate_sub_index(conc: float, breakpoints: List[BreakpointBand]) -> Opt
     return None
 
 
-def calculate_pm25_sub_index(pm25: Optional[float]) -> Optional[float]:
+def calculate_pm25_sub_index(pm25: float | None) -> float | None:
     """Calculate CPCB PM2.5 sub-index."""
     if pm25 is None or pm25 < 0.0:
         return None
     return interpolate_sub_index(pm25, PM25_BREAKPOINTS)
 
 
-def calculate_pm10_sub_index(pm10: Optional[float]) -> Optional[float]:
+def calculate_pm10_sub_index(pm10: float | None) -> float | None:
     """Calculate CPCB PM10 sub-index."""
     if pm10 is None or pm10 < 0.0:
         return None
     return interpolate_sub_index(pm10, PM10_BREAKPOINTS)
 
 
-def calculate_cpcb_aqi(pm25: Optional[float], pm10: Optional[float]) -> Optional[float]:
+def calculate_cpcb_aqi(pm25: float | None, pm10: float | None) -> float | None:
     """Calculate CPCB National AQI from PM2.5 and PM10 sub-indices.
 
     Under CPCB guidelines, at least one critical pollutant must be valid,
@@ -107,7 +107,7 @@ def calculate_cpcb_aqi(pm25: Optional[float], pm10: Optional[float]) -> Optional
     return max(si_pm25, si_pm10)
 
 
-def aqi_to_category_cpcb(aqi: Optional[float]) -> str:
+def aqi_to_category_cpcb(aqi: float | None) -> str:
     """Map a CPCB AQI value to standard category name."""
     if aqi is None or aqi < 0:
         return "Unknown"

@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 import re
-from typing import Any, Dict, NamedTuple
+from typing import Any, NamedTuple
 
 
 class ValidationResult(NamedTuple):
     passed: bool
-    rule_results: Dict[str, bool]
+    rule_results: dict[str, bool]
     failure_reasons: list[str]
 
 
@@ -65,7 +65,8 @@ def validate_no_indoor_ventilation(text: str) -> bool:
     """Enforce outdoor stance: zero indoor ventilation or door/window mentions."""
     lowered = text.lower()
     for word in INDOOR_VENTILATION_BLACKLIST:
-        if word in lowered:
+        # Match whole words to avoid sub-word false positives like 'door' in 'indoors'
+        if re.search(rf"\b{re.escape(word)}\b", lowered):
             return False
     return True
 
@@ -96,7 +97,7 @@ def validate_language_script(text: str, expected_lang: str) -> bool:
         return (latin_chars / total_alpha) >= 0.60
 
 
-def validate_no_hallucinated_digits(text: str, input_facts: Dict[str, Any]) -> bool:
+def validate_no_hallucinated_digits(text: str, input_facts: dict[str, Any]) -> bool:
     """Ensure no digits appear in text that were not explicitly in input facts."""
     found_digits = re.findall(r"\b\d+\b", text)
     if not found_digits:
@@ -118,7 +119,7 @@ def validate_no_hallucinated_digits(text: str, input_facts: Dict[str, Any]) -> b
     return True
 
 
-def validate_announcement(text: str, expected_lang: str, input_facts: Dict[str, Any]) -> ValidationResult:
+def validate_announcement(text: str, expected_lang: str, input_facts: dict[str, Any]) -> ValidationResult:
     """Run full validator suite on generated announcement."""
     rules = {
         "word_limit": validate_word_limit(text, max_words=22),  # allowance for Hindi compound words

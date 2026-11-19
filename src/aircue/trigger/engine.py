@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Dict, List, Literal, Optional, Tuple
+from typing import Literal
 
 from aircue.trigger.levels import DEFAULT_LEVELS, LevelSpec, determine_level_for_aqi
 
@@ -32,7 +32,7 @@ class AQIMonitor:
         confirm_seconds: float = 3600.0,
         min_confirm_samples: int = 2,
         max_gap_seconds: float = 10800.0,
-        levels: Optional[Dict[int, LevelSpec]] = None,
+        levels: dict[int, LevelSpec] | None = None,
     ) -> None:
         self.confirm_seconds = confirm_seconds
         self.min_confirm_samples = min_confirm_samples
@@ -41,12 +41,12 @@ class AQIMonitor:
 
         # Internal state
         self.current_level: int = 0
-        self.last_spoken_time: Optional[float] = None
-        self.last_valid_time: Optional[float] = None
-        self.last_valid_aqi: Optional[float] = None
+        self.last_spoken_time: float | None = None
+        self.last_valid_time: float | None = None
+        self.last_valid_aqi: float | None = None
 
         # Sustained escalation tracking: buffer of (timestamp, aqi, tentative_level)
-        self._pending_samples: List[Tuple[float, float, int]] = []
+        self._pending_samples: list[tuple[float, float, int]] = []
         self._is_stale: bool = False
 
     @property
@@ -54,7 +54,7 @@ class AQIMonitor:
         """True if time since last valid reading exceeded max_gap_seconds."""
         return self._is_stale
 
-    def update(self, aqi: Optional[float], now: float) -> Optional[Event]:
+    def update(self, aqi: float | None, now: float) -> Event | None:
         """Update monitor with a new AQI reading at time `now` (in seconds).
 
         Returns an Event if an announcement is warranted, or None otherwise.

@@ -1,7 +1,7 @@
 """Alert level definitions, thresholds, and hysteresis logic."""
 from __future__ import annotations
 
-from typing import Dict, NamedTuple
+from typing import NamedTuple
 
 
 class LevelSpec(NamedTuple):
@@ -13,7 +13,7 @@ class LevelSpec(NamedTuple):
 
 
 # Default CPCB-aligned operational bands
-DEFAULT_LEVELS: Dict[int, LevelSpec] = {
+DEFAULT_LEVELS: dict[int, LevelSpec] = {
     0: LevelSpec(0, "Normal", 0.0, 0.0, 0.0),
     1: LevelSpec(1, "Moderate", 101.0, 90.0, 10800.0),   # 180 min
     2: LevelSpec(2, "Poor", 201.0, 185.0, 7200.0),       # 120 min
@@ -25,7 +25,7 @@ DEFAULT_LEVELS: Dict[int, LevelSpec] = {
 def determine_level_for_aqi(
     aqi: float,
     current_level: int,
-    levels: Dict[int, LevelSpec] = DEFAULT_LEVELS,
+    levels: dict[int, LevelSpec] = DEFAULT_LEVELS,
 ) -> int:
     """Determine target alert level applying hysteresis based on current level.
 

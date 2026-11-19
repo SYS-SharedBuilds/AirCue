@@ -1,7 +1,7 @@
 """Sunlight-readable LED color mapping and MQTT publisher."""
 from __future__ import annotations
 
-from typing import Dict, NamedTuple
+from typing import NamedTuple
 
 
 class LEDState(NamedTuple):
@@ -16,7 +16,7 @@ class LEDState(NamedTuple):
 # Level 2 (Poor): Orange / Yellow blinking
 # Level 3 (Very Poor): Red solid
 # Level 4 (Severe): Red blinking
-LED_LEVEL_MAP: Dict[int, LEDState] = {
+LED_LEVEL_MAP: dict[int, LEDState] = {
     0: LEDState("green", "solid", "#00FF00"),
     1: LEDState("yellow", "solid", "#FFFF00"),
     2: LEDState("orange", "blink", "#FFA500"),

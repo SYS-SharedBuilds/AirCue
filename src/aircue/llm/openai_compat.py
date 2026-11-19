@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import os
 import time
-from typing import Optional
+
 import httpx
 
 from aircue.llm.base import CompletionResult, LLMClient
@@ -28,7 +28,7 @@ class OpenAICompatClient(LLMClient):
     async def complete(
         self,
         prompt: str,
-        system_prompt: Optional[str] = None,
+        system_prompt: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 150,
     ) -> CompletionResult:
@@ -37,7 +37,7 @@ class OpenAICompatClient(LLMClient):
                 text="",
                 model=self.model,
                 latency_s=0.0,
-                raw_error=f"API key missing in environment variable",
+                raw_error="API key missing in environment variable",
             )
 
         messages = []

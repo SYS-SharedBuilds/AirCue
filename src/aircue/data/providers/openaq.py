@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 import httpx
 
 
@@ -10,8 +11,8 @@ def fetch_openaq_station_data(
     lat: float,
     lon: float,
     location_name: str,
-    api_key: Optional[str] = None,
-) -> List[Dict[str, Any]]:
+    api_key: str | None = None,
+) -> list[dict[str, Any]]:
     """Fetch physical sensor readings from OpenAQ v3 if API key is supplied.
 
     If no API key is provided in argument or OPENAQ_API_KEY env, skips gracefully.

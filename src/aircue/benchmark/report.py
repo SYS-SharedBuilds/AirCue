@@ -1,16 +1,15 @@
 """Benchmark report generation: Markdown summaries, CSV tables, LaTeX booktabs, and figures."""
 from __future__ import annotations
 
-import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
+
 import matplotlib.pyplot as plt
-import pandas as pd
 
 
 def generate_benchmark_reports(
-    raw_results: List[Dict[str, Any]],
-    metrics: Dict[str, Any],
+    raw_results: list[dict[str, Any]],
+    metrics: dict[str, Any],
     report_dir: str | Path = "results/report",
     tables_dir: str | Path = "paper/tables",
     figures_dir: str | Path = "paper/figures",
@@ -66,7 +65,6 @@ def generate_benchmark_reports(
     if metrics:
         models = list(metrics.keys())
         pass_rates = [metrics[m].get("task1", {}).get("overall_pass_rate", 0.0) * 100.0 for m in models]
-        latencies = [metrics[m].get("task3_reliability", {}).get("overall_p95_latency_s", 0.0) for m in models]
 
         plt.figure(figsize=(7, 4))
         plt.bar(range(len(models)), pass_rates, color="#2b5c8f", alpha=0.85)

@@ -4,7 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 class WordingCache:
@@ -13,7 +13,7 @@ class WordingCache:
     def __init__(self, cache_file: str | Path = "results/wording_cache.json") -> None:
         self.cache_path = Path(cache_file)
         self.cache_path.parent.mkdir(parents=True, exist_ok=True)
-        self._cache: Dict[str, str] = {}
+        self._cache: dict[str, str] = {}
         self._load()
 
     def _load(self) -> None:
@@ -31,16 +31,16 @@ class WordingCache:
         except Exception:
             pass
 
-    def _make_key(self, model: str, prompt_version: str, facts: Dict[str, Any], lang: str, tone: str) -> str:
+    def _make_key(self, model: str, prompt_version: str, facts: dict[str, Any], lang: str, tone: str) -> str:
         serialized = json.dumps(facts, sort_keys=True)
         raw = f"{model}:{prompt_version}:{lang}:{tone}:{serialized}"
         return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
-    def get(self, model: str, prompt_version: str, facts: Dict[str, Any], lang: str, tone: str) -> Optional[str]:
+    def get(self, model: str, prompt_version: str, facts: dict[str, Any], lang: str, tone: str) -> str | None:
         key = self._make_key(model, prompt_version, facts, lang, tone)
         return self._cache.get(key)
 
-    def set(self, model: str, prompt_version: str, facts: Dict[str, Any], lang: str, tone: str, text: str) -> None:
+    def set(self, model: str, prompt_version: str, facts: dict[str, Any], lang: str, tone: str, text: str) -> None:
         key = self._make_key(model, prompt_version, facts, lang, tone)
         self._cache[key] = text
         self._save()

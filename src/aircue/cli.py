@@ -1,35 +1,35 @@
+"""AirCue CLI entrypoint."""
 from __future__ import annotations
 
-"""AirCue CLI entrypoint."""
 import asyncio
 import json
 import time
 from pathlib import Path
-from typing import Optional
+
 import pandas as pd
 import typer
 from rich.console import Console
 
-from aircue.audio.clips import build_all_clips
+from aircue.benchmark.metrics import compute_metrics
+from aircue.benchmark.quota import QuotaManager
+from aircue.benchmark.report import generate_benchmark_reports
+from aircue.benchmark.runner import run_benchmark_suite
 from aircue.config import load_config, load_yaml
+from aircue.control.service import AirCueService
+from aircue.control.sim_node import run_simulated_node
 from aircue.data.cleaning import clean_dataframe
 from aircue.data.inspect import inspect_dataset
 from aircue.data.providers.open_meteo import fetch_open_meteo_city
 from aircue.data.store import load_latest_snapshot, save_snapshot
 from aircue.data.synthetic import generate_synthetic_fixture
-
-from aircue.control.service import AirCueService
-from aircue.control.sim_node import run_simulated_node
-from aircue.transport.sources import ApiPollSource, CsvReplaySource
-
-from aircue.benchmark.quota import QuotaManager
-from aircue.benchmark.runner import run_benchmark_suite
-from aircue.benchmark.metrics import compute_metrics
-from aircue.benchmark.report import generate_benchmark_reports
-from aircue.llm.discovery import discover_openrouter_models, resolve_benchmark_models, save_discovered_snapshot
-
+from aircue.llm.discovery import (
+    discover_openrouter_models,
+    resolve_benchmark_models,
+    save_discovered_snapshot,
+)
 from aircue.replay.plots import plot_aqi_timeline
 from aircue.replay.replay import run_historical_replay
+from aircue.transport.sources import ApiPollSource, CsvReplaySource
 
 app = typer.Typer(
     name="aircue",
@@ -221,7 +221,7 @@ def benchmark_plan(
 @benchmark_app.command("run")
 def benchmark_run(
     mock: bool = typer.Option(False, "--mock", help="Run with deterministic mock client (offline)"),
-    limit: Optional[int] = typer.Option(None, "--limit", "-n", help="Cap samples per task for quick run"),
+    limit: int | None = typer.Option(None, "--limit", "-n", help="Cap samples per task for quick run"),
 ) -> None:
     """Run benchmark evaluation suite."""
     console = Console()
@@ -256,7 +256,6 @@ def benchmark_report(
 @app.callback()
 def main() -> None:
     """AirCue: Event-driven outdoor school voice alert system."""
-    pass
 
 
 @app.command("run")

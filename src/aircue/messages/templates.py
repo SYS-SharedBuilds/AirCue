@@ -7,7 +7,7 @@ All templates strictly adhere to outdoor activity guidance:
 """
 from __future__ import annotations
 
-from typing import Dict, NamedTuple
+from typing import NamedTuple
 
 
 class TemplateSet(NamedTuple):
@@ -20,7 +20,7 @@ class TemplateSet(NamedTuple):
 
 
 # English Announcement Templates
-TEMPLATES_EN: Dict[str, TemplateSet] = {
+TEMPLATES_EN: dict[str, TemplateSet] = {
     # Escalate Levels 1-4
     "escalate_1": TemplateSet(
         neutral="Air quality is moderate. Sensitive students please avoid heavy outdoor exertion.",
@@ -107,7 +107,7 @@ TEMPLATES_EN: Dict[str, TemplateSet] = {
 }
 
 # Hindi Announcement Templates (Devanagari)
-TEMPLATES_HI: Dict[str, TemplateSet] = {
+TEMPLATES_HI: dict[str, TemplateSet] = {
     "escalate_1": TemplateSet(
         neutral="वायु गुणवत्ता मध्यम है। संवेदनशील छात्र कृपया बाहर अधिक श्रम न करें।",
         young="बाहर थोड़ी धूल है। संवेदनशील बच्चे कृपया बाहर आराम से खेलें।",

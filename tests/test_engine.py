@@ -1,7 +1,8 @@
 """Unit tests and hypothesis property tests for AQIMonitor state machine."""
-import pytest
-from hypothesis import given, strategies as st
-from aircue.trigger.engine import AQIMonitor, Event
+from hypothesis import given
+from hypothesis import strategies as st
+
+from aircue.trigger.engine import AQIMonitor
 from aircue.trigger.levels import determine_level_for_aqi
 
 

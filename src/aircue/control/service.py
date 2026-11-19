@@ -6,9 +6,8 @@ Maintains decision logging into results/announcements.jsonl.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
 
 from aircue.audio.player import AudioPlayer, NullPlayer
 from aircue.config import AirCueConfig
@@ -40,7 +39,7 @@ class AirCueService:
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Convert config levels to LevelSpec dict
-        level_specs: Dict[int, LevelSpec] = {}
+        level_specs: dict[int, LevelSpec] = {}
         for lvl, c in self.config.trigger.levels.items():
             level_specs[lvl] = LevelSpec(
                 level=lvl,
@@ -63,10 +62,10 @@ class AirCueService:
         self.mqtt_client = MqttClient(broker=self.config.mqtt.broker, port=self.config.mqtt.port)
         self.site_id = self.config.site.id
 
-    def handle_telemetry(self, reading: TelemetryReading) -> Optional[Event]:
+    def handle_telemetry(self, reading: TelemetryReading) -> Event | None:
         """Process an incoming telemetry reading through full pipeline."""
         now_ts = reading.timestamp
-        dt = datetime.fromtimestamp(now_ts, tz=timezone.utc)
+        dt = datetime.fromtimestamp(now_ts, tz=UTC)
 
         # 1. Apply humidity correction if enabled
         pm25 = reading.pm2_5

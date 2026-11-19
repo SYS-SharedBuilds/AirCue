@@ -3,11 +3,10 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from aircue.audio.tts import synthesize_speech
 from aircue.messages.builder import build_message
-from aircue.messages.templates import TEMPLATES_EN, TEMPLATES_HI
 from aircue.trigger.engine import Event
 
 
@@ -15,13 +14,13 @@ def build_all_clips(
     output_dir: str | Path = "clips",
     backend: str = "beep",
     force: bool = False,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Pregenerate audio clips for all template variants and write manifest.json."""
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     manifest_path = out_dir / "manifest.json"
 
-    manifest: Dict[str, Any] = {}
+    manifest: dict[str, Any] = {}
     if manifest_path.exists() and not force:
         try:
             with open(manifest_path, "r", encoding="utf-8") as f:
@@ -47,7 +46,7 @@ def build_all_clips(
     ]
 
     total_created = 0
-    clips_info: Dict[str, Any] = manifest.get("clips", {})
+    clips_info: dict[str, Any] = manifest.get("clips", {})
 
     for ev in events:
         for lang in languages:

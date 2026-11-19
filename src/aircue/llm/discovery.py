@@ -5,11 +5,12 @@ import json
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 import httpx
 
 
-def discover_openrouter_models(api_key: Optional[str] = None) -> List[Dict[str, Any]]:
+def discover_openrouter_models(api_key: str | None = None) -> list[dict[str, Any]]:
     """Query OpenRouter /api/v1/models endpoint."""
     key = api_key or os.environ.get("OPENROUTER_API_KEY")
     headers = {"User-Agent": "AirCue/0.1.0"}
@@ -28,12 +29,12 @@ def discover_openrouter_models(api_key: Optional[str] = None) -> List[Dict[str, 
 
 
 def resolve_benchmark_models(
-    raw_models: List[Dict[str, Any]],
-    preferred_families: List[str] = ("deepseek", "moonshotai"),
+    raw_models: list[dict[str, Any]],
+    preferred_families: list[str] = ("deepseek", "moonshotai"),
     min_models: int = 4,
     allow_paid_preferred: bool = False,
-    exclude_keywords: List[str] = ("-preview", "preview", "-music", "-audio", "-vl", "-code", "-exp", "promo", "openrouter/free"),
-) -> List[Dict[str, Any]]:
+    exclude_keywords: list[str] = ("-preview", "preview", "-music", "-audio", "-vl", "-code", "-exp", "promo", "openrouter/free"),
+) -> list[dict[str, Any]]:
     """Apply ADR-003 model discovery filters:
 
     1. Drop tiny/sub-7B parameter models (e.g. lfm-1.7b).
@@ -64,7 +65,7 @@ def resolve_benchmark_models(
         elif allow_paid_preferred and any(fam in slug for fam in preferred_families):
             paid_preferred_candidates.append(m)
 
-    resolved: List[Dict[str, Any]] = []
+    resolved: list[dict[str, Any]] = []
 
     # Step 1: Look for free preferred models
     for m in free_candidates:
@@ -109,7 +110,7 @@ def resolve_benchmark_models(
 
 
 def save_discovered_snapshot(
-    resolved_models: List[Dict[str, Any]],
+    resolved_models: list[dict[str, Any]],
     output_dir: str | Path = "results/models",
 ) -> Path:
     """Save resolved model snapshot JSON."""

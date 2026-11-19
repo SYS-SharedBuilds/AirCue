@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import time
-from typing import Optional
 
 
 class SystemControls:
@@ -12,7 +11,7 @@ class SystemControls:
         self.default_snooze_seconds = default_snooze_seconds
         self.is_muted: bool = False
         self.is_exam_mode: bool = False
-        self._snooze_until: Optional[float] = None
+        self._snooze_until: float | None = None
 
     def toggle_mute(self) -> bool:
         """Toggle mute state. When muted, LED updates continue but speech is silenced."""
@@ -23,13 +22,13 @@ class SystemControls:
         """In exam mode, system runs strictly visual LED indicators, silencing speaker."""
         self.is_exam_mode = enabled
 
-    def snooze(self, seconds: Optional[float] = None) -> float:
+    def snooze(self, seconds: float | None = None) -> float:
         """Snooze voice alerts for duration (default 30 min / 1800s)."""
         duration = seconds if seconds is not None else self.default_snooze_seconds
         self._snooze_until = time.time() + duration
         return self._snooze_until
 
-    def is_speech_suppressed(self, now: Optional[float] = None) -> tuple[bool, Optional[str]]:
+    def is_speech_suppressed(self, now: float | None = None) -> tuple[bool, str | None]:
         """Check if speech output is currently suppressed.
 
         Returns (suppressed: bool, reason: str | None).

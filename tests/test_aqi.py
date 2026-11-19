@@ -1,10 +1,9 @@
 """Unit tests for India CPCB AQI calculations, breakpoints, and edge cases."""
-import pytest
 from aircue.trigger.aqi import (
-    calculate_pm25_sub_index,
-    calculate_pm10_sub_index,
-    calculate_cpcb_aqi,
     aqi_to_category_cpcb,
+    calculate_cpcb_aqi,
+    calculate_pm10_sub_index,
+    calculate_pm25_sub_index,
 )
 
 

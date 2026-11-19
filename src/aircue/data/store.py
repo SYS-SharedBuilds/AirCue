@@ -5,7 +5,8 @@ import hashlib
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
+
 import pandas as pd
 
 
@@ -21,7 +22,7 @@ def compute_sha256(file_path: str | Path) -> str:
 def save_snapshot(
     df: pd.DataFrame,
     snapshots_dir: str | Path = "data/snapshots",
-    date_str: Optional[str] = None,
+    date_str: str | None = None,
 ) -> tuple[Path, Path]:
     """Save cleaned dataframe as a committed snapshot CSV and corresponding JSON manifest."""
     out_dir = Path(snapshots_dir)
@@ -36,7 +37,7 @@ def save_snapshot(
     df.to_csv(csv_path, index=False)
     sha = compute_sha256(csv_path)
 
-    manifest: Dict[str, Any] = {
+    manifest: dict[str, Any] = {
         "snapshot_date": date_str,
         "csv_filename": csv_path.name,
         "sha256": sha,

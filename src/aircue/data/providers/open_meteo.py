@@ -1,14 +1,13 @@
 """Open-Meteo Air Quality API client for historical CAMS atmospheric model data."""
 from __future__ import annotations
 
-import time
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from datetime import datetime
+from typing import Any
+
 import httpx
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 from aircue.trigger.aqi import aqi_to_category_cpcb, calculate_cpcb_aqi
-
 
 OPEN_METEO_AQI_URL = "https://air-quality-api.open-meteo.com/v1/air-quality"
 HOURLY_VARS = [
@@ -30,7 +29,7 @@ def fetch_open_meteo_city(
     location_name: str,
     past_days: int = 92,
     tz: str = "Asia/Kolkata",
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Fetch past hourly air-quality data for a location from Open-Meteo API.
 
     Enforces data integrity: drops future timestamps (keeps <= now).
@@ -53,10 +52,9 @@ def fetch_open_meteo_city(
 
     hourly = data.get("hourly", {})
     times = hourly.get("time", [])
-    now_iso = datetime.now(timezone.utc).isoformat()
     fetch_ts = datetime.now().astimezone().isoformat()
 
-    rows: List[Dict[str, Any]] = []
+    rows: list[dict[str, Any]] = []
     for i, t_str in enumerate(times):
         # Filter future timestamps: Open-Meteo hourly strings format: "YYYY-MM-DDTHH:00"
         # Since timezone is Asia/Kolkata, compare with current local time

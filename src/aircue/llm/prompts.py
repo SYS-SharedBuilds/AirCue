@@ -1,7 +1,7 @@
 """Outdoor prompt templates and versioning."""
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any, Optional
 
 PROMPT_VERSION = "2.1.0-outdoor"
 
@@ -32,7 +32,7 @@ Rules:
 """
 
 
-def build_announcement_user_prompt(facts: Dict[str, Any]) -> str:
+def build_announcement_user_prompt(facts: dict[str, Any]) -> str:
     """Format input facts for announcement generation."""
     return f"""Current Outdoor Conditions:
 - Level: {facts.get('level')} ({facts.get('category')})
@@ -46,7 +46,7 @@ def build_announcement_user_prompt(facts: Dict[str, Any]) -> str:
 Write the spoken announcement now:"""
 
 
-def build_decision_user_prompt(history_window: list[Dict[str, Any]], current_state: Optional[Dict[str, Any]] = None) -> str:
+def build_decision_user_prompt(history_window: list[dict[str, Any]], current_state: Optional[dict[str, Any]] = None) -> str:
     """Format history window for trigger decision evaluation."""
     lines = ["Recent Hourly Outdoor Readings (Oldest to Newest):"]
     for row in history_window:
