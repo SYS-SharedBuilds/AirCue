@@ -1,0 +1,32 @@
+{
+  "snapshot_date": "2026-11-19",
+  "csv_filename": "aqi_snapshot_2026-11-19.csv",
+  "sha256": "038352fee0641178f5f71cf1fa9e0809155d4ba0db74007112978f9486a5b3a2",
+  "row_count": 13968,
+  "locations": [
+    "Bengaluru",
+    "Bhopal",
+    "Delhi",
+    "Indore",
+    "Kolkata",
+    "Mumbai"
+  ],
+  "min_timestamp": "2026-08-19T00:00:00+05:30",
+  "max_timestamp": "2026-11-23T23:00:00+05:30",
+  "providers": [
+    "open_meteo"
+  ],
+  "dataset_kind": [
+    "model_cams"
+  ],
+  "category_distribution": {
+    "Good": 6461,
+    "Satisfactory": 4098,
+    "Moderate": 1974,
+    "Poor": 826,
+    "Very Poor": 474,
+    "Severe": 99,
+    "Unknown": 36
+  },
+  "created_at": "2026-11-19T13:53:55.078168+05:30"
+}
