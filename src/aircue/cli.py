@@ -1,7 +1,11 @@
+from __future__ import annotations
+
 """AirCue CLI entrypoint."""
-import typer
+import asyncio
+import json
 import time
 from pathlib import Path
+from typing import Optional
 import pandas as pd
 import typer
 from rich.console import Console
@@ -17,6 +21,12 @@ from aircue.data.synthetic import generate_synthetic_fixture
 from aircue.control.service import AirCueService
 from aircue.control.sim_node import run_simulated_node
 from aircue.transport.sources import ApiPollSource, CsvReplaySource
+
+from aircue.benchmark.quota import QuotaManager
+from aircue.benchmark.runner import run_benchmark_suite
+from aircue.benchmark.metrics import compute_metrics
+from aircue.benchmark.report import generate_benchmark_reports
+from aircue.llm.discovery import discover_openrouter_models, resolve_benchmark_models, save_discovered_snapshot
 
 app = typer.Typer(
     name="aircue",
@@ -123,16 +133,121 @@ def data_sample() -> None:
     typer.echo(f"Generated sample fixture: {p}")
 
 
-@clips_app.command("build")
-def clips_build(
-    output_dir: str = typer.Option("clips", "--output-dir", "-o", help="Target audio directory"),
-    backend: str = typer.Option("beep", "--backend", "-b", help="TTS backend: beep, gtts, or piper"),
-    force: bool = typer.Option(False, "--force", "-f", help="Force rebuild existing clips"),
+@models_app.command("discover")
+def models_discover(
+    config_file: str = typer.Option("configs/benchmark.yaml", "--config", "-c"),
 ) -> None:
-    """Pregenerate audio clips for all message templates."""
-    typer.echo(f"Building audio clips using backend '{backend}' into '{output_dir}'...")
-    manifest = build_all_clips(output_dir=output_dir, backend=backend, force=force)
-    typer.echo(f"Successfully generated/verified {manifest.get('total_clips', 0)} audio clips.")
+    """Discover available models on OpenRouter, filter by ADR-003 rules, and save snapshot."""
+    console = Console()
+    cfg = load_yaml(config_file)
+    sel = cfg.get("selection", {})
+    preferred = sel.get("preferred_families", ["deepseek", "moonshotai"])
+    min_models = sel.get("min_models", 4)
+    allow_paid = sel.get("allow_paid_preferred", False)
+
+    console.print("[cyan]Querying OpenRouter API for available models...[/cyan]")
+    raw_models = discover_openrouter_models()
+    if not raw_models:
+        console.print("[yellow]Could not reach live OpenRouter or no key provided; using fallback directory.[/yellow]")
+
+    resolved = resolve_benchmark_models(
+        raw_models,
+        preferred_families=preferred,
+        min_models=min_models,
+        allow_paid_preferred=allow_paid,
+    )
+
+    console.print(f"[bold green]Resolved {len(resolved)} benchmark candidate models:[/bold green]")
+    for m in resolved:
+        pricing = m.get("pricing", {})
+        p_cost = pricing.get("prompt", 0)
+        c_cost = pricing.get("completion", 0)
+        console.print(f" - [bold]{m.get('id')}[/bold] (Context: {m.get('context_length')}, Cost: {p_cost}/{c_cost})")
+
+    # Check if preferred families are present
+    has_preferred = any(any(fam in m.get("id", "").lower() for fam in preferred) for m in resolved)
+    if not has_preferred:
+        console.print(
+            "\n[yellow]Notice: Neither DeepSeek nor Moonshot/Kimi currently have free models on OpenRouter.\n"
+            "Benchmarking will proceed on established open-weight models (Google Gemma, NVIDIA Nemotron).\n"
+            "To evaluate DeepSeek and Kimi, enable 'allow_paid_preferred: true' in configs/benchmark.yaml\n"
+            "or configure direct provider API keys (DEEPSEEK_API_KEY / MOONSHOT_API_KEY).[/yellow]"
+        )
+
+    out_path = save_discovered_snapshot(resolved)
+    console.print(f"\n[green]Saved discovered model snapshot:[/green] {out_path}")
+
+
+@benchmark_app.command("plan")
+def benchmark_plan(
+    config_file: str = typer.Option("configs/benchmark.yaml", "--config", "-c"),
+) -> None:
+    """Calculate total benchmark requests and estimated run days under daily quota."""
+    console = Console()
+    cfg = load_yaml(config_file)
+    quota_cfg = cfg.get("quota", {})
+    budget = quota_cfg.get("daily_request_budget", 180)
+    tasks_cfg = cfg.get("tasks", {})
+    t1_samples = tasks_cfg.get("task1_generation", {}).get("samples_per_model", 160)
+    t2_samples = tasks_cfg.get("task2_decision", {}).get("samples_per_model", 100)
+    num_models = cfg.get("selection", {}).get("min_models", 4)
+
+    total_per_model = t1_samples + t2_samples
+    total_calls = total_per_model * num_models
+    days_needed = (total_calls + budget - 1) // budget
+
+    qm = QuotaManager(daily_budget=budget)
+    calls_today = qm.get_calls_today()
+    remaining_today = qm.remaining_today()
+
+    console.print("[bold green]AirCue Benchmark Execution Plan[/bold green]")
+    console.print(f"Target Models: {num_models}")
+    console.print(f"Task 1 (Generation) samples per model: {t1_samples}")
+    console.print(f"Task 2 (Decision) samples per model: {t2_samples}")
+    console.print(f"Total calls per model: {total_per_model}")
+    console.print(f"Total benchmark API calls: [bold]{total_calls}[/bold]")
+    console.print(f"Configured Daily Request Budget: [bold]{budget}[/bold]")
+    console.print(f"Calls made today (UTC): {calls_today} (Remaining: {remaining_today})")
+    console.print(f"Projected Run Duration: [bold yellow]{days_needed} days[/bold yellow] under free-tier quota.")
+    console.print(
+        "[dim]Note: A one-time $10 OpenRouter top-up reportedly raises the daily limit to ~1,000/day,\n"
+        "allowing the entire benchmark to finish in a single day.[/dim]"
+    )
+
+
+@benchmark_app.command("run")
+def benchmark_run(
+    mock: bool = typer.Option(False, "--mock", help="Run with deterministic mock client (offline)"),
+    limit: Optional[int] = typer.Option(None, "--limit", "-n", help="Cap samples per task for quick run"),
+) -> None:
+    """Run benchmark evaluation suite."""
+    console = Console()
+    console.print(f"[bold cyan]Starting AirCue Benchmark Suite (Mock={mock}, Limit={limit})...[/bold cyan]")
+    results = asyncio.run(run_benchmark_suite(use_mock=mock, limit=limit))
+    console.print(f"[bold green]Benchmark run complete. Processed {len(results)} items.[/bold green]")
+    console.print("Reports generated into 'results/report/' and 'paper/tables/'.")
+
+
+@benchmark_app.command("report")
+def benchmark_report(
+    raw_log: str = typer.Option("results/raw/latest_run.jsonl", "--raw-log", "-r"),
+) -> None:
+    """Generate reports and publication tables from raw benchmark run log."""
+    console = Console()
+    raw_path = Path(raw_log)
+    if not raw_path.exists():
+        console.print(f"[red]Raw log file '{raw_log}' not found. Run benchmark first.[/red]")
+        raise typer.Exit(code=1)
+
+    raw_results = []
+    with open(raw_path, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                raw_results.append(json.loads(line))
+
+    metrics = compute_metrics(raw_results)
+    generate_benchmark_reports(raw_results, metrics)
+    console.print(f"[green]Successfully generated reports from {len(raw_results)} records.[/green]")
 
 
 @app.callback()
