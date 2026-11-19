@@ -1,0 +1,1606 @@
+{
+  "backend": "beep",
+  "total_clips": 200,
+  "clips": {
+    "en_escalate_1_628cdb09": {
+      "text": "Air quality is moderate. Sensitive students please avoid heavy outdoor exertion.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_628cdb09.wav"
+    },
+    "en_escalate_1_fa5d38d1": {
+      "text": "Air quality is moderate. Please keep morning assembly brief and light.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_fa5d38d1.wav"
+    },
+    "en_escalate_1_a561d7c9": {
+      "text": "Air quality is moderate. Sensitive students please take frequent rests during sports.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_a561d7c9.wav"
+    },
+    "en_escalate_1_6643accf": {
+      "text": "Air quality is moderate. Please prefer gentle games during recess.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_6643accf.wav"
+    },
+    "en_escalate_1_f6ed1fb6": {
+      "text": "Air quality is moderate. Please proceed calmly to your school buses.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_f6ed1fb6.wav"
+    },
+    "en_escalate_1_01e028bf": {
+      "text": "The air is a bit dusty today. Sensitive friends please take it easy outside.",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_01e028bf.wav"
+    },
+    "en_escalate_1_650f43ad": {
+      "text": "Air quality is moderate. Please keep morning assembly brief and light.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_650f43ad.wav"
+    },
+    "en_escalate_1_24bb62b5": {
+      "text": "Air quality is moderate. Sensitive students please take frequent rests during sports.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_24bb62b5.wav"
+    },
+    "en_escalate_1_2faf5fdf": {
+      "text": "Air quality is moderate. Please prefer gentle games during recess.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_2faf5fdf.wav"
+    },
+    "en_escalate_1_d6552d20": {
+      "text": "Air quality is moderate. Please proceed calmly to your school buses.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "escalate_1",
+      "file": "en_escalate_1_d6552d20.wav"
+    },
+    "hi_escalate_1_aad31aa0": {
+      "text": "वायु गुणवत्ता मध्यम है। संवेदनशील छात्र कृपया बाहर अधिक श्रम न करें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_aad31aa0.wav"
+    },
+    "hi_escalate_1_58590f17": {
+      "text": "वायु गुणवत्ता मध्यम है। कृपया सुबह की सभा संक्षिप्त रखें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_58590f17.wav"
+    },
+    "hi_escalate_1_44ea0515": {
+      "text": "वायु गुणवत्ता मध्यम है। खेलकूद के दौरान छात्र बीच-बीच में विश्राम लें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_44ea0515.wav"
+    },
+    "hi_escalate_1_138031a4": {
+      "text": "वायु गुणवत्ता मध्यम है। भोजन अवकाश में हल्के खेल ही खेलें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_138031a4.wav"
+    },
+    "hi_escalate_1_f1d78357": {
+      "text": "वायु गुणवत्ता मध्यम है। कृपया शांतिपूर्वक अपनी बसों की ओर बढ़ें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_f1d78357.wav"
+    },
+    "hi_escalate_1_426e9671": {
+      "text": "बाहर थोड़ी धूल है। संवेदनशील बच्चे कृपया बाहर आराम से खेलें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_426e9671.wav"
+    },
+    "hi_escalate_1_967b38cb": {
+      "text": "वायु गुणवत्ता मध्यम है। कृपया सुबह की सभा संक्षिप्त रखें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_967b38cb.wav"
+    },
+    "hi_escalate_1_2abac506": {
+      "text": "वायु गुणवत्ता मध्यम है। खेलकूद के दौरान छात्र बीच-बीच में विश्राम लें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_2abac506.wav"
+    },
+    "hi_escalate_1_d14e454b": {
+      "text": "वायु गुणवत्ता मध्यम है। भोजन अवकाश में हल्के खेल ही खेलें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_d14e454b.wav"
+    },
+    "hi_escalate_1_8e422931": {
+      "text": "वायु गुणवत्ता मध्यम है। कृपया शांतिपूर्वक अपनी बसों की ओर बढ़ें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "escalate_1",
+      "file": "hi_escalate_1_8e422931.wav"
+    },
+    "en_escalate_2_75e239fc": {
+      "text": "Air quality is poor. Please reduce outdoor activities and play indoors.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_75e239fc.wav"
+    },
+    "en_escalate_2_c041ec88": {
+      "text": "Air quality is poor. Please move the remaining assembly indoors.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_c041ec88.wav"
+    },
+    "en_escalate_2_4964562f": {
+      "text": "Air quality is poor. Please conduct physical training indoors.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_4964562f.wav"
+    },
+    "en_escalate_2_adaa74e3": {
+      "text": "Air quality is poor. Please enjoy indoor games during recess today.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_adaa74e3.wav"
+    },
+    "en_escalate_2_18a1a293": {
+      "text": "Air quality is poor. Please board school buses promptly without lingering outdoors.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_18a1a293.wav"
+    },
+    "en_escalate_2_bf51bf29": {
+      "text": "Air quality is poor. Let us head indoors for today's games.",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_bf51bf29.wav"
+    },
+    "en_escalate_2_38d9776d": {
+      "text": "Air quality is poor. Please move the remaining assembly indoors.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_38d9776d.wav"
+    },
+    "en_escalate_2_caf15c41": {
+      "text": "Air quality is poor. Please conduct physical training indoors.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_caf15c41.wav"
+    },
+    "en_escalate_2_9662d84b": {
+      "text": "Air quality is poor. Please enjoy indoor games during recess today.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_9662d84b.wav"
+    },
+    "en_escalate_2_def14402": {
+      "text": "Air quality is poor. Please board school buses promptly without lingering outdoors.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "escalate_2",
+      "file": "en_escalate_2_def14402.wav"
+    },
+    "hi_escalate_2_475c9994": {
+      "text": "वायु गुणवत्ता खराब है। कृपया बाहरी गतिविधियाँ कम करें और भीतर खेलें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_475c9994.wav"
+    },
+    "hi_escalate_2_5d170664": {
+      "text": "वायु गुणवत्ता खराब है। कृपया सभा भीतर आयोजित करें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_5d170664.wav"
+    },
+    "hi_escalate_2_a0742bc3": {
+      "text": "वायु गुणवत्ता खराब है। शारीरिक व्यायाम भीतर ही कराएं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_a0742bc3.wav"
+    },
+    "hi_escalate_2_be2d2f7f": {
+      "text": "वायु गुणवत्ता खराब है। अवकाश के समय भीतर ही रहें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_be2d2f7f.wav"
+    },
+    "hi_escalate_2_ca46d14e": {
+      "text": "वायु गुणवत्ता खराब है। छात्र तुरंत अपने वाहनों में बैठें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_ca46d14e.wav"
+    },
+    "hi_escalate_2_b6b269d3": {
+      "text": "बाहर हवा खराब है। आइए आज भीतर ही खेलें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_b6b269d3.wav"
+    },
+    "hi_escalate_2_39a1ca15": {
+      "text": "वायु गुणवत्ता खराब है। कृपया सभा भीतर आयोजित करें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_39a1ca15.wav"
+    },
+    "hi_escalate_2_f296f511": {
+      "text": "वायु गुणवत्ता खराब है। शारीरिक व्यायाम भीतर ही कराएं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_f296f511.wav"
+    },
+    "hi_escalate_2_3c247be9": {
+      "text": "वायु गुणवत्ता खराब है। अवकाश के समय भीतर ही रहें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_3c247be9.wav"
+    },
+    "hi_escalate_2_10f91822": {
+      "text": "वायु गुणवत्ता खराब है। छात्र तुरंत अपने वाहनों में बैठें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "escalate_2",
+      "file": "hi_escalate_2_10f91822.wav"
+    },
+    "en_escalate_3_e6d240ac": {
+      "text": "Air quality is very poor. Please move all outdoor activities indoors.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_e6d240ac.wav"
+    },
+    "en_escalate_3_5217348f": {
+      "text": "Air quality is very poor. Morning assembly is moved indoors immediately.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_5217348f.wav"
+    },
+    "en_escalate_3_63c63738": {
+      "text": "Air quality is very poor. All outdoor sports are shifted indoors.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_63c63738.wav"
+    },
+    "en_escalate_3_35f3e5fe": {
+      "text": "Air quality is very poor. Recess will be held indoors today.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_35f3e5fe.wav"
+    },
+    "en_escalate_3_faf6602a": {
+      "text": "Air quality is very poor. Please walk directly to school transport.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_faf6602a.wav"
+    },
+    "en_escalate_3_004b6517": {
+      "text": "The outdoor air is very dusty. Everyone please stay inside classrooms.",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_004b6517.wav"
+    },
+    "en_escalate_3_a365d95c": {
+      "text": "Air quality is very poor. Morning assembly is moved indoors immediately.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_a365d95c.wav"
+    },
+    "en_escalate_3_57ac3057": {
+      "text": "Air quality is very poor. All outdoor sports are shifted indoors.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_57ac3057.wav"
+    },
+    "en_escalate_3_2bd03db1": {
+      "text": "Air quality is very poor. Recess will be held indoors today.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_2bd03db1.wav"
+    },
+    "en_escalate_3_9cb14c94": {
+      "text": "Air quality is very poor. Please walk directly to school transport.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "escalate_3",
+      "file": "en_escalate_3_9cb14c94.wav"
+    },
+    "hi_escalate_3_4ee7a85b": {
+      "text": "वायु गुणवत्ता बहुत खराब है। कृपया सभी बाहरी गतिविधियाँ तुरंत भीतर ले जाएं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_4ee7a85b.wav"
+    },
+    "hi_escalate_3_dfca48de": {
+      "text": "वायु गुणवत्ता बहुत खराब है। सुबह की सभा तुरंत भीतर स्थानांतरित करें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_dfca48de.wav"
+    },
+    "hi_escalate_3_03ac220d": {
+      "text": "वायु गुणवत्ता बहुत खराब है। बाहरी खेलकूद पूरी तरह बंद रखें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_03ac220d.wav"
+    },
+    "hi_escalate_3_17432b11": {
+      "text": "वायु गुणवत्ता बहुत खराब है। अवकाश के दौरान सभी छात्र भीतर ही रहें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_17432b11.wav"
+    },
+    "hi_escalate_3_61f4c9e2": {
+      "text": "वायु गुणवत्ता बहुत खराब है। छात्र सीधे स्कूल बस की ओर जाएं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_61f4c9e2.wav"
+    },
+    "hi_escalate_3_db01cbcb": {
+      "text": "बाहर बहुत धूल और प्रदूषण है। सभी बच्चे कक्षाओं के भीतर रहें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_db01cbcb.wav"
+    },
+    "hi_escalate_3_87c16c60": {
+      "text": "वायु गुणवत्ता बहुत खराब है। सुबह की सभा तुरंत भीतर स्थानांतरित करें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_87c16c60.wav"
+    },
+    "hi_escalate_3_7ff0fed9": {
+      "text": "वायु गुणवत्ता बहुत खराब है। बाहरी खेलकूद पूरी तरह बंद रखें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_7ff0fed9.wav"
+    },
+    "hi_escalate_3_288c7249": {
+      "text": "वायु गुणवत्ता बहुत खराब है। अवकाश के दौरान सभी छात्र भीतर ही रहें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_288c7249.wav"
+    },
+    "hi_escalate_3_a73821bb": {
+      "text": "वायु गुणवत्ता बहुत खराब है। छात्र सीधे स्कूल बस की ओर जाएं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "escalate_3",
+      "file": "hi_escalate_3_a73821bb.wav"
+    },
+    "en_escalate_4_5fda4244": {
+      "text": "Air quality is severe. Please keep everyone indoors and cancel outdoor activities.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_5fda4244.wav"
+    },
+    "en_escalate_4_b31487ca": {
+      "text": "Air quality is severe. Outdoor assembly is cancelled; remain inside.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_b31487ca.wav"
+    },
+    "en_escalate_4_79c76424": {
+      "text": "Air quality is severe. All outdoor sports sessions are cancelled.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_79c76424.wav"
+    },
+    "en_escalate_4_25efde7f": {
+      "text": "Air quality is severe. All students must remain indoors during break.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_25efde7f.wav"
+    },
+    "en_escalate_4_37836c09": {
+      "text": "Air quality is severe. Move straight from classrooms to school buses.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_37836c09.wav"
+    },
+    "en_escalate_4_5275160c": {
+      "text": "The air outside is unhealthy today. Everyone must remain indoors.",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_5275160c.wav"
+    },
+    "en_escalate_4_a086dc95": {
+      "text": "Air quality is severe. Outdoor assembly is cancelled; remain inside.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_a086dc95.wav"
+    },
+    "en_escalate_4_33bff3b8": {
+      "text": "Air quality is severe. All outdoor sports sessions are cancelled.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_33bff3b8.wav"
+    },
+    "en_escalate_4_f3f4cc66": {
+      "text": "Air quality is severe. All students must remain indoors during break.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_f3f4cc66.wav"
+    },
+    "en_escalate_4_07241250": {
+      "text": "Air quality is severe. Move straight from classrooms to school buses.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "escalate_4",
+      "file": "en_escalate_4_07241250.wav"
+    },
+    "hi_escalate_4_2c70ff75": {
+      "text": "वायु गुणवत्ता गंभीर है। कृपया सभी को भीतर रखें और बाहरी कार्यक्रम रद्द करें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_2c70ff75.wav"
+    },
+    "hi_escalate_4_96c060ca": {
+      "text": "वायु गुणवत्ता गंभीर है। बाहरी सभा तुरंत रद्द की जाती है।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_96c060ca.wav"
+    },
+    "hi_escalate_4_873b7736": {
+      "text": "वायु गुणवत्ता गंभीर है। सभी बाहरी खेल प्रतियोगिताएं रद्द हैं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_873b7736.wav"
+    },
+    "hi_escalate_4_18a5872c": {
+      "text": "वायु गुणवत्ता गंभीर है। कोई भी छात्र बाहर मैदान में न जाए।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_18a5872c.wav"
+    },
+    "hi_escalate_4_71b337c0": {
+      "text": "वायु गुणवत्ता गंभीर है। बिना रुके सीधे स्कूल बस में बैठें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_71b337c0.wav"
+    },
+    "hi_escalate_4_cf83da45": {
+      "text": "बाहर हवा बहुत अस्वास्थ्यकर है। किसी को बाहर जाने की अनुमति नहीं है।",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_cf83da45.wav"
+    },
+    "hi_escalate_4_fe571919": {
+      "text": "वायु गुणवत्ता गंभीर है। बाहरी सभा तुरंत रद्द की जाती है।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_fe571919.wav"
+    },
+    "hi_escalate_4_5557a087": {
+      "text": "वायु गुणवत्ता गंभीर है। सभी बाहरी खेल प्रतियोगिताएं रद्द हैं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_5557a087.wav"
+    },
+    "hi_escalate_4_b3e44c9f": {
+      "text": "वायु गुणवत्ता गंभीर है। कोई भी छात्र बाहर मैदान में न जाए।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_b3e44c9f.wav"
+    },
+    "hi_escalate_4_d53bbaf2": {
+      "text": "वायु गुणवत्ता गंभीर है। बिना रुके सीधे स्कूल बस में बैठें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "escalate_4",
+      "file": "hi_escalate_4_d53bbaf2.wav"
+    },
+    "en_reminder_1_f0213681": {
+      "text": "Reminder: air quality remains moderate. Sensitive students please limit heavy exertion.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_f0213681.wav"
+    },
+    "en_reminder_1_91a61941": {
+      "text": "Reminder: keep outdoor gathering brief due to moderate air quality.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_91a61941.wav"
+    },
+    "en_reminder_1_51a67852": {
+      "text": "Reminder: ensure sensitive students rest during outdoor training.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_51a67852.wav"
+    },
+    "en_reminder_1_86d30f00": {
+      "text": "Reminder: take gentle rests during outdoor play.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_86d30f00.wav"
+    },
+    "en_reminder_1_be83ef95": {
+      "text": "Reminder: air is moderate; proceed directly to your transport.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_be83ef95.wav"
+    },
+    "en_reminder_1_f3a20527": {
+      "text": "Gentle reminder: please remember to take rests if you feel tired outside.",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_f3a20527.wav"
+    },
+    "en_reminder_1_aa79acc2": {
+      "text": "Reminder: keep outdoor gathering brief due to moderate air quality.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_aa79acc2.wav"
+    },
+    "en_reminder_1_5417745e": {
+      "text": "Reminder: ensure sensitive students rest during outdoor training.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_5417745e.wav"
+    },
+    "en_reminder_1_5b95709a": {
+      "text": "Reminder: take gentle rests during outdoor play.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_5b95709a.wav"
+    },
+    "en_reminder_1_43d4c7f8": {
+      "text": "Reminder: air is moderate; proceed directly to your transport.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "reminder_1",
+      "file": "en_reminder_1_43d4c7f8.wav"
+    },
+    "hi_reminder_1_cd2f11ea": {
+      "text": "स्मरण: वायु गुणवत्ता मध्यम है। संवेदनशील छात्र अधिक श्रम से बचें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_cd2f11ea.wav"
+    },
+    "hi_reminder_1_3a8b8b71": {
+      "text": "स्मरण: वायु गुणवत्ता को देखते हुए सभा को संक्षिप्त रखें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_3a8b8b71.wav"
+    },
+    "hi_reminder_1_1e24f014": {
+      "text": "स्मरण: खेलकूद में छात्रों को पर्याप्त विश्राम दें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_1e24f014.wav"
+    },
+    "hi_reminder_1_eee5f0ff": {
+      "text": "स्मरण: खेल के दौरान अधिक दौड़-भाग से बचें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_eee5f0ff.wav"
+    },
+    "hi_reminder_1_7678a18d": {
+      "text": "स्मरण: वायु गुणवत्ता मध्यम है, सीधे वाहन की ओर जाएं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_7678a18d.wav"
+    },
+    "hi_reminder_1_a9c9aa70": {
+      "text": "याद रखें: यदि बाहर थकान लगे तो विश्राम अवश्य करें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_a9c9aa70.wav"
+    },
+    "hi_reminder_1_8d20a35f": {
+      "text": "स्मरण: वायु गुणवत्ता को देखते हुए सभा को संक्षिप्त रखें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_8d20a35f.wav"
+    },
+    "hi_reminder_1_c7da9f7d": {
+      "text": "स्मरण: खेलकूद में छात्रों को पर्याप्त विश्राम दें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_c7da9f7d.wav"
+    },
+    "hi_reminder_1_111db932": {
+      "text": "स्मरण: खेल के दौरान अधिक दौड़-भाग से बचें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_111db932.wav"
+    },
+    "hi_reminder_1_11d996c1": {
+      "text": "स्मरण: वायु गुणवत्ता मध्यम है, सीधे वाहन की ओर जाएं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "reminder_1",
+      "file": "hi_reminder_1_11d996c1.wav"
+    },
+    "en_reminder_2_14557c1e": {
+      "text": "Reminder: air quality is poor. Please keep outdoor activities reduced.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_14557c1e.wav"
+    },
+    "en_reminder_2_e2b943ea": {
+      "text": "Reminder: please conduct student gatherings indoors.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_e2b943ea.wav"
+    },
+    "en_reminder_2_d137304e": {
+      "text": "Reminder: keep physical training indoors while air remains poor.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_d137304e.wav"
+    },
+    "en_reminder_2_85f73b28": {
+      "text": "Reminder: please stay indoors for recess activities.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_85f73b28.wav"
+    },
+    "en_reminder_2_990d77de": {
+      "text": "Reminder: air quality is poor; board your buses promptly.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_990d77de.wav"
+    },
+    "en_reminder_2_4b28a8ff": {
+      "text": "Friendly reminder: please continue playing indoors today.",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_4b28a8ff.wav"
+    },
+    "en_reminder_2_750df28e": {
+      "text": "Reminder: please conduct student gatherings indoors.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_750df28e.wav"
+    },
+    "en_reminder_2_ccb7b4d1": {
+      "text": "Reminder: keep physical training indoors while air remains poor.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_ccb7b4d1.wav"
+    },
+    "en_reminder_2_1b6a594a": {
+      "text": "Reminder: please stay indoors for recess activities.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_1b6a594a.wav"
+    },
+    "en_reminder_2_3bc4be20": {
+      "text": "Reminder: air quality is poor; board your buses promptly.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "reminder_2",
+      "file": "en_reminder_2_3bc4be20.wav"
+    },
+    "hi_reminder_2_169aa988": {
+      "text": "स्मरण: वायु गुणवत्ता खराब है। कृपया बाहरी गतिविधियाँ सीमित रखें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_169aa988.wav"
+    },
+    "hi_reminder_2_76336ea6": {
+      "text": "स्मरण: सभी छात्र सभाएं भीतर ही आयोजित की जाएं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_76336ea6.wav"
+    },
+    "hi_reminder_2_213b126d": {
+      "text": "स्मरण: व्यायाम और पीटी केवल कमरों के भीतर करें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_213b126d.wav"
+    },
+    "hi_reminder_2_d82de4d0": {
+      "text": "स्मरण: अवकाश के दौरान मैदान में न जाएं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_d82de4d0.wav"
+    },
+    "hi_reminder_2_db7f641b": {
+      "text": "स्मरण: वायु खराब है, तुरंत अपने वाहनों में सवार हों।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_db7f641b.wav"
+    },
+    "hi_reminder_2_2faf889e": {
+      "text": "याद दिलाना है: कृपया आज बाहर न खेलें, भीतर ही रहें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_2faf889e.wav"
+    },
+    "hi_reminder_2_5f628031": {
+      "text": "स्मरण: सभी छात्र सभाएं भीतर ही आयोजित की जाएं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_5f628031.wav"
+    },
+    "hi_reminder_2_acc5c21f": {
+      "text": "स्मरण: व्यायाम और पीटी केवल कमरों के भीतर करें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_acc5c21f.wav"
+    },
+    "hi_reminder_2_ae638dce": {
+      "text": "स्मरण: अवकाश के दौरान मैदान में न जाएं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_ae638dce.wav"
+    },
+    "hi_reminder_2_18301762": {
+      "text": "स्मरण: वायु खराब है, तुरंत अपने वाहनों में सवार हों।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "reminder_2",
+      "file": "hi_reminder_2_18301762.wav"
+    },
+    "en_reminder_3_305ac428": {
+      "text": "Reminder: air quality remains very poor. All activities must stay indoors.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_305ac428.wav"
+    },
+    "en_reminder_3_ff1085a8": {
+      "text": "Reminder: outdoor gatherings remain suspended.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_ff1085a8.wav"
+    },
+    "en_reminder_3_23a106a8": {
+      "text": "Reminder: outdoor sports remain suspended indoors.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_23a106a8.wav"
+    },
+    "en_reminder_3_f3c9fa42": {
+      "text": "Reminder: outdoor recess remains suspended today.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_f3c9fa42.wav"
+    },
+    "en_reminder_3_b58da3f7": {
+      "text": "Reminder: air is very poor; move swiftly to school transport.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_b58da3f7.wav"
+    },
+    "en_reminder_3_55020099": {
+      "text": "Reminder: please stay inside where the air is safe.",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_55020099.wav"
+    },
+    "en_reminder_3_8dd01cd9": {
+      "text": "Reminder: outdoor gatherings remain suspended.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_8dd01cd9.wav"
+    },
+    "en_reminder_3_3a43b3ee": {
+      "text": "Reminder: outdoor sports remain suspended indoors.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_3a43b3ee.wav"
+    },
+    "en_reminder_3_cef9d7ab": {
+      "text": "Reminder: outdoor recess remains suspended today.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_cef9d7ab.wav"
+    },
+    "en_reminder_3_af550fcb": {
+      "text": "Reminder: air is very poor; move swiftly to school transport.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "reminder_3",
+      "file": "en_reminder_3_af550fcb.wav"
+    },
+    "hi_reminder_3_19e30a1d": {
+      "text": "स्मरण: वायु गुणवत्ता बहुत खराब बनी हुई है। सभी गतिविधियाँ भीतर ही रखें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_19e30a1d.wav"
+    },
+    "hi_reminder_3_22d5b3f4": {
+      "text": "स्मरण: बाहरी सभा पूरी तरह स्थगित है।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_22d5b3f4.wav"
+    },
+    "hi_reminder_3_4118a797": {
+      "text": "स्मरण: बाहरी खेल पूरी तरह स्थगित हैं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_4118a797.wav"
+    },
+    "hi_reminder_3_b750c832": {
+      "text": "स्मरण: कोई भी बच्चा मैदान में न जाए।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_b750c832.wav"
+    },
+    "hi_reminder_3_e62fe4c4": {
+      "text": "स्मरण: प्रदूषण अधिक है, तेजी से बसों में बैठें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_e62fe4c4.wav"
+    },
+    "hi_reminder_3_7fb7b997": {
+      "text": "याद रखें: बाहर जाना मना है, सब भीतर सुरक्षित रहें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_7fb7b997.wav"
+    },
+    "hi_reminder_3_cc9d6a01": {
+      "text": "स्मरण: बाहरी सभा पूरी तरह स्थगित है।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_cc9d6a01.wav"
+    },
+    "hi_reminder_3_4f63eb32": {
+      "text": "स्मरण: बाहरी खेल पूरी तरह स्थगित हैं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_4f63eb32.wav"
+    },
+    "hi_reminder_3_64028d92": {
+      "text": "स्मरण: कोई भी बच्चा मैदान में न जाए।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_64028d92.wav"
+    },
+    "hi_reminder_3_44459da4": {
+      "text": "स्मरण: प्रदूषण अधिक है, तेजी से बसों में बैठें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "reminder_3",
+      "file": "hi_reminder_3_44459da4.wav"
+    },
+    "en_reminder_4_ac79ba58": {
+      "text": "Urgent reminder: air quality is severe. Strictly avoid outdoor exposure.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_ac79ba58.wav"
+    },
+    "en_reminder_4_cf1f0552": {
+      "text": "Urgent reminder: outdoor assembly strictly prohibited.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_cf1f0552.wav"
+    },
+    "en_reminder_4_9835149a": {
+      "text": "Urgent reminder: all outdoor sports strictly cancelled.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_9835149a.wav"
+    },
+    "en_reminder_4_65436354": {
+      "text": "Urgent reminder: stay indoors; outdoor break strictly cancelled.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_65436354.wav"
+    },
+    "en_reminder_4_672a51b4": {
+      "text": "Urgent reminder: proceed immediately to school buses.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_672a51b4.wav"
+    },
+    "en_reminder_4_19cc4337": {
+      "text": "Important reminder: please do not go outdoors today.",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_19cc4337.wav"
+    },
+    "en_reminder_4_74726316": {
+      "text": "Urgent reminder: outdoor assembly strictly prohibited.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_74726316.wav"
+    },
+    "en_reminder_4_d89f3511": {
+      "text": "Urgent reminder: all outdoor sports strictly cancelled.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_d89f3511.wav"
+    },
+    "en_reminder_4_cc69792c": {
+      "text": "Urgent reminder: stay indoors; outdoor break strictly cancelled.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_cc69792c.wav"
+    },
+    "en_reminder_4_00729ea3": {
+      "text": "Urgent reminder: proceed immediately to school buses.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "reminder_4",
+      "file": "en_reminder_4_00729ea3.wav"
+    },
+    "hi_reminder_4_93c93c52": {
+      "text": "अति आवश्यक स्मरण: वायु गुणवत्ता गंभीर है। बाहरी संपर्क से पूरी तरह बचें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_93c93c52.wav"
+    },
+    "hi_reminder_4_5929d3fe": {
+      "text": "अति आवश्यक: बाहर एकत्रित होना सख्त मना है।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_5929d3fe.wav"
+    },
+    "hi_reminder_4_33111196": {
+      "text": "अति आवश्यक: सभी खेल गतिविधियाँ पूर्णतः रद्द हैं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_33111196.wav"
+    },
+    "hi_reminder_4_ad5a83d4": {
+      "text": "अति आवश्यक: सभी छात्र कक्षाओं के भीतर ही रहें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_ad5a83d4.wav"
+    },
+    "hi_reminder_4_e7f82708": {
+      "text": "अति आवश्यक: सीधे कक्षा से निकलकर बसों में बैठें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_e7f82708.wav"
+    },
+    "hi_reminder_4_004c0e52": {
+      "text": "महत्वपूर्ण सूचना: किसी भी कारण से बाहर मैदान में न निकलें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_004c0e52.wav"
+    },
+    "hi_reminder_4_d0d64b12": {
+      "text": "अति आवश्यक: बाहर एकत्रित होना सख्त मना है।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_d0d64b12.wav"
+    },
+    "hi_reminder_4_20ddd487": {
+      "text": "अति आवश्यक: सभी खेल गतिविधियाँ पूर्णतः रद्द हैं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_20ddd487.wav"
+    },
+    "hi_reminder_4_66e55c83": {
+      "text": "अति आवश्यक: सभी छात्र कक्षाओं के भीतर ही रहें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_66e55c83.wav"
+    },
+    "hi_reminder_4_5f758560": {
+      "text": "अति आवश्यक: सीधे कक्षा से निकलकर बसों में बैठें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "reminder_4",
+      "file": "hi_reminder_4_5f758560.wav"
+    },
+    "en_improving_65efc4ff": {
+      "text": "Air quality is improving, but please keep outdoor physical activity light.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "improving",
+      "file": "en_improving_65efc4ff.wav"
+    },
+    "en_improving_28f81810": {
+      "text": "Air quality is improving. Assembly may proceed with light activities.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "improving",
+      "file": "en_improving_28f81810.wav"
+    },
+    "en_improving_4a1c344c": {
+      "text": "Air quality is improving. Light outdoor training may resume with care.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "improving",
+      "file": "en_improving_4a1c344c.wav"
+    },
+    "en_improving_e04f0bd2": {
+      "text": "Air quality is improving. Gentle outdoor play is permitted.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "improving",
+      "file": "en_improving_e04f0bd2.wav"
+    },
+    "en_improving_c869664f": {
+      "text": "Air quality is improving. Have a safe journey home.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "improving",
+      "file": "en_improving_c869664f.wav"
+    },
+    "en_improving_df7de415": {
+      "text": "The air is getting clearer, but let us still play gently outside.",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "improving",
+      "file": "en_improving_df7de415.wav"
+    },
+    "en_improving_9124c417": {
+      "text": "Air quality is improving. Assembly may proceed with light activities.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "improving",
+      "file": "en_improving_9124c417.wav"
+    },
+    "en_improving_6221500a": {
+      "text": "Air quality is improving. Light outdoor training may resume with care.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "improving",
+      "file": "en_improving_6221500a.wav"
+    },
+    "en_improving_856f6e07": {
+      "text": "Air quality is improving. Gentle outdoor play is permitted.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "improving",
+      "file": "en_improving_856f6e07.wav"
+    },
+    "en_improving_857d84c1": {
+      "text": "Air quality is improving. Have a safe journey home.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "improving",
+      "file": "en_improving_857d84c1.wav"
+    },
+    "hi_improving_64730689": {
+      "text": "वायु गुणवत्ता में सुधार हो रहा है, फिर भी बाहरी गतिविधियाँ हल्की रखें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "improving",
+      "file": "hi_improving_64730689.wav"
+    },
+    "hi_improving_9f7d7c44": {
+      "text": "वायु गुणवत्ता सुधर रही है। संक्षिप्त सभा की जा सकती है।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "improving",
+      "file": "hi_improving_9f7d7c44.wav"
+    },
+    "hi_improving_f5f24ece": {
+      "text": "वायु गुणवत्ता सुधर रही है। हल्का अभ्यास शुरू कर सकते हैं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "improving",
+      "file": "hi_improving_f5f24ece.wav"
+    },
+    "hi_improving_dc802310": {
+      "text": "वायु गुणवत्ता में सुधार है। हल्का खेलकूद कर सकते हैं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "improving",
+      "file": "hi_improving_dc802310.wav"
+    },
+    "hi_improving_4ef46b6b": {
+      "text": "वायु गुणवत्ता सुधर रही है। आपकी यात्रा मंगलमय हो।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "improving",
+      "file": "hi_improving_4ef46b6b.wav"
+    },
+    "hi_improving_182d33b2": {
+      "text": "हवा साफ हो रही है, पर अभी भी आराम से ही खेलना है।",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "improving",
+      "file": "hi_improving_182d33b2.wav"
+    },
+    "hi_improving_9c9e9576": {
+      "text": "वायु गुणवत्ता सुधर रही है। संक्षिप्त सभा की जा सकती है।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "improving",
+      "file": "hi_improving_9c9e9576.wav"
+    },
+    "hi_improving_e886ea27": {
+      "text": "वायु गुणवत्ता सुधर रही है। हल्का अभ्यास शुरू कर सकते हैं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "improving",
+      "file": "hi_improving_e886ea27.wav"
+    },
+    "hi_improving_d3371a7b": {
+      "text": "वायु गुणवत्ता में सुधार है। हल्का खेलकूद कर सकते हैं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "improving",
+      "file": "hi_improving_d3371a7b.wav"
+    },
+    "hi_improving_5c899169": {
+      "text": "वायु गुणवत्ता सुधर रही है। आपकी यात्रा मंगलमय हो।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "improving",
+      "file": "hi_improving_5c899169.wav"
+    },
+    "en_recovered_b461ffb5": {
+      "text": "Thank you. Air quality is good again. Outdoor activities can resume.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "recovered",
+      "file": "en_recovered_b461ffb5.wav"
+    },
+    "en_recovered_b6428101": {
+      "text": "Air quality has returned to normal. Outdoor assembly may proceed.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "recovered",
+      "file": "en_recovered_b6428101.wav"
+    },
+    "en_recovered_39e6b326": {
+      "text": "Air quality is good. Regular outdoor sports and games may resume.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "recovered",
+      "file": "en_recovered_39e6b326.wav"
+    },
+    "en_recovered_77eaf902": {
+      "text": "Air quality is good. Normal outdoor playground recess can resume.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "recovered",
+      "file": "en_recovered_77eaf902.wav"
+    },
+    "en_recovered_cfe13964": {
+      "text": "Air quality is good. Have a wonderful and safe evening.",
+      "language": "en",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "recovered",
+      "file": "en_recovered_cfe13964.wav"
+    },
+    "en_recovered_5dfc0009": {
+      "text": "Great news! The air is clean and fresh again. Enjoy your outdoor play!",
+      "language": "en",
+      "tone": "young",
+      "slot": null,
+      "event_key": "recovered",
+      "file": "en_recovered_5dfc0009.wav"
+    },
+    "en_recovered_1e277b6d": {
+      "text": "Air quality has returned to normal. Outdoor assembly may proceed.",
+      "language": "en",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "recovered",
+      "file": "en_recovered_1e277b6d.wav"
+    },
+    "en_recovered_2f9e8c28": {
+      "text": "Air quality is good. Regular outdoor sports and games may resume.",
+      "language": "en",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "recovered",
+      "file": "en_recovered_2f9e8c28.wav"
+    },
+    "en_recovered_00a2bb4d": {
+      "text": "Air quality is good. Normal outdoor playground recess can resume.",
+      "language": "en",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "recovered",
+      "file": "en_recovered_00a2bb4d.wav"
+    },
+    "en_recovered_c49c19e5": {
+      "text": "Air quality is good. Have a wonderful and safe evening.",
+      "language": "en",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "recovered",
+      "file": "en_recovered_c49c19e5.wav"
+    },
+    "hi_recovered_b391a352": {
+      "text": "धन्यवाद। वायु गुणवत्ता पुनः अच्छी हो गई है। बाहरी गतिविधियाँ शुरू हो सकती हैं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": null,
+      "event_key": "recovered",
+      "file": "hi_recovered_b391a352.wav"
+    },
+    "hi_recovered_1d4232cb": {
+      "text": "वायु गुणवत्ता सामान्य है। बाहरी सभा पुनः शुरू की जा सकती है।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "assembly",
+      "event_key": "recovered",
+      "file": "hi_recovered_1d4232cb.wav"
+    },
+    "hi_recovered_46268abb": {
+      "text": "वायु गुणवत्ता अच्छी है। खेल के मैदान में अभ्यास शुरू कर सकते हैं।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "sports_pt",
+      "event_key": "recovered",
+      "file": "hi_recovered_46268abb.wav"
+    },
+    "hi_recovered_e23c8f1c": {
+      "text": "वायु गुणवत्ता अच्छी है। मैदान में खेलना फिर से शुरू हो सकता है।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "recess",
+      "event_key": "recovered",
+      "file": "hi_recovered_e23c8f1c.wav"
+    },
+    "hi_recovered_0f6b11df": {
+      "text": "वायु गुणवत्ता अच्छी है। सभी छात्र सुरक्षित घर लौटें।",
+      "language": "hi",
+      "tone": "neutral",
+      "slot": "dismissal",
+      "event_key": "recovered",
+      "file": "hi_recovered_0f6b11df.wav"
+    },
+    "hi_recovered_233431af": {
+      "text": "खुशखबरी! हवा फिर से ताज़ा और साफ है। अब आप बाहर खेल सकते हैं!",
+      "language": "hi",
+      "tone": "young",
+      "slot": null,
+      "event_key": "recovered",
+      "file": "hi_recovered_233431af.wav"
+    },
+    "hi_recovered_b6bcc176": {
+      "text": "वायु गुणवत्ता सामान्य है। बाहरी सभा पुनः शुरू की जा सकती है।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "assembly",
+      "event_key": "recovered",
+      "file": "hi_recovered_b6bcc176.wav"
+    },
+    "hi_recovered_19b0900d": {
+      "text": "वायु गुणवत्ता अच्छी है। खेल के मैदान में अभ्यास शुरू कर सकते हैं।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "sports_pt",
+      "event_key": "recovered",
+      "file": "hi_recovered_19b0900d.wav"
+    },
+    "hi_recovered_bcadc0aa": {
+      "text": "वायु गुणवत्ता अच्छी है। मैदान में खेलना फिर से शुरू हो सकता है।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "recess",
+      "event_key": "recovered",
+      "file": "hi_recovered_bcadc0aa.wav"
+    },
+    "hi_recovered_9481b438": {
+      "text": "वायु गुणवत्ता अच्छी है। सभी छात्र सुरक्षित घर लौटें।",
+      "language": "hi",
+      "tone": "young",
+      "slot": "dismissal",
+      "event_key": "recovered",
+      "file": "hi_recovered_9481b438.wav"
+    }
+  }
+}
