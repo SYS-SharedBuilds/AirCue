@@ -10,6 +10,7 @@ import pandas as pd
 import typer
 from rich.console import Console
 
+from aircue.audio.clips import build_all_clips
 from aircue.benchmark.metrics import compute_metrics
 from aircue.benchmark.quota import QuotaManager
 from aircue.benchmark.report import generate_benchmark_reports
@@ -256,6 +257,18 @@ def benchmark_report(
 @app.callback()
 def main() -> None:
     """AirCue: Event-driven outdoor school voice alert system."""
+
+
+@clips_app.command("build")
+def clips_build(
+    output_dir: str = typer.Option("clips", "--output-dir", "-o", help="Target audio directory"),
+    backend: str = typer.Option("beep", "--backend", "-b", help="TTS backend: beep, gtts, or piper"),
+    force: bool = typer.Option(False, "--force", "-f", help="Force rebuild existing clips"),
+) -> None:
+    """Pregenerate audio clips for all message templates."""
+    typer.echo(f"Building audio clips using backend '{backend}' into '{output_dir}'...")
+    manifest = build_all_clips(output_dir=output_dir, backend=backend, force=force)
+    typer.echo(f"Successfully generated/verified {manifest.get('total_clips', 0)} audio clips.")
 
 
 @app.command("run")
