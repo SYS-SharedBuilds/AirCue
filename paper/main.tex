@@ -1,0 +1,87 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\input{results_macros.tex}
+
+\begin{document}
+
+\title{AirCue: An Event-Driven Voice Alert System for Outdoor Air Quality at Schools, with a Benchmark of Open-Weight LLMs for Announcement Generation and Trigger Decisions}
+
+\author{
+\IEEEauthorblockN{Yusuf Malu Bhai Wala}
+\IEEEauthorblockA{\textit{Department of Computer Science and Engineering} \\
+\textit{Prestige Institute of Engineering Management and Research (PIEMR)}\\
+Indore, Madhya Pradesh, India \\
+yusufmalubhaiwala@example.com}
+\and
+\IEEEauthorblockN{[Mentor Name / \textbackslash mentor\{\}]}
+\IEEEauthorblockA{\textit{Department of Computer Science and Engineering} \\
+\textit{Prestige Institute of Engineering Management and Research}\\
+Indore, Madhya Pradesh, India}
+}
+
+\maketitle
+
+\begin{abstract}
+Ambient particulate matter (PM2.5 and PM10) presents severe acute respiratory health risks to school-age children during outdoor assemblies, sports sessions, and playground breaks across urban India. While commercial air monitors display numeric values or colored LEDs, they fail to arrest student activity outdoors without active human oversight. This paper introduces \textbf{AirCue}, an autonomous, event-driven voice alert system specifically engineered for outdoor school grounds. Unlike indoor air monitors that prompt window ventilation upon CO2 accumulation, AirCue evaluates ambient particulate loads against the Central Pollution Control Board (CPCB) National Air Quality Index (NAQI) using a deterministic state machine incorporating sustained confirmation delays, multi-level hysteresis, and reminder cadences. We present the system architecture, empirical humidity compensation, pre-rendered bilingual (English and Hindi) voice synthesis, and an open-weight Large Language Model (LLM) benchmark evaluating models on announcement safety compliance and trigger decision accuracy under strict free-tier quota limits.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Air Quality Index, Outdoor School Health, Event-Driven Systems, Particulate Matter, Large Language Models, Voice User Interface.
+\end{IEEEkeywords}
+
+\section{Introduction}
+Exposure to elevated particulate matter concentrations (PM2.5 and PM10) is a major public health hazard in South Asia, where seasonal temperature inversions, agricultural residue burning, and vehicular emissions routinely drive ambient concentrations beyond national ambient air quality standards~\cite{CPCB2014NAQI, WHO2021AQG}. School-age children are particularly vulnerable during vigorous outdoor physical exercise due to higher minute ventilation rates.
+
+Traditional air quality monitors deployed in educational institutions remain predominantly visual, presenting numerical metrics or color-coded LED arrays that require continual teacher vigilance. Furthermore, existing voice-alert research frameworks primarily focus on indoor ventilation—measuring metabolic carbon dioxide ($CO_2$) to prompt opening doors or windows. In outdoor environments (sports grounds, assembly quadrangles), ambient $CO_2$ remains baseline ($\approx 420$~ppm) and uninformative, whereas particulate concentrations pose the primary hazard.
+
+AirCue addresses this operational gap by introducing an autonomous outdoor voice alert system. Key contributions include:
+\begin{enumerate}
+    \item A deterministic, side-effect-free CPCB AQI trigger engine with hysteresis and sustained confirmation to suppress transient sensor flutter.
+    \item A domain-tailored outdoor activity guidance framework strictly eliminating indoor ventilation advice.
+    \item An empirical comparative benchmark of open-weight LLMs accessed via OpenRouter evaluating safety compliance, Devanagari script consistency, and trigger decision fidelity.
+\end{enumerate}
+
+\section{System Architecture \& Design}
+AirCue operates as a distributed edge system separating outdoor sensing from indoor compute and amplification.
+
+\subsection{Outdoor Sensor Node}
+The outdoor node incorporates an ESP32 microcontroller paired with a laser-scattering particulate counter (Plantower PMS5003 / Sensirion SPS30) and an environmental sensor (BME280) housed within an IP65 radiation shield positioned at student breathing height (1.5--2.0~m). The node transmits telemetry over Wi-Fi MQTT every 10 seconds.
+
+\subsection{Deterministic Trigger Engine}
+Speech decisions are governed strictly by code rather than non-deterministic model calls. The state machine operates across five CPCB alert tiers (Normal, Moderate, Poor, Very Poor, Severe). To avoid acoustic nuisance from transient smoke spikes, escalations require sustained conditions for $T_{confirm} = 3600$~s supported by at least two spanning samples. De-escalations enforce hysteresis thresholds before emitting recovery announcements.
+
+\section{Dataset Description}
+The evaluation dataset encompasses \datasetRows{} hourly observations across \datasetLocations{} major Indian cities (Indore, Bhopal, Delhi, Mumbai, Kolkata, Bengaluru) spanning \datasetStartDate{} to \datasetEndDate{}. The data originates from the Copernicus Atmosphere Monitoring Service (CAMS) reanalysis and forecast models via Open-Meteo API, tagged as \texttt{model\_cams}.
+
+\section{LLM Benchmark Methodology}
+We benchmark candidate open-weight language models across two primary tasks:
+\begin{itemize}
+    \item \textbf{Task 1: Announcement Generation Quality}: Evaluating compliance with maximum word limits ($\le 20$ words), single-action outdoor guidance, Devanagari Hindi script ratios ($\ge 60\%$), and strict absence of indoor/ventilation vocabulary.
+    \item \textbf{Task 2: Trigger Decision vs. Ground Truth}: Evaluating whether an LLM presented with historical time-series windows can reproduce deterministic CPCB state transitions without hallucinating spurious alerts.
+\end{itemize}
+
+\section{Results}
+\input{tables/benchmark_summary.tex}
+
+As illustrated in Table~\ref{tab:benchmark_summary}, rule-based triggering achieves $100\%$ determinism at microsecond latencies, whereas direct LLM decision-making introduces non-zero false-positive rates and substantial latency ($>300$~ms), validating AirCue's architecture: code decides \textit{when} to speak; models only assist \textit{how} to speak.
+
+\section{Limitations \& Ethics}
+\textbf{Limitations}: The primary dataset utilizes numerical CAMS atmospheric models rather than co-located physical monitors. Model availability on public free-tier endpoints rotates periodically.
+
+\textbf{Ethics \& Privacy}: AirCue contains no audio input hardware (zero microphones), ensuring student privacy. Announcements are strictly non-diagnostic and precautionary.
+
+\section{Conclusion}
+AirCue demonstrates an autonomous, reliable outdoor voice alert system for Indian schools. By enforcing deterministic trigger mechanics and pre-rendered bilingual audio, the system ensures timely pupil safety outdoors without depending on continuous internet connectivity.
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}
