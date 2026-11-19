@@ -28,6 +28,9 @@ from aircue.benchmark.metrics import compute_metrics
 from aircue.benchmark.report import generate_benchmark_reports
 from aircue.llm.discovery import discover_openrouter_models, resolve_benchmark_models, save_discovered_snapshot
 
+from aircue.replay.plots import plot_aqi_timeline
+from aircue.replay.replay import run_historical_replay
+
 app = typer.Typer(
     name="aircue",
     help="AirCue: Outdoor Air-Quality Voice Announcer & LLM Benchmark System",
@@ -293,6 +296,45 @@ def sim_node_cmd(
 ) -> None:
     """Run simulated outdoor sensor node publishing telemetry over MQTT."""
     run_simulated_node(site=site, interval_seconds=interval, count=count)
+
+
+@app.command("replay")
+def replay_cmd(
+    location: str = typer.Option("Indore", "--location", "-l"),
+) -> None:
+    """Run state machine replay over dataset snapshot and analyze trigger cadence."""
+    console = Console()
+    snapshot_path = sorted(Path("data/snapshots").glob("aqi_snapshot_*.csv"))[-1]
+    console.print(f"[bold cyan]Running Historical Replay for '{location}'...[/bold cyan]")
+    res = run_historical_replay(snapshot_path, location=location)
+
+    console.print(f"Total Spoken / Suppressed Events: [bold]{res['total_events']}[/bold]")
+    console.print(f"Average Announcements / Day: [bold]{res['announcements_per_day']:.2f}[/bold]")
+    console.print("Event breakdown:")
+    for kind, count in res["event_counts"].items():
+        console.print(f" - {kind}: {count}")
+
+    plot_path = plot_aqi_timeline(snapshot_path, location=location)
+    console.print(f"[green]Saved timeline plot:[/green] {plot_path}")
+
+
+@app.command("tune")
+def tune_cmd(
+    location: str = typer.Option("Indore", "--location", "-l"),
+) -> None:
+    """Run parameter tuning grid over thresholds to evaluate cadence against target range."""
+    console = Console()
+    snapshot_path = sorted(Path("data/snapshots").glob("aqi_snapshot_*.csv"))[-1]
+    console.print(f"[bold cyan]Tuning confirmation windows for '{location}'...[/bold cyan]")
+
+    for confirm_sec in [1800, 3600, 7200]:
+        cfg = load_config()
+        cfg.trigger.confirm_seconds = confirm_sec
+        res = run_historical_replay(snapshot_path, location=location, config=cfg)
+        console.print(
+            f"Confirm: {confirm_sec // 60}m -> Events: {res['total_events']}, "
+            f"Per Day: {res['announcements_per_day']:.2f}"
+        )
 
 
 if __name__ == "__main__":
