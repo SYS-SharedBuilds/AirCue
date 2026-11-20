@@ -1,118 +1,510 @@
 # Geographic Locations for Air Quality Data Ingestion
-# All locations selected exclusively from Madhya Pradesh State
+# Complete statewide coverage: All 55 Districts across all 10 Divisions of Madhya Pradesh
 
-# Primary deployment location (mandatory)
 primary: "indore"
 
 locations:
+  # --- Indore Division ---
   indore:
     name: "Indore"
     state: "Madhya Pradesh"
+    division: "Indore Division"
     latitude: 22.7196
     longitude: 75.8577
     timezone: "Asia/Kolkata"
-    description: "PIEMR campus, commercial & educational hub of MP (Malwa region)"
+    description: "PIEMR campus, commercial & educational capital of MP"
 
-  bhopal:
-    name: "Bhopal"
+  dhar:
+    name: "Dhar"
     state: "Madhya Pradesh"
-    latitude: 23.2599
-    longitude: 77.4126
+    division: "Indore Division"
+    latitude: 22.5986
+    longitude: 75.2979
     timezone: "Asia/Kolkata"
-    description: "State capital, lake basin topography with winter haze"
+    description: "Historic Malwa district, Mandu heritage corridor"
 
-  jabalpur:
-    name: "Jabalpur"
+  jhabua:
+    name: "Jhabua"
     state: "Madhya Pradesh"
-    latitude: 23.1815
-    longitude: 79.9864
+    division: "Indore Division"
+    latitude: 22.7699
+    longitude: 74.5947
     timezone: "Asia/Kolkata"
-    description: "Mahakoshal regional hub, industrial and educational center"
+    description: "Western tribal district, hilly terrain bordering Gujarat"
 
-  gwalior:
-    name: "Gwalior"
+  alirajpur:
+    name: "Alirajpur"
     state: "Madhya Pradesh"
-    latitude: 26.2183
-    longitude: 78.1828
+    division: "Indore Division"
+    latitude: 22.3039
+    longitude: 74.3547
     timezone: "Asia/Kolkata"
-    description: "Northern MP valley, high particulate loading and dust bowl regime"
+    description: "South-western border district, Narmada valley fringe"
 
-  ujjain:
-    name: "Ujjain"
+  khargone:
+    name: "Khargone"
     state: "Madhya Pradesh"
-    latitude: 23.1765
-    longitude: 75.7885
+    division: "Indore Division"
+    latitude: 21.8234
+    longitude: 75.6186
     timezone: "Asia/Kolkata"
-    description: "Historic temple city on Shipra river, Malwa region"
+    description: "West Nimar, cotton & agricultural belt on Narmada"
 
-  sagar:
-    name: "Sagar"
+  barwani:
+    name: "Barwani"
     state: "Madhya Pradesh"
-    latitude: 23.8388
-    longitude: 78.7378
+    division: "Indore Division"
+    latitude: 22.0371
+    longitude: 74.9030
     timezone: "Asia/Kolkata"
-    description: "Bundelkhand central university city, moderate elevation"
+    description: "South-western Satpura hills and Narmada basin"
 
-  ratlam:
-    name: "Ratlam"
+  khandwa:
+    name: "Khandwa"
     state: "Madhya Pradesh"
-    latitude: 23.3315
-    longitude: 75.0367
+    division: "Indore Division"
+    latitude: 21.8314
+    longitude: 76.3498
     timezone: "Asia/Kolkata"
-    description: "Western MP major rail and commercial corridor"
-
-  dewas:
-    name: "Dewas"
-    state: "Madhya Pradesh"
-    latitude: 22.9676
-    longitude: 76.0534
-    timezone: "Asia/Kolkata"
-    description: "Industrial growth cluster adjacent to Indore"
-
-  satna:
-    name: "Satna"
-    state: "Madhya Pradesh"
-    latitude: 24.6005
-    longitude: 80.8322
-    timezone: "Asia/Kolkata"
-    description: "Cement industrial belt, Baghelkhand region"
-
-  rewa:
-    name: "Rewa"
-    state: "Madhya Pradesh"
-    latitude: 24.5362
-    longitude: 81.3037
-    timezone: "Asia/Kolkata"
-    description: "Eastern MP divisional center, Vindhya region"
-
-  singrauli:
-    name: "Singrauli"
-    state: "Madhya Pradesh"
-    latitude: 24.1997
-    longitude: 82.6645
-    timezone: "Asia/Kolkata"
-    description: "Energy capital of India, heavy coal mining and thermal power pollution regime"
-
-  katni:
-    name: "Katni"
-    state: "Madhya Pradesh"
-    latitude: 23.8343
-    longitude: 80.3957
-    timezone: "Asia/Kolkata"
-    description: "Major mineral and lime industry hub"
+    description: "East Nimar, Omkareshwar power & reservoir region"
 
   burhanpur:
     name: "Burhanpur"
     state: "Madhya Pradesh"
+    division: "Indore Division"
     latitude: 21.3109
     longitude: 76.2299
     timezone: "Asia/Kolkata"
-    description: "Southern MP Nimar region on Tapti river"
+    description: "Southern MP historic textile gateway on Tapti river"
 
+  # --- Ujjain Division ---
+  ujjain:
+    name: "Ujjain"
+    state: "Madhya Pradesh"
+    division: "Ujjain Division"
+    latitude: 23.1765
+    longitude: 75.7885
+    timezone: "Asia/Kolkata"
+    description: "Historic temple city on Shipra river, cultural center of Malwa"
+
+  dewas:
+    name: "Dewas"
+    state: "Madhya Pradesh"
+    division: "Ujjain Division"
+    latitude: 22.9676
+    longitude: 76.0534
+    timezone: "Asia/Kolkata"
+    description: "Industrial manufacturing and bank note press hub"
+
+  shajapur:
+    name: "Shajapur"
+    state: "Madhya Pradesh"
+    division: "Ujjain Division"
+    latitude: 23.4294
+    longitude: 76.2757
+    timezone: "Asia/Kolkata"
+    description: "Central Malwa agricultural district"
+
+  agar_malwa:
+    name: "Agar Malwa"
+    state: "Madhya Pradesh"
+    division: "Ujjain Division"
+    latitude: 23.7144
+    longitude: 76.0152
+    timezone: "Asia/Kolkata"
+    description: "Northern Malwa plateau, red soil agricultural tract"
+
+  ratlam:
+    name: "Ratlam"
+    state: "Madhya Pradesh"
+    division: "Ujjain Division"
+    latitude: 23.3315
+    longitude: 75.0367
+    timezone: "Asia/Kolkata"
+    description: "Major Western Railway junction and commercial center"
+
+  mandsaur:
+    name: "Mandsaur"
+    state: "Madhya Pradesh"
+    division: "Ujjain Division"
+    latitude: 24.0722
+    longitude: 75.0688
+    timezone: "Asia/Kolkata"
+    description: "Pashupatinath heritage, spice and opium agricultural belt"
+
+  neemuch:
+    name: "Neemuch"
+    state: "Madhya Pradesh"
+    division: "Ujjain Division"
+    latitude: 24.4734
+    longitude: 74.8706
+    timezone: "Asia/Kolkata"
+    description: "Western border district, CRPF origin and solar installations"
+
+  # --- Bhopal Division ---
+  bhopal:
+    name: "Bhopal"
+    state: "Madhya Pradesh"
+    division: "Bhopal Division"
+    latitude: 23.2599
+    longitude: 77.4126
+    timezone: "Asia/Kolkata"
+    description: "State capital, lake basin topography with seasonal winter haze"
+
+  sehore:
+    name: "Sehore"
+    state: "Madhya Pradesh"
+    division: "Bhopal Division"
+    latitude: 23.2030
+    longitude: 77.0844
+    timezone: "Asia/Kolkata"
+    description: "Vindhyan plateau agricultural region adjacent to Bhopal"
+
+  raisen:
+    name: "Raisen"
+    state: "Madhya Pradesh"
+    division: "Bhopal Division"
+    latitude: 23.3315
+    longitude: 77.7818
+    timezone: "Asia/Kolkata"
+    description: "Sanchi and Bhimbetka UNESCO heritage corridor, industrial Mandideep"
+
+  rajgarh:
+    name: "Rajgarh"
+    state: "Madhya Pradesh"
+    division: "Bhopal Division"
+    latitude: 24.0068
+    longitude: 76.7303
+    timezone: "Asia/Kolkata"
+    description: "Northern border district along Rajasthan boundary"
+
+  vidisha:
+    name: "Vidisha"
+    state: "Madhya Pradesh"
+    division: "Bhopal Division"
+    latitude: 23.5251
+    longitude: 77.8081
+    timezone: "Asia/Kolkata"
+    description: "Ancient trade capital at Betwa and Bes rivers confluence"
+
+  # --- Gwalior Division ---
+  gwalior:
+    name: "Gwalior"
+    state: "Madhya Pradesh"
+    division: "Gwalior Division"
+    latitude: 26.2183
+    longitude: 78.1828
+    timezone: "Asia/Kolkata"
+    description: "Northern MP valley, historical fort city, high particulate basin"
+
+  shivpuri:
+    name: "Shivpuri"
+    state: "Madhya Pradesh"
+    division: "Gwalior Division"
+    latitude: 25.4243
+    longitude: 77.6593
+    timezone: "Asia/Kolkata"
+    description: "Madhav National Park forested plateau, former summer capital"
+
+  guna:
+    name: "Guna"
+    state: "Madhya Pradesh"
+    division: "Gwalior Division"
+    latitude: 24.6480
+    longitude: 77.3115
+    timezone: "Asia/Kolkata"
+    description: "Parbati river basin, industrial gas pipeline junction"
+
+  ashoknagar:
+    name: "Ashoknagar"
+    state: "Madhya Pradesh"
+    division: "Gwalior Division"
+    latitude: 24.5779
+    longitude: 77.7280
+    timezone: "Asia/Kolkata"
+    description: "Chanderi textile heritage and Betwa-Sindh river divide"
+
+  datia:
+    name: "Datia"
+    state: "Madhya Pradesh"
+    division: "Gwalior Division"
+    latitude: 25.6687
+    longitude: 78.4608
+    timezone: "Asia/Kolkata"
+    description: "Pitambara Peeth temple town near UP border"
+
+  # --- Chambal Division ---
   morena:
     name: "Morena"
     state: "Madhya Pradesh"
+    division: "Chambal Division"
     latitude: 26.4947
     longitude: 77.9940
     timezone: "Asia/Kolkata"
-    description: "Chambal division, northern agricultural and alluvial plains"
+    description: "Chambal ravines and mustard agricultural basin"
+
+  bhind:
+    name: "Bhind"
+    state: "Madhya Pradesh"
+    division: "Chambal Division"
+    latitude: 26.5645
+    longitude: 78.7884
+    timezone: "Asia/Kolkata"
+    description: "North-eastern Chambal plains and alluvial agricultural tract"
+
+  sheopur:
+    name: "Sheopur"
+    state: "Madhya Pradesh"
+    division: "Chambal Division"
+    latitude: 25.6687
+    longitude: 76.6985
+    timezone: "Asia/Kolkata"
+    description: "Kuno National Park cheetah habitat and Chambal forests"
+
+  # --- Jabalpur Division ---
+  jabalpur:
+    name: "Jabalpur"
+    state: "Madhya Pradesh"
+    division: "Jabalpur Division"
+    latitude: 23.1815
+    longitude: 79.9864
+    timezone: "Asia/Kolkata"
+    description: "Mahakoshal administrative, defense and legal center on Narmada"
+
+  katni:
+    name: "Katni"
+    state: "Madhya Pradesh"
+    division: "Jabalpur Division"
+    latitude: 23.8343
+    longitude: 80.3957
+    timezone: "Asia/Kolkata"
+    description: "Mineral city, lime and bauxite processing, rail freight junction"
+
+  narsinghpur:
+    name: "Narsinghpur"
+    state: "Madhya Pradesh"
+    division: "Jabalpur Division"
+    latitude: 22.9474
+    longitude: 79.1947
+    timezone: "Asia/Kolkata"
+    description: "Fertile Narmada alluvial valley, sugar and pulse production"
+
+  seoni:
+    name: "Seoni"
+    state: "Madhya Pradesh"
+    division: "Jabalpur Division"
+    latitude: 22.0869
+    longitude: 79.5435
+    timezone: "Asia/Kolkata"
+    description: "Satpura forested plateau, Pench National Park corridor"
+
+  chhindwara:
+    name: "Chhindwara"
+    state: "Madhya Pradesh"
+    division: "Jabalpur Division"
+    latitude: 22.0574
+    longitude: 78.9382
+    timezone: "Asia/Kolkata"
+    description: "Southern MP elevated plateau, coal mining and industrial cluster"
+
+  pandhurna:
+    name: "Pandhurna"
+    state: "Madhya Pradesh"
+    division: "Jabalpur Division"
+    latitude: 21.5996
+    longitude: 78.5284
+    timezone: "Asia/Kolkata"
+    description: "Border district adjacent to Nagpur, orange and cotton hub"
+
+  mandla:
+    name: "Mandla"
+    state: "Madhya Pradesh"
+    division: "Jabalpur Division"
+    latitude: 22.6006
+    longitude: 80.3714
+    timezone: "Asia/Kolkata"
+    description: "Narmada loop, tribal heartland and Kanha tiger reserve gateway"
+
+  dindori:
+    name: "Dindori"
+    state: "Madhya Pradesh"
+    division: "Jabalpur Division"
+    latitude: 22.9463
+    longitude: 81.0805
+    timezone: "Asia/Kolkata"
+    description: "Maikal hill range, Baiga and Gond tribal forest zone"
+
+  balaghat:
+    name: "Balaghat"
+    state: "Madhya Pradesh"
+    division: "Jabalpur Division"
+    latitude: 21.8129
+    longitude: 80.1838
+    timezone: "Asia/Kolkata"
+    description: "Manganese and copper mining hub, dense Sal and bamboo forests"
+
+  # --- Narmadapuram Division ---
+  narmadapuram:
+    name: "Narmadapuram"
+    state: "Madhya Pradesh"
+    division: "Narmadapuram Division"
+    latitude: 22.7519
+    longitude: 77.7289
+    timezone: "Asia/Kolkata"
+    description: "Narmada river ghats, Pachmarhi biosphere hill tract"
+
+  harda:
+    name: "Harda"
+    state: "Madhya Pradesh"
+    division: "Narmadapuram Division"
+    latitude: 22.3435
+    longitude: 77.0988
+    timezone: "Asia/Kolkata"
+    description: "Central Narmada valley intensive agricultural tract"
+
+  betul:
+    name: "Betul"
+    state: "Madhya Pradesh"
+    division: "Narmadapuram Division"
+    latitude: 21.9014
+    longitude: 77.9014
+    timezone: "Asia/Kolkata"
+    description: "Satpura ridge, source of Tapti river at Multai"
+
+  # --- Sagar Division ---
+  sagar:
+    name: "Sagar"
+    state: "Madhya Pradesh"
+    division: "Sagar Division"
+    latitude: 23.8388
+    longitude: 78.7378
+    timezone: "Asia/Kolkata"
+    description: "Bundelkhand central university city, Lakha Banjara lake basin"
+
+  damoh:
+    name: "Damoh"
+    state: "Madhya Pradesh"
+    division: "Sagar Division"
+    latitude: 23.8382
+    longitude: 79.4422
+    timezone: "Asia/Kolkata"
+    description: "Central Bundelkhand, cement and agricultural processing"
+
+  panna:
+    name: "Panna"
+    state: "Madhya Pradesh"
+    division: "Sagar Division"
+    latitude: 24.7205
+    longitude: 80.1838
+    timezone: "Asia/Kolkata"
+    description: "Diamond mining belt, Ken river gorge, Panna tiger reserve"
+
+  chhatarpur:
+    name: "Chhatarpur"
+    state: "Madhya Pradesh"
+    division: "Sagar Division"
+    latitude: 24.9164
+    longitude: 79.5811
+    timezone: "Asia/Kolkata"
+    description: "Khajuraho UNESCO temple corridor, Ken-Betwa link zone"
+
+  tikamgarh:
+    name: "Tikamgarh"
+    state: "Madhya Pradesh"
+    division: "Sagar Division"
+    latitude: 24.7450
+    longitude: 78.8310
+    timezone: "Asia/Kolkata"
+    description: "Bundelkhand plateau, agricultural and heritage center"
+
+  niwari:
+    name: "Niwari"
+    state: "Madhya Pradesh"
+    division: "Sagar Division"
+    latitude: 25.3582
+    longitude: 78.6366
+    timezone: "Asia/Kolkata"
+    description: "Orchha historic palaces along the Betwa river"
+
+  # --- Rewa Division ---
+  rewa:
+    name: "Rewa"
+    state: "Madhya Pradesh"
+    division: "Rewa Division"
+    latitude: 24.5362
+    longitude: 81.3037
+    timezone: "Asia/Kolkata"
+    description: "Vindhya regional capital, white tiger origin, ultra mega solar park"
+
+  satna:
+    name: "Satna"
+    state: "Madhya Pradesh"
+    division: "Rewa Division"
+    latitude: 24.6005
+    longitude: 80.8322
+    timezone: "Asia/Kolkata"
+    description: "Major cement and limestone production hub of India"
+
+  sidhi:
+    name: "Sidhi"
+    state: "Madhya Pradesh"
+    division: "Rewa Division"
+    latitude: 24.4034
+    longitude: 81.8790
+    timezone: "Asia/Kolkata"
+    description: "Sanjay-Dubri tiger reserve, coal and forest wealth"
+
+  singrauli:
+    name: "Singrauli"
+    state: "Madhya Pradesh"
+    division: "Rewa Division"
+    latitude: 24.1997
+    longitude: 82.6645
+    timezone: "Asia/Kolkata"
+    description: "Energy capital of India, open-cast coal mining and thermal power belt"
+
+  mauganj:
+    name: "Mauganj"
+    state: "Madhya Pradesh"
+    division: "Rewa Division"
+    latitude: 24.6806
+    longitude: 81.8722
+    timezone: "Asia/Kolkata"
+    description: "Eastern MP plateau bordering Uttar Pradesh"
+
+  maihar:
+    name: "Maihar"
+    state: "Madhya Pradesh"
+    division: "Rewa Division"
+    latitude: 24.2694
+    longitude: 80.7583
+    timezone: "Asia/Kolkata"
+    description: "Maa Sharda temple mountain and classical music heritage"
+
+  # --- Shahdol Division ---
+  shahdol:
+    name: "Shahdol"
+    state: "Madhya Pradesh"
+    division: "Shahdol Division"
+    latitude: 23.2957
+    longitude: 81.3578
+    timezone: "Asia/Kolkata"
+    description: "Coal mining, paper mills, and tribal forest tract"
+
+  anuppur:
+    name: "Anuppur"
+    state: "Madhya Pradesh"
+    division: "Shahdol Division"
+    latitude: 23.1042
+    longitude: 81.6888
+    timezone: "Asia/Kolkata"
+    description: "Amarkantak pilgrimage hill and source of Narmada & Son rivers"
+
+  umaria:
+    name: "Umaria"
+    state: "Madhya Pradesh"
+    division: "Shahdol Division"
+    latitude: 23.5247
+    longitude: 80.8340
+    timezone: "Asia/Kolkata"
+    description: "Bandhavgarh tiger sanctuary and Vindhyan coal belt"

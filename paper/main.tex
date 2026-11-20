@@ -59,7 +59,7 @@ The outdoor node incorporates an ESP32 microcontroller paired with a laser-scatt
 Speech decisions are governed strictly by code rather than non-deterministic model calls. The state machine operates across five CPCB alert tiers (Normal, Moderate, Poor, Very Poor, Severe). To avoid acoustic nuisance from transient smoke spikes, escalations require sustained conditions for $T_{confirm} = 3600$~s supported by at least two spanning samples. De-escalations enforce hysteresis thresholds before emitting recovery announcements.
 
 \section{Dataset Description}
-The evaluation dataset encompasses \datasetRows{} hourly observations across \datasetLocations{} major cities in Madhya Pradesh (Indore, Bhopal, Jabalpur, Gwalior, Ujjain, Sagar, Ratlam, Dewas, Satna, Rewa, Singrauli, Katni, Burhanpur, Morena) spanning \datasetStartDate{} to \datasetEndDate{}. The data originates from the Copernicus Atmosphere Monitoring Service (CAMS) reanalysis and forecast models via Open-Meteo API, tagged as \texttt{model\_cams}.
+The evaluation dataset encompasses \datasetRows{} hourly observations across all \datasetLocations{} administrative districts spanning the 10 administrative divisions of Madhya Pradesh State (including Indore, Bhopal, Jabalpur, Gwalior, Ujjain, Sagar, Rewa, Chambal, Narmadapuram, and Shahdol divisions) from \datasetStartDate{} to \datasetEndDate{}. The data originates from the Copernicus Atmosphere Monitoring Service (CAMS) atmospheric models via Open-Meteo API, tagged as \texttt{model\_cams}.
 
 \section{LLM Benchmark Methodology}
 We benchmark candidate open-weight language models across two primary tasks:

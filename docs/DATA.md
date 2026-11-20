@@ -8,22 +8,19 @@ AirCue utilizes ambient air quality and meteorological data to simulate and vali
 - **Attribution**: Contains modified Copernicus Atmosphere Monitoring Service information [2026]. Data provided via Open-Meteo under Non-Commercial / Attribution terms.
 - **Important Distinction**: This dataset represents high-resolution atmospheric numerical model output rather than direct physical sensor hardware measurements. Model reanalysis accounts for boundary layer dispersion, meteorological transport, and regional emissions.
 
-## Geographic Selection: 14 Major Cities Across Madhya Pradesh
-The dataset focuses on Madhya Pradesh to model air quality across the regional deployment zone:
-1. **Indore (Primary Deployment Site)**: 22.7196° N, 75.8577° E (PIEMR campus, Malwa plateau).
-2. **Bhopal**: 23.2599° N, 77.4126° E (State capital, lake basin topography).
-3. **Jabalpur**: 23.1815° N, 79.9864° E (Mahakoshal regional hub).
-4. **Gwalior**: 26.2183° N, 78.1828° E (Northern MP, alluvial basin, higher particulate load).
-5. **Ujjain**: 23.1765° N, 75.7885° E (Malwa spiritual and cultural center).
-6. **Sagar**: 23.8388° N, 78.7378° E (Bundelkhand central university city).
-7. **Ratlam**: 23.3315° N, 75.0367° E (Western commercial and transit junction).
-8. **Dewas**: 22.9676° N, 76.0534° E (Industrial belt adjacent to Indore).
-9. **Satna**: 24.6005° N, 80.8322° E (Cement and limestone industrial center).
-10. **Rewa**: 24.5362° N, 81.3037° E (Vindhya regional hub).
-11. **Singrauli**: 24.1997° N, 82.6645° E (Energy hub, coal mining and thermal power pollution regime).
-12. **Katni**: 23.8343° N, 80.3957° E (Mineral processing and railway nexus).
-13. **Burhanpur**: 21.3109° N, 76.2299° E (Southern MP, Nimar region on Tapti river).
-14. **Morena**: 26.4947° N, 77.9940° E (Chambal division, northern plains).
+## Geographic Scope: Full Statewide Coverage (All 55 Districts Across 10 Divisions of Madhya Pradesh)
+AirCue incorporates all 55 districts of Madhya Pradesh organized across the 10 administrative divisions:
+
+1. **Indore Division (8 districts)**: Indore (Primary, PIEMR Campus), Dhar, Jhabua, Alirajpur, Khargone (West Nimar), Barwani, Khandwa (East Nimar), Burhanpur.
+2. **Ujjain Division (7 districts)**: Ujjain, Dewas, Shajapur, Agar Malwa, Ratlam, Mandsaur, Neemuch.
+3. **Bhopal Division (5 districts)**: Bhopal (State Capital), Sehore, Raisen, Rajgarh, Vidisha.
+4. **Gwalior Division (5 districts)**: Gwalior, Shivpuri, Guna, Ashoknagar, Datia.
+5. **Chambal Division (3 districts)**: Morena, Bhind, Sheopur.
+6. **Jabalpur Division (9 districts)**: Jabalpur, Katni, Narsinghpur, Seoni, Chhindwara, Pandhurna, Mandla, Dindori, Balaghat.
+7. **Narmadapuram Division (3 districts)**: Narmadapuram, Harda, Betul.
+8. **Sagar Division (6 districts)**: Sagar, Damoh, Panna, Chhatarpur, Tikamgarh, Niwari.
+9. **Rewa Division (6 districts)**: Rewa, Satna, Sidhi, Singrauli, Mauganj, Maihar.
+10. **Shahdol Division (3 districts)**: Shahdol, Anuppur, Umaria.
 
 ## Schema
 Tidy CSV structure (`data/snapshots/aqi_snapshot_<date>.csv`):
