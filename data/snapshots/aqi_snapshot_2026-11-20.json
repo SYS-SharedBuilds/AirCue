@@ -1,0 +1,39 @@
+{
+  "snapshot_date": "2026-11-20",
+  "csv_filename": "aqi_snapshot_2026-11-20.csv",
+  "sha256": "b377dc148c9e9c682cb8353fdec32a15309a24f37e027b3ab32481069564635c",
+  "row_count": 32592,
+  "locations": [
+    "Bhopal",
+    "Burhanpur",
+    "Dewas",
+    "Gwalior",
+    "Indore",
+    "Jabalpur",
+    "Katni",
+    "Morena",
+    "Ratlam",
+    "Rewa",
+    "Sagar",
+    "Satna",
+    "Singrauli",
+    "Ujjain"
+  ],
+  "min_timestamp": "2026-08-20T00:00:00+05:30",
+  "max_timestamp": "2026-11-24T23:00:00+05:30",
+  "providers": [
+    "open_meteo"
+  ],
+  "dataset_kind": [
+    "model_cams"
+  ],
+  "category_distribution": {
+    "Good": 17306,
+    "Satisfactory": 11672,
+    "Moderate": 2858,
+    "Poor": 580,
+    "Very Poor": 92,
+    "Unknown": 84
+  },
+  "created_at": "2026-11-20T11:57:49.017166+05:30"
+}

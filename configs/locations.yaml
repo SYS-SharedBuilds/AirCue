@@ -1,4 +1,5 @@
 # Geographic Locations for Air Quality Data Ingestion
+# All locations selected exclusively from Madhya Pradesh State
 
 # Primary deployment location (mandatory)
 primary: "indore"
@@ -10,7 +11,7 @@ locations:
     latitude: 22.7196
     longitude: 75.8577
     timezone: "Asia/Kolkata"
-    description: "PIEMR campus and commercial hub of central India"
+    description: "PIEMR campus, commercial & educational hub of MP (Malwa region)"
 
   bhopal:
     name: "Bhopal"
@@ -18,36 +19,100 @@ locations:
     latitude: 23.2599
     longitude: 77.4126
     timezone: "Asia/Kolkata"
-    description: "State capital, lake basin topography with seasonal haze"
+    description: "State capital, lake basin topography with winter haze"
 
-  delhi:
-    name: "Delhi"
-    state: "National Capital Region"
-    latitude: 28.6139
-    longitude: 77.2090
+  jabalpur:
+    name: "Jabalpur"
+    state: "Madhya Pradesh"
+    latitude: 23.1815
+    longitude: 79.9864
     timezone: "Asia/Kolkata"
-    description: "High particulate pollution regime, critical for Very Poor/Severe tests"
+    description: "Mahakoshal regional hub, industrial and educational center"
 
-  mumbai:
-    name: "Mumbai"
-    state: "Maharashtra"
-    latitude: 19.0760
-    longitude: 72.8777
+  gwalior:
+    name: "Gwalior"
+    state: "Madhya Pradesh"
+    latitude: 26.2183
+    longitude: 78.1828
     timezone: "Asia/Kolkata"
-    description: "Coastal high-humidity regime with moderate particulate loads"
+    description: "Northern MP valley, high particulate loading and dust bowl regime"
 
-  kolkata:
-    name: "Kolkata"
-    state: "West Bengal"
-    latitude: 22.5726
-    longitude: 88.3639
+  ujjain:
+    name: "Ujjain"
+    state: "Madhya Pradesh"
+    latitude: 23.1765
+    longitude: 75.7885
     timezone: "Asia/Kolkata"
-    description: "Eastern delta regime with prominent winter inversions"
+    description: "Historic temple city on Shipra river, Malwa region"
 
-  bengaluru:
-    name: "Bengaluru"
-    state: "Karnataka"
-    latitude: 12.9716
-    longitude: 77.5946
+  sagar:
+    name: "Sagar"
+    state: "Madhya Pradesh"
+    latitude: 23.8388
+    longitude: 78.7378
     timezone: "Asia/Kolkata"
-    description: "Southern plateau moderate-elevation regime, frequently Good/Moderate"
+    description: "Bundelkhand central university city, moderate elevation"
+
+  ratlam:
+    name: "Ratlam"
+    state: "Madhya Pradesh"
+    latitude: 23.3315
+    longitude: 75.0367
+    timezone: "Asia/Kolkata"
+    description: "Western MP major rail and commercial corridor"
+
+  dewas:
+    name: "Dewas"
+    state: "Madhya Pradesh"
+    latitude: 22.9676
+    longitude: 76.0534
+    timezone: "Asia/Kolkata"
+    description: "Industrial growth cluster adjacent to Indore"
+
+  satna:
+    name: "Satna"
+    state: "Madhya Pradesh"
+    latitude: 24.6005
+    longitude: 80.8322
+    timezone: "Asia/Kolkata"
+    description: "Cement industrial belt, Baghelkhand region"
+
+  rewa:
+    name: "Rewa"
+    state: "Madhya Pradesh"
+    latitude: 24.5362
+    longitude: 81.3037
+    timezone: "Asia/Kolkata"
+    description: "Eastern MP divisional center, Vindhya region"
+
+  singrauli:
+    name: "Singrauli"
+    state: "Madhya Pradesh"
+    latitude: 24.1997
+    longitude: 82.6645
+    timezone: "Asia/Kolkata"
+    description: "Energy capital of India, heavy coal mining and thermal power pollution regime"
+
+  katni:
+    name: "Katni"
+    state: "Madhya Pradesh"
+    latitude: 23.8343
+    longitude: 80.3957
+    timezone: "Asia/Kolkata"
+    description: "Major mineral and lime industry hub"
+
+  burhanpur:
+    name: "Burhanpur"
+    state: "Madhya Pradesh"
+    latitude: 21.3109
+    longitude: 76.2299
+    timezone: "Asia/Kolkata"
+    description: "Southern MP Nimar region on Tapti river"
+
+  morena:
+    name: "Morena"
+    state: "Madhya Pradesh"
+    latitude: 26.4947
+    longitude: 77.9940
+    timezone: "Asia/Kolkata"
+    description: "Chambal division, northern agricultural and alluvial plains"
