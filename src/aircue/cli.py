@@ -21,6 +21,7 @@ from aircue.control.sim_node import run_simulated_node
 from aircue.data.cleaning import clean_dataframe
 from aircue.data.inspect import inspect_dataset
 from aircue.data.providers.open_meteo import fetch_open_meteo_city
+from aircue.data.providers.openaq import fetch_all_mp_openaq_stations
 from aircue.data.store import load_latest_snapshot, save_snapshot
 from aircue.data.synthetic import generate_synthetic_fixture
 from aircue.llm.discovery import (
@@ -53,8 +54,9 @@ app.add_typer(clips_app, name="clips")
 def data_fetch(
     past_days: int = typer.Option(92, "--past-days", "-d", help="Historical days (max 92)"),
     config_file: str = typer.Option("configs/locations.yaml", "--locations", "-l"),
+    include_openaq: bool = typer.Option(True, "--openaq/--no-openaq", help="Fetch OpenAQ physical station data"),
 ) -> None:
-    """Fetch air-quality data from keyless Open-Meteo API for configured cities."""
+    """Fetch air-quality data from keyless Open-Meteo API and OpenAQ physical monitoring stations."""
     console = Console()
     loc_data = load_yaml(config_file)
     locations = loc_data.get("locations", {})
@@ -73,9 +75,21 @@ def data_fetch(
             rows = fetch_open_meteo_city(lat, lon, name, past_days=past_days, tz=tz)
             all_rows.extend(rows)
             console.print(f"  Fetched {len(rows)} hourly records for {name}.")
-            time.sleep(0.5)  # Respect rate limits
+            time.sleep(0.3)  # Respect rate limits
         except Exception as e:
             console.print(f"[red]Error fetching {name}: {e}[/red]")
+
+    if include_openaq:
+        console.print("[bold green]Fetching real OpenAQ physical locality stations across Madhya Pradesh...[/bold green]")
+        try:
+            openaq_rows = fetch_all_mp_openaq_stations()
+            if openaq_rows:
+                console.print(f"  [green]Fetched {len(openaq_rows):,} physical station hourly observations from OpenAQ.[/green]")
+                all_rows.extend(openaq_rows)
+            else:
+                console.print("  [yellow]No OpenAQ rows returned (check OPENAQ_API_KEY).[/yellow]")
+        except Exception as e:
+            console.print(f"[yellow]OpenAQ station fetch warning: {e}[/yellow]")
 
     df = pd.DataFrame(all_rows)
     cleaned_df = clean_dataframe(df)
@@ -88,6 +102,7 @@ def data_fetch(
 def data_update(
     past_days: int = typer.Option(7, "--past-days", "-d", help="Past days to append/sync"),
     config_file: str = typer.Option("configs/locations.yaml", "--locations", "-l"),
+    include_openaq: bool = typer.Option(True, "--openaq/--no-openaq", help="Fetch OpenAQ physical station data"),
 ) -> None:
     """Incrementally update dataset with recent days and deduplicate."""
     console = Console()
@@ -108,9 +123,19 @@ def data_update(
         try:
             rows = fetch_open_meteo_city(lat, lon, name, past_days=past_days, tz=tz)
             new_rows.extend(rows)
-            time.sleep(0.5)
+            time.sleep(0.3)
         except Exception as e:
             console.print(f"[yellow]Warning: {name} update failed: {e}[/yellow]")
+
+    if include_openaq:
+        console.print("[bold green]Updating OpenAQ physical station data across Madhya Pradesh...[/bold green]")
+        try:
+            openaq_rows = fetch_all_mp_openaq_stations()
+            if openaq_rows:
+                console.print(f"  [green]Fetched {len(openaq_rows):,} physical station records.[/green]")
+                new_rows.extend(openaq_rows)
+        except Exception as e:
+            console.print(f"[yellow]OpenAQ update warning: {e}[/yellow]")
 
     combined_df = pd.concat([existing_df, pd.DataFrame(new_rows)], ignore_index=True)
     cleaned = clean_dataframe(combined_df)

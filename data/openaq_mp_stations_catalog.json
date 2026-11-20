@@ -1,0 +1,258 @@
+{
+  "7292": {
+    "id": 7292,
+    "name": "Chhoti Gwaltoli, Indore - MPPCB",
+    "latitude": 22.431,
+    "longitude": 75.5213,
+    "pm25_sensor": 12236030,
+    "pm10_sensor": 12236029
+  },
+  "3409414": {
+    "id": 3409414,
+    "name": "Vijay Nagar Scheme-78, Indore - Glenmark",
+    "latitude": 22.76726,
+    "longitude": 75.8871,
+    "pm25_sensor": 12237818,
+    "pm10_sensor": 12237817
+  },
+  "3409498": {
+    "id": 3409498,
+    "name": "Residency Area, Indore - IMC",
+    "latitude": 22.7084,
+    "longitude": 75.8815,
+    "pm25_sensor": 12238477,
+    "pm10_sensor": 12238476
+  },
+  "3409499": {
+    "id": 3409499,
+    "name": "Regional Park, Indore - MPPCB",
+    "latitude": 22.678,
+    "longitude": 75.8559,
+    "pm25_sensor": 12238486,
+    "pm10_sensor": 12238485
+  },
+  "3409500": {
+    "id": 3409500,
+    "name": "Maguda Nagar, Indore - IMC",
+    "latitude": 22.7524,
+    "longitude": 75.8872,
+    "pm25_sensor": 12815122,
+    "pm10_sensor": 12815121
+  },
+  "3409501": {
+    "id": 3409501,
+    "name": "Airport Area, Indore - IMC",
+    "latitude": 22.7289,
+    "longitude": 75.8076,
+    "pm25_sensor": 12238495,
+    "pm10_sensor": 12238494
+  },
+  "10913": {
+    "id": 10913,
+    "name": "T T Nagar, Bhopal - MPPCB",
+    "latitude": 23.233584,
+    "longitude": 77.400574,
+    "pm25_sensor": 12236021,
+    "pm10_sensor": 12236020
+  },
+  "361378": {
+    "id": 361378,
+    "name": "Paryavaran Parisar, Bhopal - MPPCB",
+    "latitude": 23.210494,
+    "longitude": 77.425409,
+    "pm25_sensor": 12237358,
+    "pm10_sensor": 12237357
+  },
+  "3409413": {
+    "id": 3409413,
+    "name": "Idgah Hills, Bhopal - MPPCB",
+    "latitude": 23.264758999999998,
+    "longitude": 77.381568,
+    "pm25_sensor": 12237811,
+    "pm10_sensor": 12237810
+  },
+  "6250050": {
+    "id": 6250050,
+    "name": "Industrial Area, Govindpura, Bhopal",
+    "latitude": 23.258543,
+    "longitude": 77.454474,
+    "pm25_sensor": 15520291,
+    "pm10_sensor": null
+  },
+  "10911": {
+    "id": 10911,
+    "name": "Marhatal, Jabalpur - MPPCB",
+    "latitude": 23.168606,
+    "longitude": 79.932247,
+    "pm25_sensor": 12236039,
+    "pm10_sensor": 12236038
+  },
+  "3409488": {
+    "id": 3409488,
+    "name": "Suhagi, Jabalpur - JMC",
+    "latitude": 23.218135,
+    "longitude": 79.95777,
+    "pm25_sensor": 12238420,
+    "pm10_sensor": 12238419
+  },
+  "3409489": {
+    "id": 3409489,
+    "name": "Gupteshwar, Jabalpur - JMC",
+    "latitude": 23.142888,
+    "longitude": 79.916147,
+    "pm25_sensor": 12238429,
+    "pm10_sensor": 12238428
+  },
+  "3409515": {
+    "id": 3409515,
+    "name": "Govindh Bhavan Colony, Jabalpur - MPPCB",
+    "latitude": 23.163174,
+    "longitude": 79.973061,
+    "pm25_sensor": 12238612,
+    "pm10_sensor": 12238611
+  },
+  "10907": {
+    "id": 10907,
+    "name": "City Center, Gwalior - MPPCB",
+    "latitude": 26.203442,
+    "longitude": 78.193251,
+    "pm25_sensor": 12236153,
+    "pm10_sensor": 12236152
+  },
+  "10912": {
+    "id": 10912,
+    "name": "Phool Bagh, Gwalior - Mondelez Ind. Food",
+    "latitude": 26.210536,
+    "longitude": 78.171,
+    "pm25_sensor": 12236166,
+    "pm10_sensor": 12236165
+  },
+  "3409369": {
+    "id": 3409369,
+    "name": "Maharaj Bada, Gwalior - MPPCB",
+    "latitude": 26.200388,
+    "longitude": 78.14771400000001,
+    "pm25_sensor": 12237438,
+    "pm10_sensor": 12237437
+  },
+  "3409374": {
+    "id": 3409374,
+    "name": "Deen Dayal Nagar, Gwalior - MPPCB",
+    "latitude": 26.259241999999997,
+    "longitude": 78.216432,
+    "pm25_sensor": 12237476,
+    "pm10_sensor": 12237475
+  },
+  "5443": {
+    "id": 5443,
+    "name": "Mahakaleshwar Temple, Ujjain - MPPCB",
+    "latitude": 23.182719,
+    "longitude": 75.768218,
+    "pm25_sensor": 12234903,
+    "pm10_sensor": 12234902
+  },
+  "6194938": {
+    "id": 6194938,
+    "name": "Mahashweta Nagar, Ujjain - MPPCB",
+    "latitude": 23.1633321,
+    "longitude": 75.800225,
+    "pm25_sensor": 15115536,
+    "pm10_sensor": 15115535
+  },
+  "7979": {
+    "id": 7979,
+    "name": "Deen Dayal Nagar, Sagar - MPPCB",
+    "latitude": 23.8640158,
+    "longitude": 78.80289321,
+    "pm25_sensor": 12236146,
+    "pm10_sensor": 12236145
+  },
+  "3409370": {
+    "id": 3409370,
+    "name": "Civil Lines, Sagar - MPPCB",
+    "latitude": 23.838586,
+    "longitude": 78.759431,
+    "pm25_sensor": 12237447,
+    "pm10_sensor": 12237446
+  },
+  "5667": {
+    "id": 5667,
+    "name": "Bhopal Chauraha, Dewas - MPPCB",
+    "latitude": 22.9682591,
+    "longitude": 76.064118,
+    "pm25_sensor": 12234939,
+    "pm10_sensor": 12234938
+  },
+  "5505": {
+    "id": 5505,
+    "name": "Birla Staff colony, Satna - MPPCB",
+    "latitude": 24.5908256,
+    "longitude": 80.8574279,
+    "pm25_sensor": 14509,
+    "pm10_sensor": 14512
+  },
+  "6443": {
+    "id": 6443,
+    "name": "Bandhavgar Colony, Satna - Birla Cement",
+    "latitude": 24.58434363,
+    "longitude": 80.8549414,
+    "pm25_sensor": 12235117,
+    "pm10_sensor": 12235116
+  },
+  "6933": {
+    "id": 6933,
+    "name": "Shasthri Nagar, Ratlam - IPCA Lab",
+    "latitude": 23.331731,
+    "longitude": 75.045981,
+    "pm25_sensor": 12235715,
+    "pm10_sensor": 12235714
+  },
+  "7299": {
+    "id": 7299,
+    "name": "Gole Bazar, Katni - MPPCB",
+    "latitude": 23.833778,
+    "longitude": 80.39122199999998,
+    "pm25_sensor": 21035,
+    "pm10_sensor": 21034
+  },
+  "5619": {
+    "id": 5619,
+    "name": "Vindhyachal STPS, Singrauli - MPPCB",
+    "latitude": 24.10897,
+    "longitude": 82.64558,
+    "pm25_sensor": 12234912,
+    "pm10_sensor": 12234911
+  },
+  "5603": {
+    "id": 5603,
+    "name": "Sector-2 Industrial Area, Pithampur - MPPCB",
+    "latitude": 22.624758,
+    "longitude": 75.675238,
+    "pm25_sensor": 12234921,
+    "pm10_sensor": 12234920
+  },
+  "5632": {
+    "id": 5632,
+    "name": "Sector-D Industrial Area, Mandideep - MPPCB",
+    "latitude": 23.10844,
+    "longitude": 77.511428,
+    "pm25_sensor": 12234930,
+    "pm10_sensor": 12234929
+  },
+  "6961": {
+    "id": 6961,
+    "name": "Shrivastav Colony, Damoh - MPPCB",
+    "latitude": 23.81748678,
+    "longitude": 79.446246,
+    "pm25_sensor": 12235710,
+    "pm10_sensor": 12235709
+  },
+  "10917": {
+    "id": 10917,
+    "name": "Sahilara, Maihar - KJS Cements",
+    "latitude": 24.2613009,
+    "longitude": 80.7231783,
+    "pm25_sensor": 12235746,
+    "pm10_sensor": 12235745
+  }
+}

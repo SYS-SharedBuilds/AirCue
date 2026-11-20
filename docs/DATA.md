@@ -3,10 +3,54 @@
 ## Overview & Provenance
 AirCue utilizes ambient air quality and meteorological data to simulate and validate outdoor school alert logic.
 
-- **Primary Provider**: Open-Meteo Air Quality API (`https://air-quality-api.open-meteo.com/v1/air-quality`)
-- **Dataset Kind**: `model_cams` (Copernicus Atmosphere Monitoring Service reanalysis/forecast models operated by ECMWF).
-- **Attribution**: Contains modified Copernicus Atmosphere Monitoring Service information [2026]. Data provided via Open-Meteo under Non-Commercial / Attribution terms.
-- **Important Distinction**: This dataset represents high-resolution atmospheric numerical model output rather than direct physical sensor hardware measurements. Model reanalysis accounts for boundary layer dispersion, meteorological transport, and regional emissions.
+- **Dual-Tier Data Architecture**:
+  1. **Physical Ground-Station Measurements (`measured_station`)**: Real physical sensor observations from Continuous Ambient Air Quality Monitoring Stations (CAAQMS) operated by MPPCB (Madhya Pradesh Pollution Control Board), CPCB, IMC, and industrial partners across specific urban localities in MP. Ingested via OpenAQ v3 API with verified physical sensor identifiers.
+  2. **Atmospheric Gridded Reanalysis (`model_cams`)**: Statewide continuous baseline from the Copernicus Atmosphere Monitoring Service (CAMS) operated by ECMWF, retrieved via Open-Meteo.
+- **Attribution**: Ground station physical telemetry courtesy of CPCB/MPPCB/OpenAQ. Numerical model data contains modified Copernicus Atmosphere Monitoring Service information [2026] via Open-Meteo.
+- **Important Distinction**: AirCue strictly differentiates between physical station measurements (`dataset_kind = "measured_station"`) and gridded numerical models (`dataset_kind = "model_cams"`). Ground stations capture intra-city hyper-local particulate variations (e.g., traffic hotspots vs. regional parks).
+
+## Physical Monitoring Stations & Urban Localities (OpenAQ v3 / CPCB / MPPCB)
+AirCue actively monitors 32 physical ground monitoring stations capturing distinct locality-level air quality within Madhya Pradesh cities:
+
+- **Indore Localities (6 stations)**:
+  - `Vijay Nagar Scheme-78, Indore - Glenmark` (Commercial / residential hub)
+  - `Chhoti Gwaltoli, Indore - MPPCB` (High-density transit / railway station corridor)
+  - `Residency Area, Indore - IMC` (Administrative green belt)
+  - `Regional Park, Indore - MPPCB` (Urban green zone / lake boundary)
+  - `Maguda Nagar, Indore - IMC` (Dense mixed residential area)
+  - `Airport Area, Indore - IMC` (Western periphery / aviation corridor)
+- **Bhopal Localities (4 stations)**:
+  - `T T Nagar, Bhopal - MPPCB`
+  - `Paryavaran Parisar, Bhopal - MPPCB`
+  - `Idgah Hills, Bhopal - MPPCB`
+  - `Industrial Area, Govindpura, Bhopal`
+- **Jabalpur Localities (4 stations)**:
+  - `Marhatal, Jabalpur - MPPCB`
+  - `Suhagi, Jabalpur - JMC`
+  - `Gupteshwar, Jabalpur - JMC`
+  - `Govindh Bhavan Colony, Jabalpur - MPPCB`
+- **Gwalior Localities (4 stations)**:
+  - `City Center, Gwalior - MPPCB`
+  - `Maharaj Bada, Gwalior - MPPCB`
+  - `Deen Dayal Nagar, Gwalior - MPPCB`
+  - `Phool Bagh, Gwalior - Mondelez Ind. Food`
+- **Ujjain Localities (2 stations)**:
+  - `Mahakaleshwar Temple, Ujjain - MPPCB`
+  - `Mahashweta Nagar, Ujjain - MPPCB`
+- **Sagar Localities (2 stations)**:
+  - `Civil Lines, Sagar - MPPCB`
+  - `Deen Dayal Nagar, Sagar - MPPCB`
+- **Industrial & Regional Localities**:
+  - `Sector-2 Industrial Area, Pithampur - MPPCB` (Major auto hub near Indore)
+  - `Sector-D Industrial Area, Mandideep - MPPCB` (Industrial hub near Bhopal)
+  - `Bhopal Chauraha, Dewas - MPPCB`
+  - `Shasthri Nagar, Ratlam - IPCA Lab`
+  - `Gole Bazar, Katni - MPPCB`
+  - `Birla Staff colony, Satna - MPPCB`
+  - `Bandhavgar Colony, Satna - Birla Cement`
+  - `Vindhyachal STPS, Singrauli - MPPCB` (Thermal power generation cluster)
+  - `Shrivastav Colony, Damoh - MPPCB`
+  - `Sahilara, Maihar - KJS Cements`
 
 ## Geographic Scope: Full Statewide Coverage (All 55 Districts Across 10 Divisions of Madhya Pradesh)
 AirCue incorporates all 55 districts of Madhya Pradesh organized across the 10 administrative divisions:
