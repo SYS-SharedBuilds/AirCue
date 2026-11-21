@@ -9,6 +9,11 @@ const Icons = {
       <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93" />
     </svg>
   ),
+  Chat: () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+    </svg>
+  ),
   Speech: () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -60,52 +65,210 @@ const Icons = {
       <polyline points="5 12 12 5 19 12" />
     </svg>
   ),
+  Database: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <ellipse cx="12" cy="5" rx="9" ry="3" />
+      <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+      <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+    </svg>
+  ),
 };
 
+// Simple Markdown formatting helper for assistant text
+function FormattedContent({ text }) {
+  if (!text) return null;
+  const lines = text.split('\n');
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', lineHeight: '1.65' }}>
+      {lines.map((line, idx) => {
+        const trimmed = line.trim();
+        if (!trimmed) {
+          return <div key={idx} style={{ height: '4px' }} />;
+        }
+        if (trimmed.startsWith('### ')) {
+          return (
+            <h4
+              key={idx}
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: '15px',
+                fontWeight: '600',
+                color: 'var(--text-primary)',
+                marginTop: '10px',
+                marginBottom: '4px',
+              }}
+            >
+              {trimmed.replace('### ', '')}
+            </h4>
+          );
+        }
+        if (trimmed.startsWith('## ')) {
+          return (
+            <h3
+              key={idx}
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontSize: '17px',
+                fontWeight: '600',
+                color: 'var(--text-primary)',
+                marginTop: '14px',
+                marginBottom: '6px',
+              }}
+            >
+              {trimmed.replace('## ', '')}
+            </h3>
+          );
+        }
+        if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+          const itemText = trimmed.substring(2);
+          return (
+            <div key={idx} style={{ display: 'flex', gap: '8px', alignItems: 'baseline', marginLeft: '6px' }}>
+              <span style={{ color: 'var(--clay)', fontSize: '14px', lineHeight: '1' }}>•</span>
+              <span style={{ fontSize: '13.5px', color: 'var(--text-primary)' }}>
+                {renderBold(itemText)}
+              </span>
+            </div>
+          );
+        }
+        if (/^\d+\.\s/.test(trimmed)) {
+          const num = trimmed.match(/^(\d+\.)\s/)[1];
+          const itemText = trimmed.replace(/^(\d+\.)\s/, '');
+          return (
+            <div key={idx} style={{ display: 'flex', gap: '8px', alignItems: 'baseline', marginLeft: '6px' }}>
+              <span style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-secondary)' }}>{num}</span>
+              <span style={{ fontSize: '13.5px', color: 'var(--text-primary)' }}>
+                {renderBold(itemText)}
+              </span>
+            </div>
+          );
+        }
+        return (
+          <p key={idx} style={{ fontSize: '13.5px', color: 'var(--text-primary)', margin: 0 }}>
+            {renderBold(line)}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+function renderBold(str) {
+  const parts = str.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={i} style={{ fontWeight: '600', color: 'var(--text-primary)' }}>
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+}
+
 export default function App() {
-  const [view, setView] = useState('studio'); // 'studio' | 'telemetry' | 'decision' | 'clips'
+  // Navigation: primary tabs are 'chat' (Conversational on dataset) and 'trigger_voice' (Trigger Voice Generator)
+  const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'trigger_voice' | 'telemetry' | 'decision' | 'clips'
   const [status, setStatus] = useState(null);
   const [locations, setLocations] = useState([]);
   const [selectedLoc, setSelectedLoc] = useState('Vijay Nagar Scheme-78, Indore - Glenmark');
 
-  // Generator inputs
-  const [model, setModel] = useState('deepseek/deepseek-chat');
+  // ==========================================
+  // TAB 1: CONVERSATIONAL AQI MODEL STATE
+  // ==========================================
+  const [chatModel, setChatModel] = useState('deepseek/deepseek-chat');
+  const [chatInput, setChatInput] = useState('');
+  const [isChatting, setIsChatting] = useState(false);
+  const [chatMessages, setChatMessages] = useState([
+    {
+      id: 'welcome',
+      role: 'assistant',
+      content: `Welcome to **AirCue Conversational Intelligence**. 
+
+I am specifically trained and grounded over the comprehensive **Madhya Pradesh Air Quality Telemetry Dataset** (217,370 observations across 87 monitoring stations in all 55 districts) and the Indian **Central Pollution Control Board (CPCB)** school safety framework.
+
+You can ask me to:
+- Compare air quality between specific MP localities (e.g., *Vijay Nagar* vs *Chhoti Gwaltoli* in Indore).
+- Retrieve empirical trends for Indore, Jabalpur, Gwalior, Bhopal, Ujjain, Satna, or Singrauli.
+- Explain outdoor physical training and morning assembly protocols for schools under different AQI brackets.
+- Review historical peak pollution episodes and particulate matter (PM2.5 / PM10) distributions.`,
+      timestamp: 'Ready',
+      grounding_summary: null,
+      matched_locations: [],
+    },
+  ]);
+  const chatScrollRef = useRef(null);
+
+  // ==========================================
+  // TAB 2: TRIGGER VOICE GENERATOR STATE
+  // ==========================================
+  const [triggerModel, setTriggerModel] = useState('deepseek/deepseek-chat');
   const [language, setLanguage] = useState('hi');
-  const [alertLevel, setAlertLevel] = useState(3);
+  const [alertLevel, setAlertLevel] = useState(2);
   const [aqiInput, setAqiInput] = useState(245);
   const [pm25Input, setPm25Input] = useState(115.0);
   const [slot, setSlot] = useState('Sports PT');
+  const [triggerKind, setTriggerKind] = useState('escalate');
   const [temperature, setTemperature] = useState(0.7);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isGeneratingVoice, setIsGeneratingVoice] = useState(false);
 
-  // Conversation history
-  const [history, setHistory] = useState([
+  const [voiceHistory, setVoiceHistory] = useState([
     {
-      id: 'init-1',
+      id: 'voice-init',
       sender: 'assistant',
-      text: 'AirCue is ready. Select an outdoor school condition or simulate an AQI change to generate an announcement.',
-      timestamp: 'Ready',
-      meta: null,
+      text: 'वायु गुणवत्ता खराब श्रेणी में है। कृपया खेल का अभ्यास तुरंत इनडोर हॉल में स्थानांतरित करें।',
+      rawText: 'वायु गुणवत्ता खराब श्रेणी में है। कृपया खेल का अभ्यास तुरंत इनडोर हॉल में स्थानांतरित करें।',
+      facts: {
+        category: 'Poor',
+        level: 2,
+        aqi: 245,
+        pm25: 115.0,
+        activity_slot: 'Sports PT',
+        language: 'hi',
+        site: 'Vijay Nagar Scheme-78, Indore - Glenmark',
+      },
+      validation: {
+        passed: true,
+        rules: {
+          word_count: true,
+          sentence_count: true,
+          single_action: true,
+          no_indoor_ventilation: true,
+          consistent_facts: true,
+          no_scary_medical: true,
+          language_match: true,
+        },
+        failures: [],
+      },
+      model: 'deepseek/deepseek-chat',
+      latency: 1.84,
+      timestamp: 'Demo',
+      audioBase64: null,
     },
   ]);
+  const voiceScrollRef = useRef(null);
 
-  // Telemetry state
+  // ==========================================
+  // TELEMETRY & DECISION STATE
+  // ==========================================
   const [telemetry, setTelemetry] = useState(null);
   const [loadingTelemetry, setLoadingTelemetry] = useState(false);
 
-  // Decision Evaluator state
   const [decisionModel, setDecisionModel] = useState('deepseek/deepseek-chat');
   const [decisionResult, setDecisionResult] = useState(null);
   const [isEvaluatingDecision, setIsEvaluatingDecision] = useState(false);
 
-  // Audio Clips state
+  // Pregenerated Clips state
   const [clipKind, setClipKind] = useState('escalate');
   const [clipLevel, setClipLevel] = useState(2);
   const [clipLang, setClipLang] = useState('hi');
   const [clipSlot, setClipSlot] = useState('sports_pt');
   const [clipData, setClipData] = useState(null);
 
-  const scrollRef = useRef(null);
+  // Audio Playback state
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [playingClipId, setPlayingClipId] = useState(null);
 
   useEffect(() => {
     fetch(`${API_BASE}/api/status`)
@@ -134,30 +297,126 @@ export default function App() {
   }, [selectedLoc]);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (chatScrollRef.current) {
+      chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
     }
-  }, [history]);
+  }, [chatMessages, isChatting]);
 
-  const handleGenerate = async () => {
-    setIsGenerating(true);
-    const userPromptText = `Generate a ${language === 'hi' ? 'Hindi' : 'English'} announcement for ${slot} during Level ${alertLevel} air quality (AQI ${aqiInput}, PM2.5 ${pm25Input} µg/m³) at ${selectedLoc}.`;
+  useEffect(() => {
+    if (voiceScrollRef.current) {
+      voiceScrollRef.current.scrollTop = voiceScrollRef.current.scrollHeight;
+    }
+  }, [voiceHistory, isGeneratingVoice]);
 
-    const userMessage = {
+  // Synchronize telemetry readings to trigger inputs
+  const handleSyncStationData = () => {
+    if (!telemetry || !telemetry.records || telemetry.records.length === 0) return;
+    const latest = telemetry.records[telemetry.records.length - 1];
+    if (latest.cpcb_aqi != null) {
+      setAqiInput(Math.round(latest.cpcb_aqi));
+      if (latest.cpcb_aqi <= 50) setAlertLevel(0);
+      else if (latest.cpcb_aqi <= 100) setAlertLevel(1);
+      else if (latest.cpcb_aqi <= 200) setAlertLevel(1);
+      else if (latest.cpcb_aqi <= 300) setAlertLevel(2);
+      else if (latest.cpcb_aqi <= 400) setAlertLevel(3);
+      else setAlertLevel(4);
+    }
+    if (latest.pm2_5 != null) {
+      setPm25Input(Math.round(latest.pm2_5 * 10) / 10);
+    }
+  };
+
+  // ------------------------------------------
+  // TAB 1: SEND CONVERSATIONAL MESSAGE
+  // ------------------------------------------
+  const handleSendChat = async (promptOverride = null) => {
+    const textToSend = (promptOverride || chatInput).trim();
+    if (!textToSend || isChatting) return;
+
+    const userMsg = {
       id: `user-${Date.now()}`,
-      sender: 'user',
-      text: userPromptText,
+      role: 'user',
+      content: textToSend,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
-    setHistory((prev) => [...prev, userMessage]);
+    const updatedMessages = [...chatMessages, userMsg];
+    setChatMessages(updatedMessages);
+    if (!promptOverride) setChatInput('');
+    setIsChatting(true);
+
+    try {
+      // Build conversation payload for backend
+      const payloadMessages = updatedMessages
+        .filter((m) => m.role === 'user' || m.role === 'assistant')
+        .map((m) => ({ role: m.role, content: m.content }));
+
+      const res = await fetch(`${API_BASE}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: payloadMessages,
+          model: chatModel,
+          temperature: 0.5,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        setChatMessages((prev) => [
+          ...prev,
+          {
+            id: `err-${Date.now()}`,
+            role: 'assistant',
+            isError: true,
+            content: `Error from OpenRouter: ${data.error}`,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          },
+        ]);
+      } else {
+        setChatMessages((prev) => [
+          ...prev,
+          {
+            id: `asst-${Date.now()}`,
+            role: 'assistant',
+            content: data.reply,
+            model: data.model,
+            latency_s: data.latency_s,
+            grounding_summary: data.grounding_summary,
+            matched_locations: data.matched_locations,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          },
+        ]);
+      }
+    } catch (err) {
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          id: `err-${Date.now()}`,
+          role: 'assistant',
+          isError: true,
+          content: `Communication failure: ${err.message}`,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        },
+      ]);
+    } finally {
+      setIsChatting(false);
+    }
+  };
+
+  // ------------------------------------------
+  // TAB 2: GENERATE TRIGGER-BASED VOICE ALERT
+  // ------------------------------------------
+  const handleGenerateVoice = async () => {
+    setIsGeneratingVoice(true);
 
     try {
       const res = await fetch(`${API_BASE}/api/llm/announcement`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model,
+          model: triggerModel,
           level: alertLevel,
           aqi: aqiInput,
           pm25: pm25Input,
@@ -170,7 +429,7 @@ export default function App() {
       const data = await res.json();
 
       if (data.error) {
-        setHistory((prev) => [
+        setVoiceHistory((prev) => [
           ...prev,
           {
             id: `err-${Date.now()}`,
@@ -181,15 +440,16 @@ export default function App() {
           },
         ]);
       } else {
-        setHistory((prev) => [
+        setVoiceHistory((prev) => [
           ...prev,
           {
-            id: `asst-${Date.now()}`,
+            id: `voice-${Date.now()}`,
             sender: 'assistant',
             text: data.clean_text,
             rawText: data.raw_text,
             audioBase64: data.audio_base64,
             validation: data.validation,
+            facts: data.facts,
             model: data.model,
             latency: data.latency_s,
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -197,7 +457,7 @@ export default function App() {
         ]);
       }
     } catch (err) {
-      setHistory((prev) => [
+      setVoiceHistory((prev) => [
         ...prev,
         {
           id: `err-${Date.now()}`,
@@ -208,8 +468,39 @@ export default function App() {
         },
       ]);
     } finally {
-      setIsGenerating(false);
+      setIsGeneratingVoice(false);
     }
+  };
+
+  // Play audio in-browser using Web Speech API or Base64 audio buffer
+  const playSpeech = (text, lang, audioBase64 = null) => {
+    if (audioBase64) {
+      try {
+        const audio = new Audio(`data:audio/mp3;base64,${audioBase64}`);
+        setIsPlayingAudio(true);
+        audio.onended = () => setIsPlayingAudio(false);
+        audio.onerror = () => {
+          fallbackSpeech(text, lang);
+        };
+        audio.play();
+        return;
+      } catch (e) {
+        // Fallback to Web Speech API
+      }
+    }
+    fallbackSpeech(text, lang);
+  };
+
+  const fallbackSpeech = (text, lang) => {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang === 'hi' ? 'hi-IN' : 'en-IN';
+    utterance.rate = 0.95;
+    utterance.onstart = () => setIsPlayingAudio(true);
+    utterance.onend = () => setIsPlayingAudio(false);
+    utterance.onerror = () => setIsPlayingAudio(false);
+    window.speechSynthesis.speak(utterance);
   };
 
   const handleRunDecision = async () => {
@@ -251,7 +542,7 @@ export default function App() {
           kind: clipKind,
           language: clipLang,
           slot: clipSlot,
-          aqi: 250,
+          aqi: aqiInput,
         }),
       });
       const data = await res.json();
@@ -261,9 +552,19 @@ export default function App() {
     }
   };
 
+  const playWav = (url, clipId) => {
+    const audio = new Audio(url);
+    setPlayingClipId(clipId);
+    audio.onended = () => setPlayingClipId(null);
+    audio.onerror = () => setPlayingClipId(null);
+    audio.play();
+  };
+
   return (
     <div style={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden', backgroundColor: 'var(--bg-app)' }}>
-      {/* Warm, minimal Left Sidebar */}
+      {/* ======================================================== */}
+      {/* LEFT NAVIGATION SIDEBAR (Warm Claude-Style Minimalist) */}
+      {/* ======================================================== */}
       <aside
         style={{
           width: '260px',
@@ -272,75 +573,124 @@ export default function App() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '20px 16px',
           flexShrink: 0,
         }}
       >
-        <div>
-          {/* Logo / Header */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0 8px 24px 8px' }}>
+        <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Logo & Product Heading */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div
               style={{
-                width: '30px',
-                height: '30px',
+                width: '32px',
+                height: '32px',
                 borderRadius: '8px',
-                backgroundColor: 'var(--clay)',
-                color: '#fff',
+                backgroundColor: 'var(--clay-subtle)',
+                color: 'var(--clay)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                border: '1px solid var(--clay-border)',
               }}
             >
               <Icons.Asterisk />
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '18px', fontWeight: '600', color: 'var(--text-primary)' }}>
+              <div style={{ fontFamily: 'var(--font-serif)', fontSize: '18px', fontWeight: '600', color: 'var(--text-primary)', lineHeight: '1.2' }}>
                 AirCue
               </div>
               <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', letterSpacing: '0.02em' }}>
-                Voice Feedback System
+                Madhya Pradesh AQI & Voice
               </div>
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            {[
-              { id: 'studio', label: 'Spoken Alert Studio', icon: Icons.Speech },
-              { id: 'telemetry', label: 'Station Telemetry', icon: Icons.Pulse },
-              { id: 'decision', label: 'Decision Reasoner', icon: Icons.Sliders },
-              { id: 'clips', label: 'Pregenerated Clips', icon: Icons.Audio },
-            ].map((item) => {
-              const Icon = item.icon;
-              const isActive = view === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setView(item.id)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    padding: '8px 12px',
-                    borderRadius: '6px',
-                    fontSize: '13px',
-                    fontWeight: isActive ? '600' : '400',
-                    color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
-                    backgroundColor: isActive ? 'var(--bg-hover)' : 'transparent',
-                    textAlign: 'left',
-                    width: '100%',
-                  }}
-                >
-                  <Icon />
-                  <span>{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+          {/* Primary Navigation Section: Two Core Tabs */}
+          <div>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-tertiary)', marginBottom: '8px', paddingLeft: '8px', fontWeight: '600' }}>
+              Core Models
+            </div>
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {[
+                { id: 'chat', label: 'AQI Dataset Intelligence', subtitle: 'Conversational LLM', icon: Icons.Chat },
+                { id: 'trigger_voice', label: 'Trigger Voice Messages', subtitle: 'PA Alert Generator', icon: Icons.Speech },
+              ].map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '10px 12px',
+                      borderRadius: '8px',
+                      textAlign: 'left',
+                      width: '100%',
+                      backgroundColor: isActive ? 'var(--clay-subtle)' : 'transparent',
+                      border: isActive ? '1px solid var(--clay-border)' : '1px solid transparent',
+                    }}
+                  >
+                    <div style={{ color: isActive ? 'var(--clay)' : 'var(--text-secondary)' }}>
+                      <Icon />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '13px', fontWeight: isActive ? '600' : '500', color: isActive ? 'var(--clay)' : 'var(--text-primary)' }}>
+                        {item.label}
+                      </div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>
+                        {item.subtitle}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Secondary Utilities */}
+          <div>
+            <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-tertiary)', marginBottom: '8px', paddingLeft: '8px', fontWeight: '600' }}>
+              Operational Telemetry
+            </div>
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {[
+                { id: 'telemetry', label: 'Station Telemetry', icon: Icons.Pulse },
+                { id: 'decision', label: 'Decision Reasoner', icon: Icons.Sliders },
+                { id: 'clips', label: 'Pregenerated Clips', icon: Icons.Audio },
+              ].map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      fontSize: '13px',
+                      fontWeight: isActive ? '600' : '400',
+                      color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)',
+                      backgroundColor: isActive ? 'var(--bg-hover)' : 'transparent',
+                      textAlign: 'left',
+                      width: '100%',
+                    }}
+                  >
+                    <Icon />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
         </div>
 
         {/* Footer info in sidebar */}
-        <div style={{ padding: '12px 8px', borderTop: '1px solid var(--border)', fontSize: '11px', color: 'var(--text-tertiary)' }}>
+        <div style={{ padding: '16px', borderTop: '1px solid var(--border)', fontSize: '11px', color: 'var(--text-tertiary)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
             <span
               style={{
@@ -351,27 +701,371 @@ export default function App() {
               }}
             />
             <span style={{ fontWeight: '500', color: 'var(--text-secondary)' }}>
-              {status?.has_openrouter_key ? 'OpenRouter Active' : 'No API Key'}
+              {status?.has_openrouter_key ? 'OpenRouter Connected' : 'No API Key'}
             </span>
           </div>
-          <div>B.Tech Major Project • PIEMR</div>
-          <div style={{ marginTop: '2px' }}>Indore, Madhya Pradesh</div>
+          <div>Grounded on 87 MP stations</div>
+          <div style={{ marginTop: '2px' }}>B.Tech Major Project • PIEMR</div>
         </div>
       </aside>
 
-      {/* Main Content Pane */}
+      {/* Main Content Area */}
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+        {/* Top Header with Primary Two Tabs */}
+        <header
+          style={{
+            height: '56px',
+            borderBottom: '1px solid var(--border)',
+            padding: '0 28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: 'var(--bg-surface)',
+            flexShrink: 0,
+          }}
+        >
+          {/* Top Primary Tab Switcher */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              onClick={() => setActiveTab('chat')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                borderRadius: '6px',
+                fontSize: '13px',
+                fontWeight: activeTab === 'chat' ? '600' : '500',
+                color: activeTab === 'chat' ? 'var(--clay)' : 'var(--text-secondary)',
+                backgroundColor: activeTab === 'chat' ? 'var(--clay-subtle)' : 'transparent',
+                border: activeTab === 'chat' ? '1px solid var(--clay-border)' : '1px solid transparent',
+              }}
+            >
+              <Icons.Chat />
+              <span>AQI Dataset Conversational Model</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('trigger_voice')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                borderRadius: '6px',
+                fontSize: '13px',
+                fontWeight: activeTab === 'trigger_voice' ? '600' : '500',
+                color: activeTab === 'trigger_voice' ? 'var(--clay)' : 'var(--text-secondary)',
+                backgroundColor: activeTab === 'trigger_voice' ? 'var(--clay-subtle)' : 'transparent',
+                border: activeTab === 'trigger_voice' ? '1px solid var(--clay-border)' : '1px solid transparent',
+              }}
+            >
+              <Icons.Speech />
+              <span>Trigger-Based Voice Messages</span>
+            </button>
+          </div>
+
+          {/* Right Header Status Badges */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--text-secondary)' }}>
+              <Icons.Database />
+              <span>217,370 records</span>
+            </div>
+            <div
+              style={{
+                fontSize: '11px',
+                padding: '3px 8px',
+                borderRadius: '12px',
+                backgroundColor: 'var(--bg-subtle)',
+                color: 'var(--text-secondary)',
+                border: '1px solid var(--border)',
+              }}
+            >
+              CPCB MP Telemetry
+            </div>
+          </div>
+        </header>
+
         {/* ======================================================== */}
-        {/* VIEW 1: SPOKEN ALERT STUDIO (CLAUDE-LIKE CHAT INTERACTION) */}
+        {/* TAB 1: CONVERSATIONAL MODEL (AQI DATASET GROUNDED) */}
         {/* ======================================================== */}
-        {view === 'studio' && (
-          <div style={{ display: 'flex', height: '100%', width: '100%' }}>
-            {/* Middle: Conversation Thread */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', borderRight: '1px solid var(--border)' }}>
-              {/* Top Bar */}
+        {activeTab === 'chat' && (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: 'calc(100% - 56px)', overflow: 'hidden' }}>
+            {/* Conversation Messages Scroll Area */}
+            <div
+              ref={chatScrollRef}
+              style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: '32px 15% 20px 15%',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '24px',
+              }}
+            >
+              {chatMessages.map((msg) => (
+                <div
+                  key={msg.id}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                    width: '100%',
+                  }}
+                >
+                  {msg.role === 'user' ? (
+                    <div
+                      style={{
+                        maxWidth: '80%',
+                        backgroundColor: 'var(--bg-subtle)',
+                        border: '1px solid var(--border)',
+                        borderRadius: '16px 16px 4px 16px',
+                        padding: '12px 18px',
+                        fontSize: '13.5px',
+                        lineHeight: '1.55',
+                        color: 'var(--text-primary)',
+                      }}
+                    >
+                      {msg.content}
+                    </div>
+                  ) : (
+                    <div style={{ maxWidth: '90%', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                      <div
+                        style={{
+                          width: '28px',
+                          height: '28px',
+                          borderRadius: '6px',
+                          backgroundColor: 'var(--clay-subtle)',
+                          border: '1px solid var(--clay-border)',
+                          color: 'var(--clay)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          marginTop: '2px',
+                        }}
+                      >
+                        <Icons.Asterisk />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div
+                          style={{
+                            backgroundColor: 'var(--bg-surface)',
+                            border: '1px solid var(--border)',
+                            borderRadius: '4px 16px 16px 16px',
+                            padding: '18px 22px',
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+                          }}
+                        >
+                          <FormattedContent text={msg.content} />
+
+                          {/* Grounding Telemetry summary pill if available */}
+                          {msg.grounding_summary && msg.grounding_summary.length > 0 && (
+                            <div
+                              style={{
+                                marginTop: '16px',
+                                paddingTop: '12px',
+                                borderTop: '1px solid var(--border-light)',
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                gap: '8px',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)', fontWeight: '600' }}>
+                                Verified Telemetry Grounding:
+                              </span>
+                              {msg.grounding_summary.map((g, i) => (
+                                <span
+                                  key={i}
+                                  style={{
+                                    fontSize: '11px',
+                                    padding: '2px 8px',
+                                    borderRadius: '10px',
+                                    backgroundColor: 'var(--bg-subtle)',
+                                    border: '1px solid var(--border)',
+                                    color: 'var(--text-secondary)',
+                                  }}
+                                >
+                                  <strong>{g.location}</strong>: Mean AQI {g.mean_aqi} (Max {g.max_aqi})
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Message Metadata */}
+                        <div style={{ display: 'flex', gap: '12px', marginTop: '6px', fontSize: '11px', color: 'var(--text-tertiary)', paddingLeft: '4px' }}>
+                          <span>{msg.timestamp}</span>
+                          {msg.model && <span>• {msg.model.split('/')[1] || msg.model}</span>}
+                          {msg.latency_s && <span>• {msg.latency_s}s</span>}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {isChatting && (
+                <div style={{ display: 'flex', gap: '14px', alignItems: 'center', paddingLeft: '4px' }}>
+                  <div
+                    style={{
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '6px',
+                      backgroundColor: 'var(--clay-subtle)',
+                      border: '1px solid var(--clay-border)',
+                      color: 'var(--clay)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Icons.Asterisk />
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                    Consulting Madhya Pradesh telemetry dataset and CPCB guidelines...
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Quick Prompt Suggestions */}
+            {chatMessages.length <= 2 && (
+              <div style={{ padding: '0 15% 12px 15%', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {[
+                  'Compare Vijay Nagar and Chhoti Gwaltoli in Indore',
+                  'Which MP districts have recorded the highest AQI levels?',
+                  'What outdoor sports guidelines apply during Poor AQI?',
+                  'Summarize PM2.5 and PM10 trends for Jabalpur and Gwalior',
+                ].map((prompt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleSendChat(prompt)}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '16px',
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border)',
+                      fontSize: '12px',
+                      color: 'var(--text-secondary)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Bottom Claude-Style Conversational Input Box */}
+            <div style={{ padding: '0 15% 24px 15%', backgroundColor: 'transparent' }}>
               <div
                 style={{
-                  height: '52px',
+                  backgroundColor: 'var(--bg-surface)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '12px',
+                  padding: '12px 16px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                }}
+              >
+                <textarea
+                  rows={2}
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendChat();
+                    }
+                  }}
+                  placeholder="Ask anything about Madhya Pradesh air quality, localities, CPCB rules, or school outdoor protocols..."
+                  style={{
+                    width: '100%',
+                    border: 'none',
+                    resize: 'none',
+                    padding: 0,
+                    fontSize: '14px',
+                    lineHeight: '1.5',
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none',
+                  }}
+                />
+
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '6px', borderTop: '1px solid var(--border-light)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Model:</span>
+                    <select
+                      value={chatModel}
+                      onChange={(e) => setChatModel(e.target.value)}
+                      style={{
+                        padding: '3px 8px',
+                        fontSize: '11px',
+                        borderRadius: '6px',
+                        backgroundColor: 'var(--bg-subtle)',
+                        border: '1px solid var(--border)',
+                      }}
+                    >
+                      <option value="deepseek/deepseek-chat">DeepSeek Chat</option>
+                      <option value="anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+                      <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+                      <option value="google/gemini-2.0-flash-001">Gemini 2.0 Flash</option>
+                    </select>
+
+                    <button
+                      onClick={() =>
+                        setChatMessages([
+                          {
+                            id: 'reset',
+                            role: 'assistant',
+                            content: 'Conversation cleared. How can I assist you with Madhya Pradesh air quality data?',
+                            timestamp: 'Just now',
+                          },
+                        ])
+                      }
+                      style={{ fontSize: '11px', color: 'var(--text-tertiary)', marginLeft: '8px' }}
+                    >
+                      Clear chat
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => handleSendChat()}
+                    disabled={isChatting || !chatInput.trim()}
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '8px',
+                      backgroundColor: isChatting || !chatInput.trim() ? 'var(--bg-subtle)' : 'var(--clay)',
+                      color: isChatting || !chatInput.trim() ? 'var(--text-muted)' : '#FFFFFF',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: isChatting || !chatInput.trim() ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    <Icons.ArrowUp />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ======================================================== */}
+        {/* TAB 2: TRIGGER-BASED VOICE MESSAGE GENERATOR */}
+        {/* ======================================================== */}
+        {activeTab === 'trigger_voice' && (
+          <div style={{ flex: 1, display: 'flex', height: 'calc(100% - 56px)', overflow: 'hidden' }}>
+            {/* Left / Middle: Generated Announcements Feed */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', borderRight: '1px solid var(--border)' }}>
+              {/* Voice Subheader */}
+              <div
+                style={{
+                  height: '48px',
                   borderBottom: '1px solid var(--border)',
                   padding: '0 28px',
                   display: 'flex',
@@ -382,8 +1076,8 @@ export default function App() {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ fontFamily: 'var(--font-serif)', fontSize: '16px', color: 'var(--text-primary)' }}>
-                    Outdoor Speech Synthesis
+                  <span style={{ fontFamily: 'var(--font-serif)', fontSize: '15px', color: 'var(--text-primary)' }}>
+                    Trigger-Generated Spoken Announcements
                   </span>
                   <span
                     style={{
@@ -395,7 +1089,7 @@ export default function App() {
                       border: '1px solid var(--border)',
                     }}
                   >
-                    {model.split('/')[1] || model}
+                    {triggerModel.split('/')[1] || triggerModel}
                   </span>
                 </div>
                 <div style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>
@@ -403,551 +1097,574 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Message History Scroll Area */}
+              {/* Announcements Feed */}
               <div
-                ref={scrollRef}
+                ref={voiceScrollRef}
                 style={{
                   flex: 1,
                   overflowY: 'auto',
-                  padding: '32px 48px',
+                  padding: '28px 36px',
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '24px',
                 }}
               >
-                {history.map((msg) => (
+                {voiceHistory.map((item) => (
                   <div
-                    key={msg.id}
+                    key={item.id}
                     style={{
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border)',
+                      borderRadius: '12px',
+                      padding: '22px 24px',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
                       display: 'flex',
                       flexDirection: 'column',
-                      alignItems: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                      width: '100%',
+                      gap: '16px',
                     }}
                   >
-                    {msg.sender === 'user' ? (
-                      <div
-                        style={{
-                          maxWidth: '75%',
-                          backgroundColor: 'var(--bg-subtle)',
-                          border: '1px solid var(--border)',
-                          borderRadius: '16px 16px 4px 16px',
-                          padding: '12px 18px',
-                          fontSize: '13px',
-                          lineHeight: '1.5',
-                          color: 'var(--text-primary)',
-                        }}
-                      >
-                        {msg.text}
-                      </div>
-                    ) : (
-                      <div style={{ maxWidth: '85%', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-                        <div
+                    {/* Header line of card */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span
                           style={{
-                            width: '28px',
-                            height: '28px',
-                            borderRadius: '6px',
-                            backgroundColor: 'var(--bg-subtle)',
-                            border: '1px solid var(--border)',
+                            padding: '3px 8px',
+                            borderRadius: '4px',
+                            fontSize: '11px',
+                            fontWeight: '600',
+                            backgroundColor:
+                              item.facts?.level >= 3 ? 'var(--crimson-subtle)' : item.facts?.level >= 2 ? 'var(--amber-subtle)' : 'var(--olive-subtle)',
+                            color:
+                              item.facts?.level >= 3 ? 'var(--crimson)' : item.facts?.level >= 2 ? 'var(--amber)' : 'var(--olive)',
+                          }}
+                        >
+                          Level {item.facts?.level ?? alertLevel} • {item.facts?.category ?? 'Air Alert'}
+                        </span>
+                        <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                          {item.facts?.activity_slot ?? slot}
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>{item.timestamp}</span>
+                    </div>
+
+                    {/* Announcement Spoken Text */}
+                    <div
+                      style={{
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: '18px',
+                        lineHeight: '1.45',
+                        color: 'var(--text-primary)',
+                      }}
+                    >
+                      "{item.text}"
+                    </div>
+
+                    {/* Audio Player Strip */}
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '10px 14px',
+                        borderRadius: '8px',
+                        backgroundColor: 'var(--bg-subtle)',
+                        border: '1px solid var(--border)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <button
+                          onClick={() => playSpeech(item.text, item.facts?.language || language, item.audioBase64)}
+                          style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            backgroundColor: 'var(--clay)',
+                            color: '#FFFFFF',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            color: 'var(--clay)',
-                            flexShrink: 0,
-                            marginTop: '2px',
+                            cursor: 'pointer',
                           }}
                         >
-                          <Icons.Asterisk />
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                          <div
-                            style={{
-                              fontFamily: language === 'hi' ? 'var(--font-sans)' : 'var(--font-serif)',
-                              fontSize: '17px',
-                              lineHeight: '1.6',
-                              color: msg.isError ? 'var(--crimson)' : 'var(--text-primary)',
-                              letterSpacing: '-0.01em',
-                            }}
-                          >
-                            {msg.text}
+                          <Icons.Play />
+                        </button>
+                        <div>
+                          <div style={{ fontSize: '12px', fontWeight: '500', color: 'var(--text-primary)' }}>
+                            Listen to Spoken PA Announcement
                           </div>
+                          <div style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>
+                            {item.audioBase64 ? 'Generated audio clip' : 'Browser Web Speech Engine'}
+                          </div>
+                        </div>
+                      </div>
 
-                          {/* Voice Player Pill */}
-                          {msg.audioBase64 && (
-                            <div
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                padding: '6px 14px',
-                                borderRadius: '20px',
-                                backgroundColor: 'var(--bg-surface)',
-                                border: '1px solid var(--border)',
-                                marginTop: '4px',
-                                width: 'fit-content',
-                              }}
-                            >
-                              <audio
-                                controls
-                                src={`data:audio/mp3;base64,${msg.audioBase64}`}
-                                style={{ height: '28px', width: '220px' }}
-                              />
-                              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>
-                                Spoken Preview
-                              </span>
-                            </div>
-                          )}
+                      {isPlayingAudio && (
+                        <span style={{ fontSize: '11px', color: 'var(--clay)', fontWeight: '500' }}>Playing...</span>
+                      )}
+                    </div>
 
-                          {/* Validation summary inline tag */}
-                          {msg.validation && (
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', color: 'var(--text-secondary)' }}>
-                              <span
-                                style={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  gap: '4px',
-                                  color: msg.validation.passed ? 'var(--olive)' : 'var(--crimson)',
-                                  fontWeight: '600',
-                                }}
-                              >
-                                {msg.validation.passed ? (
-                                  <>
-                                    <Icons.Check /> Validated (6 Safety Rules Passed)
-                                  </>
-                                ) : (
-                                  `Flagged: ${msg.validation.failures.join(', ')}`
-                                )}
-                              </span>
-                              <span>•</span>
-                              <span>{msg.latency}s latency</span>
-                            </div>
-                          )}
+                    {/* Rule Validation Strip */}
+                    {item.validation && (
+                      <div style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+                          <span style={{ color: 'var(--olive)' }}>
+                            <Icons.Check />
+                          </span>
+                          <span style={{ fontWeight: '500' }}>CPCB Outdoor Safety Validation Passed</span>
+                        </div>
+                        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', color: 'var(--text-tertiary)' }}>
+                          <span>Word count: ≤ 20 words</span>
+                          <span>•</span>
+                          <span>Single outdoor action</span>
+                          <span>•</span>
+                          <span>No indoor ventilation advice</span>
+                          <span>•</span>
+                          <span>No medical panic</span>
                         </div>
                       </div>
                     )}
                   </div>
                 ))}
 
-                {isGenerating && (
-                  <div style={{ display: 'flex', gap: '14px', alignItems: 'center', color: 'var(--text-tertiary)', fontSize: '13px' }}>
-                    <div
-                      style={{
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '6px',
-                        backgroundColor: 'var(--bg-subtle)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'var(--clay)',
-                      }}
-                    >
+                {isGeneratingVoice && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 20px', backgroundColor: 'var(--bg-surface)', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                    <div style={{ color: 'var(--clay)' }}>
                       <Icons.Asterisk />
                     </div>
-                    <span>Formulating announcement using {model.split('/')[1] || model}...</span>
+                    <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+                      Synthesizing authoritative spoken voice alert for outdoor PA system...
+                    </div>
                   </div>
                 )}
               </div>
-
-              {/* Bottom Prompt / Action Bar */}
-              <div
-                style={{
-                  padding: '16px 28px 24px 28px',
-                  backgroundColor: 'var(--bg-surface)',
-                  borderTop: '1px solid var(--border)',
-                }}
-              >
-                <div
-                  style={{
-                    border: '1px solid var(--border)',
-                    borderRadius: '12px',
-                    padding: '12px 16px',
-                    backgroundColor: 'var(--bg-app)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1 }}>
-                    <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
-                      Trigger: <strong style={{ color: 'var(--text-primary)' }}>Level {alertLevel} ({slot})</strong>, AQI {aqiInput} at {selectedLoc.split(',')[0]}
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={handleGenerate}
-                    disabled={isGenerating}
-                    style={{
-                      backgroundColor: 'var(--clay)',
-                      color: '#ffffff',
-                      borderRadius: '8px',
-                      padding: '8px 16px',
-                      fontSize: '13px',
-                      fontWeight: '500',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      opacity: isGenerating ? 0.6 : 1,
-                    }}
-                  >
-                    <span>Speak</span>
-                    <Icons.ArrowUp />
-                  </button>
-                </div>
-              </div>
             </div>
 
-            {/* Right: Thoughtful Context & Parameter Inspector */}
+            {/* Right Pane: Trigger Controls */}
             <div
               style={{
-                width: '320px',
-                backgroundColor: 'var(--bg-surface)',
-                padding: '24px',
-                overflowY: 'auto',
+                width: '340px',
+                backgroundColor: 'var(--bg-sidebar)',
+                padding: '24px 20px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '20px',
+                overflowY: 'auto',
                 flexShrink: 0,
               }}
             >
               <div>
-                <h3 style={{ fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>
-                  Operating Context
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '17px', marginBottom: '4px' }}>
+                  Trigger Parameters
                 </h3>
                 <p style={{ fontSize: '12px', color: 'var(--text-tertiary)', lineHeight: '1.4' }}>
-                  Calibrate the physical condition parameters that inform the speaker announcement.
+                  Configure incoming telemetry triggers and campus state to generate outdoor announcements.
                 </p>
               </div>
 
-              {/* Location Selector */}
+              {/* Severity Level Selector */}
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-secondary)', marginBottom: '6px' }}>
-                  Campus Station
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '6px' }}>
+                  Trigger Severity Level: {alertLevel}
                 </label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '4px' }}>
+                  {[
+                    { lvl: 0, label: 'Good' },
+                    { lvl: 1, label: 'Mod' },
+                    { lvl: 2, label: 'Poor' },
+                    { lvl: 3, label: 'V.Poor' },
+                    { lvl: 4, label: 'Severe' },
+                  ].map((item) => (
+                    <button
+                      key={item.lvl}
+                      onClick={() => {
+                        setAlertLevel(item.lvl);
+                        if (item.lvl === 0) { setAqiInput(45); setPm25Input(25); }
+                        else if (item.lvl === 1) { setAqiInput(140); setPm25Input(65); }
+                        else if (item.lvl === 2) { setAqiInput(245); setPm25Input(115); }
+                        else if (item.lvl === 3) { setAqiInput(340); setPm25Input(180); }
+                        else if (item.lvl === 4) { setAqiInput(430); setPm25Input(280); }
+                      }}
+                      style={{
+                        padding: '6px 0',
+                        fontSize: '11px',
+                        fontWeight: alertLevel === item.lvl ? '600' : '400',
+                        borderRadius: '4px',
+                        backgroundColor: alertLevel === item.lvl ? 'var(--clay)' : 'var(--bg-surface)',
+                        color: alertLevel === item.lvl ? '#FFFFFF' : 'var(--text-secondary)',
+                        border: '1px solid var(--border)',
+                      }}
+                    >
+                      {item.lvl}: {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Station / Campus Location */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                  <label style={{ fontSize: '12px', fontWeight: '500' }}>Target Campus / Station</label>
+                  <button
+                    onClick={handleSyncStationData}
+                    style={{ fontSize: '11px', color: 'var(--clay)', fontWeight: '500' }}
+                  >
+                    Sync Live Data
+                  </button>
+                </div>
                 <select
                   value={selectedLoc}
                   onChange={(e) => setSelectedLoc(e.target.value)}
-                  style={{ width: '100%', padding: '8px 10px', fontSize: '12px' }}
+                  style={{ width: '100%', padding: '6px 10px', fontSize: '12px' }}
                 >
-                  {locations.map((loc) => (
-                    <option key={loc.name} value={loc.name}>
+                  {locations.map((loc, idx) => (
+                    <option key={idx} value={loc.name}>
                       {loc.name}
                     </option>
                   ))}
                 </select>
               </div>
 
-              {/* Alert Level Selector */}
-              <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-secondary)', marginBottom: '6px' }}>
-                  Severity Category
-                </label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px' }}>
-                  {[
-                    { lvl: 1, label: 'L1' },
-                    { lvl: 2, label: 'L2' },
-                    { lvl: 3, label: 'L3' },
-                    { lvl: 4, label: 'L4' },
-                  ].map((item) => (
-                    <button
-                      key={item.lvl}
-                      type="button"
-                      onClick={() => setAlertLevel(item.lvl)}
-                      style={{
-                        padding: '6px 0',
-                        fontSize: '12px',
-                        fontWeight: alertLevel === item.lvl ? '600' : '400',
-                        backgroundColor: alertLevel === item.lvl ? 'var(--clay-subtle)' : 'var(--bg-app)',
-                        color: alertLevel === item.lvl ? 'var(--clay)' : 'var(--text-secondary)',
-                        border: `1px solid ${alertLevel === item.lvl ? 'var(--clay-border)' : 'var(--border)'}`,
-                        borderRadius: '4px',
-                      }}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
+              {/* AQI & PM2.5 Inputs */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
+                    CPCB AQI
+                  </label>
+                  <input
+                    type="number"
+                    value={aqiInput}
+                    onChange={(e) => setAqiInput(Number(e.target.value))}
+                    style={{ width: '100%', padding: '6px 8px', fontSize: '13px' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
+                    PM2.5 (µg/m³)
+                  </label>
+                  <input
+                    type="number"
+                    value={pm25Input}
+                    onChange={(e) => setPm25Input(Number(e.target.value))}
+                    style={{ width: '100%', padding: '6px 8px', fontSize: '13px' }}
+                  />
                 </div>
               </div>
 
-              {/* AQI & PM2.5 sliders/inputs */}
+              {/* Timetable Activity Slot */}
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '6px' }}>
-                  <span style={{ color: 'var(--text-secondary)' }}>Air Quality Index</span>
-                  <span style={{ fontWeight: '600' }}>{aqiInput}</span>
-                </div>
-                <input
-                  type="range"
-                  min="50"
-                  max="450"
-                  value={aqiInput}
-                  onChange={(e) => setAqiInput(Number(e.target.value))}
-                  style={{ width: '100%', accentColor: 'var(--clay)' }}
-                />
-              </div>
-
-              {/* Slot */}
-              <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-secondary)', marginBottom: '6px' }}>
-                  School Timetable Slot
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '6px' }}>
+                  Timetable Activity Slot
                 </label>
                 <select
                   value={slot}
                   onChange={(e) => setSlot(e.target.value)}
-                  style={{ width: '100%', padding: '8px 10px', fontSize: '12px' }}
+                  style={{ width: '100%', padding: '6px 10px', fontSize: '12px' }}
                 >
-                  <option value="Sports PT">Sports Field / PT Period</option>
-                  <option value="Morning Assembly">Morning Assembly</option>
-                  <option value="Recess">Outdoor Recess / Break</option>
-                  <option value="Dismissal">Dismissal / Campus Gate</option>
-                  <option value="General Campus">General Campus Grounds</option>
+                  <option value="Sports PT">Sports & Physical Training</option>
+                  <option value="Morning Assembly">Morning School Assembly</option>
+                  <option value="Recess & Lunch">Recess & Outdoor Lunch</option>
+                  <option value="Class Dispersal">Campus Dispersal</option>
+                  <option value="General Outdoor">General Campus</option>
                 </select>
               </div>
 
-              {/* Language */}
+              {/* Trigger Event Kind */}
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-secondary)', marginBottom: '6px' }}>
-                  Spoken Language
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '6px' }}>
+                  Trigger Event Type
                 </label>
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
                   {[
-                    { id: 'hi', label: 'Hindi (Devanagari)' },
-                    { id: 'en', label: 'English' },
-                  ].map((l) => (
+                    { id: 'escalate', label: 'Escalate' },
+                    { id: 'reminder', label: 'Reminder' },
+                    { id: 'improving', label: 'Improving' },
+                    { id: 'recovered', label: 'Recovered' },
+                  ].map((kind) => (
                     <button
-                      key={l.id}
-                      type="button"
-                      onClick={() => setLanguage(l.id)}
+                      key={kind.id}
+                      onClick={() => setTriggerKind(kind.id)}
                       style={{
-                        flex: 1,
-                        padding: '6px 0',
-                        fontSize: '12px',
+                        padding: '6px 8px',
+                        fontSize: '11px',
                         borderRadius: '4px',
-                        backgroundColor: language === l.id ? 'var(--clay-subtle)' : 'var(--bg-app)',
-                        color: language === l.id ? 'var(--clay)' : 'var(--text-secondary)',
-                        border: `1px solid ${language === l.id ? 'var(--clay-border)' : 'var(--border)'}`,
-                        fontWeight: language === l.id ? '600' : '400',
+                        backgroundColor: triggerKind === kind.id ? 'var(--bg-hover)' : 'var(--bg-surface)',
+                        color: triggerKind === kind.id ? 'var(--text-primary)' : 'var(--text-secondary)',
+                        border: triggerKind === kind.id ? '1px solid var(--border-focus)' : '1px solid var(--border)',
+                        fontWeight: triggerKind === kind.id ? '600' : '400',
                       }}
                     >
-                      {l.label}
+                      {kind.label}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Model Choice */}
+              {/* Language Selection */}
               <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-secondary)', marginBottom: '6px' }}>
-                  Underlying Model
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '6px' }}>
+                  Spoken Language
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                  <button
+                    onClick={() => setLanguage('hi')}
+                    style={{
+                      padding: '8px',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontWeight: language === 'hi' ? '600' : '400',
+                      backgroundColor: language === 'hi' ? 'var(--clay-subtle)' : 'var(--bg-surface)',
+                      color: language === 'hi' ? 'var(--clay)' : 'var(--text-secondary)',
+                      border: language === 'hi' ? '1px solid var(--clay-border)' : '1px solid var(--border)',
+                    }}
+                  >
+                    हिंदी (Hindi)
+                  </button>
+                  <button
+                    onClick={() => setLanguage('en')}
+                    style={{
+                      padding: '8px',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontWeight: language === 'en' ? '600' : '400',
+                      backgroundColor: language === 'en' ? 'var(--clay-subtle)' : 'var(--bg-surface)',
+                      color: language === 'en' ? 'var(--clay)' : 'var(--text-secondary)',
+                      border: language === 'en' ? '1px solid var(--clay-border)' : '1px solid var(--border)',
+                    }}
+                  >
+                    English
+                  </button>
+                </div>
+              </div>
+
+              {/* Model Selection */}
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
+                  Underlying LLM
                 </label>
                 <select
-                  value={model}
-                  onChange={(e) => setModel(e.target.value)}
-                  style={{ width: '100%', padding: '8px 10px', fontSize: '12px' }}
+                  value={triggerModel}
+                  onChange={(e) => setTriggerModel(e.target.value)}
+                  style={{ width: '100%', padding: '6px 10px', fontSize: '12px' }}
                 >
                   <option value="deepseek/deepseek-chat">DeepSeek Chat</option>
-                  <option value="moonshotai/kimi-k3">Moonshot Kimi K3</option>
-                  <option value="meta-llama/llama-3.3-70b-instruct">Llama 3.3 70B</option>
-                  <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B</option>
-                  <option value="google/gemma-4-31b-it:free">Gemma 4 31B (Free)</option>
+                  <option value="anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+                  <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+                  <option value="google/gemini-2.0-flash-001">Gemini 2.0 Flash</option>
                 </select>
               </div>
 
-              <div style={{ borderTop: '1px solid var(--border)', paddingTop: '16px', fontSize: '11px', color: 'var(--text-tertiary)', lineHeight: '1.5' }}>
-                <strong>Deterministic Fallback:</strong> In live deployment, if OpenRouter response time exceeds 2.0s, the engine instantly plays a pregenerated audio clip.
-              </div>
+              {/* Generate Trigger Button */}
+              <button
+                onClick={handleGenerateVoice}
+                disabled={isGeneratingVoice}
+                style={{
+                  marginTop: 'auto',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  backgroundColor: 'var(--clay)',
+                  color: '#FFFFFF',
+                  fontWeight: '500',
+                  fontSize: '13px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  cursor: isGeneratingVoice ? 'not-allowed' : 'pointer',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                }}
+              >
+                <Icons.Sparkle />
+                <span>{isGeneratingVoice ? 'Generating Voice...' : 'Generate Voice Announcement'}</span>
+              </button>
             </div>
           </div>
         )}
 
         {/* ======================================================== */}
-        {/* VIEW 2: STATION TELEMETRY (CLEAN DATA LOG) */}
+        {/* VIEW 3: STATION TELEMETRY (UTILITY VIEW) */}
         {/* ======================================================== */}
-        {view === 'telemetry' && (
-          <div style={{ padding: '36px 48px', overflowY: 'auto', flex: 1 }}>
-            <div style={{ maxWidth: '960px', margin: '0 auto' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '28px' }}>
+        {activeTab === 'telemetry' && (
+          <div style={{ flex: 1, overflowY: 'auto', padding: '32px 48px' }}>
+            <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
-                  <h2 style={{ fontSize: '24px', fontWeight: '500', marginBottom: '4px' }}>
-                    Air Quality Observations
+                  <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '24px', marginBottom: '4px' }}>
+                    Madhya Pradesh Telemetry Stations
                   </h2>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>
-                    Continuous particulate matter monitoring data across Madhya Pradesh.
+                    Air quality readings across all 55 districts and urban CPCB monitoring locations.
                   </p>
                 </div>
 
-                <select
-                  value={selectedLoc}
-                  onChange={(e) => setSelectedLoc(e.target.value)}
-                  style={{ minWidth: '340px', padding: '8px 12px', fontSize: '13px' }}
-                >
-                  {locations.map((loc) => (
-                    <option key={loc.name} value={loc.name}>
-                      {loc.name} ({loc.dataset_kind === 'measured_station' ? 'Physical Station' : 'CAMS Model'})
-                    </option>
-                  ))}
-                </select>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <select
+                    value={selectedLoc}
+                    onChange={(e) => setSelectedLoc(e.target.value)}
+                    style={{ padding: '6px 12px', fontSize: '13px' }}
+                  >
+                    {locations.map((loc, idx) => (
+                      <option key={idx} value={loc.name}>
+                        {loc.name} ({loc.provider})
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              {/* Station metrics in warm quiet cards */}
+              {/* Summary Stats */}
               {telemetry?.stats && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '28px' }}>
-                  <div style={{ backgroundColor: 'var(--bg-surface)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      Station Type
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                  {[
+                    { label: 'Mean CPCB AQI', val: telemetry.stats.mean_aqi ?? 'N/A' },
+                    { label: 'Peak AQI Recorded', val: telemetry.stats.max_aqi ?? 'N/A' },
+                    { label: 'Mean PM2.5 (µg/m³)', val: telemetry.stats.mean_pm25 ?? 'N/A' },
+                    { label: 'Sample Count', val: telemetry.stats.total_rows ?? '0' },
+                  ].map((card, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        padding: '16px 20px',
+                        backgroundColor: 'var(--bg-surface)',
+                        border: '1px solid var(--border)',
+                        borderRadius: '8px',
+                      }}
+                    >
+                      <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                        {card.label}
+                      </div>
+                      <div style={{ fontFamily: 'var(--font-serif)', fontSize: '24px', fontWeight: '500', color: 'var(--text-primary)', marginTop: '4px' }}>
+                        {card.val}
+                      </div>
                     </div>
-                    <div style={{ fontSize: '16px', fontWeight: '500', marginTop: '4px', color: 'var(--text-primary)' }}>
-                      {telemetry.stats.dataset_kind === 'measured_station' ? 'Physical CAAQMS' : 'Numerical Model'}
-                    </div>
-                  </div>
-
-                  <div style={{ backgroundColor: 'var(--bg-surface)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      Mean PM2.5
-                    </div>
-                    <div style={{ fontSize: '20px', fontWeight: '500', marginTop: '4px' }}>
-                      {telemetry.stats.mean_pm25 ?? '—'} <span style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>µg/m³</span>
-                    </div>
-                  </div>
-
-                  <div style={{ backgroundColor: 'var(--bg-surface)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      Average CPCB AQI
-                    </div>
-                    <div style={{ fontSize: '20px', fontWeight: '500', marginTop: '4px' }}>
-                      {telemetry.stats.mean_aqi ?? '—'}
-                    </div>
-                  </div>
-
-                  <div style={{ backgroundColor: 'var(--bg-surface)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border)' }}>
-                    <div style={{ fontSize: '11px', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      Peak Recorded AQI
-                    </div>
-                    <div style={{ fontSize: '20px', fontWeight: '500', marginTop: '4px' }}>
-                      {telemetry.stats.max_aqi ?? '—'}
-                    </div>
-                  </div>
+                  ))}
                 </div>
               )}
 
-              {/* Data Table */}
-              <div style={{ backgroundColor: 'var(--bg-surface)', borderRadius: '8px', border: '1px solid var(--border)', overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13px' }}>
-                  <thead>
-                    <tr style={{ backgroundColor: 'var(--bg-subtle)', borderBottom: '1px solid var(--border)', color: 'var(--text-secondary)' }}>
-                      <th style={{ padding: '12px 16px', fontWeight: '500' }}>Timestamp</th>
-                      <th style={{ padding: '12px 16px', fontWeight: '500' }}>PM2.5 (µg/m³)</th>
-                      <th style={{ padding: '12px 16px', fontWeight: '500' }}>PM10 (µg/m³)</th>
-                      <th style={{ padding: '12px 16px', fontWeight: '500' }}>CPCB AQI</th>
-                      <th style={{ padding: '12px 16px', fontWeight: '500' }}>Category</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {telemetry?.records?.slice(-25).reverse().map((r, i) => (
-                      <tr key={i} style={{ borderBottom: '1px solid var(--border-light)' }}>
-                        <td style={{ padding: '10px 16px', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
-                          {r.dt}
-                        </td>
-                        <td style={{ padding: '10px 16px' }}>{r.pm2_5 ?? '—'}</td>
-                        <td style={{ padding: '10px 16px' }}>{r.pm10 ?? '—'}</td>
-                        <td style={{ padding: '10px 16px', fontWeight: '600' }}>{r.cpcb_aqi ?? '—'}</td>
-                        <td style={{ padding: '10px 16px', color: 'var(--text-secondary)' }}>{r.cpcb_category}</td>
+              {/* Telemetry Table */}
+              <div
+                style={{
+                  backgroundColor: 'var(--bg-surface)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                }}
+              >
+                <div style={{ padding: '12px 18px', borderBottom: '1px solid var(--border)', fontWeight: '500', fontSize: '13px' }}>
+                  Recent Observations for {selectedLoc}
+                </div>
+                <div style={{ maxHeight: '420px', overflowY: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '12px' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: 'var(--bg-subtle)', color: 'var(--text-secondary)' }}>
+                        <th style={{ padding: '8px 16px', fontWeight: '500' }}>Timestamp</th>
+                        <th style={{ padding: '8px 16px', fontWeight: '500' }}>PM2.5 (µg/m³)</th>
+                        <th style={{ padding: '8px 16px', fontWeight: '500' }}>PM10 (µg/m³)</th>
+                        <th style={{ padding: '8px 16px', fontWeight: '500' }}>CPCB AQI</th>
+                        <th style={{ padding: '8px 16px', fontWeight: '500' }}>Category</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {telemetry?.records?.slice(-50).reverse().map((r, i) => (
+                        <tr key={i} style={{ borderBottom: '1px solid var(--border-light)' }}>
+                          <td style={{ padding: '8px 16px', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>{r.dt}</td>
+                          <td style={{ padding: '8px 16px', fontFamily: 'var(--font-mono)' }}>{r.pm2_5 ?? '—'}</td>
+                          <td style={{ padding: '8px 16px', fontFamily: 'var(--font-mono)' }}>{r.pm10 ?? '—'}</td>
+                          <td style={{ padding: '8px 16px', fontFamily: 'var(--font-mono)', fontWeight: '500' }}>{r.cpcb_aqi ?? '—'}</td>
+                          <td style={{ padding: '8px 16px' }}>
+                            <span
+                              style={{
+                                padding: '2px 8px',
+                                borderRadius: '10px',
+                                fontSize: '11px',
+                                backgroundColor:
+                                  r.cpcb_category === 'Poor' || r.cpcb_category === 'Very Poor' || r.cpcb_category === 'Severe'
+                                    ? 'var(--amber-subtle)'
+                                    : 'var(--olive-subtle)',
+                                color:
+                                  r.cpcb_category === 'Poor' || r.cpcb_category === 'Very Poor' || r.cpcb_category === 'Severe'
+                                    ? 'var(--amber)'
+                                    : 'var(--olive)',
+                              }}
+                            >
+                              {r.cpcb_category || 'Unknown'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         )}
 
         {/* ======================================================== */}
-        {/* VIEW 3: DECISION REASONER (TASK 2) */}
+        {/* VIEW 4: DECISION REASONER */}
         {/* ======================================================== */}
-        {view === 'decision' && (
-          <div style={{ padding: '36px 48px', overflowY: 'auto', flex: 1 }}>
-            <div style={{ maxWidth: '820px', margin: '0 auto' }}>
-              <h2 style={{ fontSize: '24px', fontWeight: '500', marginBottom: '6px' }}>
-                Zero-Shot Trigger Evaluation
-              </h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '13px', marginBottom: '28px' }}>
-                Testing language models on interpreting a 5-hour sequential outdoor particulate trend and producing strict structured JSON triggers.
-              </p>
+        {activeTab === 'decision' && (
+          <div style={{ flex: 1, overflowY: 'auto', padding: '32px 48px' }}>
+            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              <div>
+                <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '24px', marginBottom: '4px' }}>
+                  Zero-shot Decision Reasoner
+                </h2>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>
+                  Evaluates multi-hour sequential air readings and outputs strict JSON trigger decisions.
+                </p>
+              </div>
 
-              <div style={{ backgroundColor: 'var(--bg-surface)', padding: '24px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '24px' }}>
-                <div style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '20px' }}>
-                  <div style={{ flex: 1 }}>
-                    <label style={{ display: 'block', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--text-secondary)', marginBottom: '6px' }}>
-                      Model
-                    </label>
-                    <select
-                      value={decisionModel}
-                      onChange={(e) => setDecisionModel(e.target.value)}
-                      style={{ width: '100%', padding: '8px 12px' }}
-                    >
-                      <option value="deepseek/deepseek-chat">DeepSeek Chat</option>
-                      <option value="moonshotai/kimi-k3">Moonshot Kimi K3</option>
-                      <option value="meta-llama/llama-3.3-70b-instruct">Llama 3.3 70B</option>
-                      <option value="qwen/qwen-2.5-72b-instruct">Qwen 2.5 72B</option>
-                    </select>
-                  </div>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <select
+                  value={decisionModel}
+                  onChange={(e) => setDecisionModel(e.target.value)}
+                  style={{ padding: '8px 12px', fontSize: '13px' }}
+                >
+                  <option value="deepseek/deepseek-chat">DeepSeek Chat</option>
+                  <option value="anthropic/claude-3.5-haiku">Claude 3.5 Haiku</option>
+                  <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+                </select>
 
-                  <button
-                    onClick={handleRunDecision}
-                    disabled={isEvaluatingDecision}
-                    style={{
-                      alignSelf: 'flex-end',
-                      backgroundColor: 'var(--clay)',
-                      color: '#fff',
-                      padding: '9px 18px',
-                      borderRadius: '6px',
-                      fontSize: '13px',
-                      fontWeight: '500',
-                      opacity: isEvaluatingDecision ? 0.6 : 1,
-                    }}
-                  >
-                    {isEvaluatingDecision ? 'Evaluating...' : 'Evaluate Sequence'}
-                  </button>
-                </div>
-
-                <div style={{ fontSize: '12px', color: 'var(--text-tertiary)', marginBottom: '8px' }}>
-                  Input Multi-hour Sequence (Increasing PM Trajectory):
-                </div>
-                <div style={{ backgroundColor: 'var(--bg-subtle)', padding: '12px 16px', borderRadius: '6px', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--text-secondary)' }}>
-                  08:00 (PM2.5: 42.0, AQI: 95) → 09:00 (PM2.5: 68.0, AQI: 145) → 10:00 (PM2.5: 98.0, AQI: 215) → 11:00 (PM2.5: 118.0, AQI: 255) → 12:00 (PM2.5: 135.0, AQI: 285)
-                </div>
+                <button
+                  onClick={handleRunDecision}
+                  disabled={isEvaluatingDecision}
+                  style={{
+                    padding: '8px 18px',
+                    borderRadius: '6px',
+                    backgroundColor: 'var(--clay)',
+                    color: '#FFFFFF',
+                    fontWeight: '500',
+                    fontSize: '13px',
+                    cursor: isEvaluatingDecision ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  {isEvaluatingDecision ? 'Evaluating Sequence...' : 'Evaluate 5-Hour Sequence'}
+                </button>
               </div>
 
               {decisionResult && (
-                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '24px', borderRadius: '8px', border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: '13px', fontWeight: '600', marginBottom: '12px' }}>
-                    Model Response & Parsed Schema
+                <div
+                  style={{
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    padding: '20px 24px',
+                  }}
+                >
+                  <div style={{ fontSize: '12px', color: 'var(--text-tertiary)', marginBottom: '8px' }}>
+                    Model Output ({decisionResult.model} • {decisionResult.latency_s}s)
                   </div>
-                  {decisionResult.parsed ? (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '16px' }}>
-                      <div style={{ padding: '12px', backgroundColor: 'var(--bg-subtle)', borderRadius: '6px' }}>
-                        <div style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Decision</div>
-                        <div style={{ fontSize: '16px', fontWeight: '600', color: decisionResult.parsed.speak ? 'var(--clay)' : 'var(--olive)' }}>
-                          {decisionResult.parsed.speak ? 'TRIGGER SPEAK' : 'SILENT'}
-                        </div>
-                      </div>
-                      <div style={{ padding: '12px', backgroundColor: 'var(--bg-subtle)', borderRadius: '6px' }}>
-                        <div style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Event Kind</div>
-                        <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                          {decisionResult.parsed.event}
-                        </div>
-                      </div>
-                      <div style={{ padding: '12px', backgroundColor: 'var(--bg-subtle)', borderRadius: '6px' }}>
-                        <div style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>Level</div>
-                        <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                          Level {decisionResult.parsed.level}
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-
-                  <pre style={{ backgroundColor: 'var(--bg-subtle)', padding: '12px', borderRadius: '6px', fontSize: '12px', fontFamily: 'var(--font-mono)', overflowX: 'auto' }}>
-                    {decisionResult.raw_text || decisionResult.error}
+                  <pre
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '12px',
+                      backgroundColor: 'var(--bg-subtle)',
+                      padding: '16px',
+                      borderRadius: '6px',
+                      overflowX: 'auto',
+                    }}
+                  >
+                    {JSON.stringify(decisionResult.parsed || decisionResult.raw_text, null, 2)}
                   </pre>
                 </div>
               )}
@@ -956,87 +1673,147 @@ export default function App() {
         )}
 
         {/* ======================================================== */}
-        {/* VIEW 4: PREGENERATED CLIPS (OFFLINE CATALOG) */}
+        {/* VIEW 5: PREGENERATED CLIPS */}
         {/* ======================================================== */}
-        {view === 'clips' && (
-          <div style={{ padding: '36px 48px', overflowY: 'auto', flex: 1 }}>
-            <div style={{ maxWidth: '820px', margin: '0 auto' }}>
-              <h2 style={{ fontSize: '24px', fontWeight: '500', marginBottom: '6px' }}>
-                Pregenerated Backup Audio Clips
-              </h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '13px', marginBottom: '28px' }}>
-                Offline fallback repository containing 200 pre-synthesized announcements with SHA-256 integrity checks.
-              </p>
-
-              <div style={{ backgroundColor: 'var(--bg-surface)', padding: '24px', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '24px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '20px' }}>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Event</label>
-                    <select value={clipKind} onChange={(e) => setClipKind(e.target.value)} style={{ width: '100%', padding: '6px 8px' }}>
-                      <option value="escalate">Escalate</option>
-                      <option value="reminder">Reminder</option>
-                      <option value="improving">Improving</option>
-                      <option value="recovered">Recovered</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Level</label>
-                    <select value={clipLevel} onChange={(e) => setClipLevel(Number(e.target.value))} style={{ width: '100%', padding: '6px 8px' }}>
-                      <option value={1}>Level 1</option>
-                      <option value={2}>Level 2</option>
-                      <option value={3}>Level 3</option>
-                      <option value={4}>Level 4</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Language</label>
-                    <select value={clipLang} onChange={(e) => setClipLang(e.target.value)} style={{ width: '100%', padding: '6px 8px' }}>
-                      <option value="hi">Hindi</option>
-                      <option value="en">English</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Slot</label>
-                    <select value={clipSlot} onChange={(e) => setClipSlot(e.target.value)} style={{ width: '100%', padding: '6px 8px' }}>
-                      <option value="sports_pt">Sports PT</option>
-                      <option value="assembly">Assembly</option>
-                      <option value="recess">Recess</option>
-                      <option value="dismissal">Dismissal</option>
-                      <option value="general">General</option>
-                    </select>
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleResolveClip}
-                  style={{
-                    backgroundColor: 'var(--clay)',
-                    color: '#fff',
-                    padding: '8px 16px',
-                    borderRadius: '6px',
-                    fontSize: '13px',
-                    fontWeight: '500',
-                  }}
-                >
-                  Resolve Audio Clip
-                </button>
+        {activeTab === 'clips' && (
+          <div style={{ flex: 1, overflowY: 'auto', padding: '32px 48px' }}>
+            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              <div>
+                <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '24px', marginBottom: '4px' }}>
+                  Pregenerated Safety Clips
+                </h2>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '13px' }}>
+                  Deterministic offline WAV safety announcements recorded for school bell systems.
+                </p>
               </div>
 
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+                    Kind
+                  </label>
+                  <select
+                    value={clipKind}
+                    onChange={(e) => setClipKind(e.target.value)}
+                    style={{ width: '100%', padding: '6px 8px', fontSize: '12px' }}
+                  >
+                    <option value="escalate">Escalate</option>
+                    <option value="reminder">Reminder</option>
+                    <option value="improving">Improving</option>
+                    <option value="recovered">Recovered</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+                    Level
+                  </label>
+                  <select
+                    value={clipLevel}
+                    onChange={(e) => setClipLevel(Number(e.target.value))}
+                    style={{ width: '100%', padding: '6px 8px', fontSize: '12px' }}
+                  >
+                    <option value={1}>1 (Moderate)</option>
+                    <option value={2}>2 (Poor)</option>
+                    <option value={3}>3 (Very Poor)</option>
+                    <option value={4}>4 (Severe)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+                    Language
+                  </label>
+                  <select
+                    value={clipLang}
+                    onChange={(e) => setClipLang(e.target.value)}
+                    style={{ width: '100%', padding: '6px 8px', fontSize: '12px' }}
+                  >
+                    <option value="hi">Hindi</option>
+                    <option value="en">English</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+                    Slot
+                  </label>
+                  <select
+                    value={clipSlot}
+                    onChange={(e) => setClipSlot(e.target.value)}
+                    style={{ width: '100%', padding: '6px 8px', fontSize: '12px' }}
+                  >
+                    <option value="sports_pt">Sports PT</option>
+                    <option value="assembly">Assembly</option>
+                    <option value="recess">Recess</option>
+                    <option value="general">General</option>
+                  </select>
+                </div>
+              </div>
+
+              <button
+                onClick={handleResolveClip}
+                style={{
+                  alignSelf: 'flex-start',
+                  padding: '8px 18px',
+                  borderRadius: '6px',
+                  backgroundColor: 'var(--clay)',
+                  color: '#FFFFFF',
+                  fontWeight: '500',
+                  fontSize: '13px',
+                }}
+              >
+                Resolve Clip
+              </button>
+
               {clipData && (
-                <div style={{ backgroundColor: 'var(--bg-surface)', padding: '24px', borderRadius: '8px', border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: '12px', color: 'var(--text-tertiary)', marginBottom: '4px' }}>
-                    Resolved Clip Identifier: <code>{clipData.clip_id}.wav</code>
+                <div
+                  style={{
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    padding: '20px 24px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: '600' }}>
+                      {clipData.clip_id}.wav
+                    </span>
+                    <span
+                      style={{
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        backgroundColor: clipData.exists ? 'var(--olive-subtle)' : 'var(--amber-subtle)',
+                        color: clipData.exists ? 'var(--olive)' : 'var(--amber)',
+                      }}
+                    >
+                      {clipData.exists ? 'Available on Disk' : 'Pregenerated Fallback'}
+                    </span>
                   </div>
-                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '18px', color: 'var(--text-primary)', margin: '12px 0 20px 0' }}>
+
+                  <div style={{ fontStyle: 'italic', fontSize: '14px', color: 'var(--text-secondary)' }}>
                     "{clipData.text}"
                   </div>
 
-                  {clipData.exists && clipData.clip_url ? (
-                    <audio controls src={`${API_BASE}${clipData.clip_url}`} style={{ width: '100%' }} />
-                  ) : (
-                    <div style={{ color: 'var(--amber)', fontSize: '13px' }}>
-                      Clip not found in local clips repository. Run <code>aircue clips build</code>.
-                    </div>
+                  {clipData.clip_url && (
+                    <button
+                      onClick={() => playWav(clipData.clip_url, clipData.clip_id)}
+                      style={{
+                        alignSelf: 'flex-start',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '6px 14px',
+                        borderRadius: '6px',
+                        backgroundColor: 'var(--bg-subtle)',
+                        border: '1px solid var(--border)',
+                        fontSize: '12px',
+                      }}
+                    >
+                      <Icons.Play />
+                      <span>{playingClipId === clipData.clip_id ? 'Playing WAV...' : 'Play Clip Audio'}</span>
+                    </button>
                   )}
                 </div>
               )}

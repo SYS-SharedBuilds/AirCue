@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from gtts import gTTS
 
 from aircue.data.store import load_latest_snapshot
+from aircue.llm.dataset_agent import answer_dataset_chat
 from aircue.llm.openrouter import OpenRouterClient
 from aircue.llm.parsing import parse_json_robust
 from aircue.llm.prompts import (
@@ -162,6 +163,20 @@ async def handle_generate_decision(data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+async def handle_chat_conversational(data: dict[str, Any]) -> dict[str, Any]:
+    messages = data.get("messages", [])
+    model = data.get("model", "deepseek/deepseek-chat")
+    api_key = data.get("api_key") or os.environ.get("OPENROUTER_API_KEY", "")
+    temperature = float(data.get("temperature", 0.5))
+
+    return await answer_dataset_chat(
+        messages=messages,
+        model=model,
+        api_key=api_key,
+        temperature=temperature,
+    )
+
+
 def handle_clip_preview(data: dict[str, Any]) -> dict[str, Any]:
     level = int(data.get("level", 2))
     kind = data.get("kind", "escalate")
@@ -207,6 +222,9 @@ def main() -> None:
         print(json.dumps(handle_telemetry(loc, limit)))
     elif action == "generate_announcement":
         res = asyncio.run(handle_generate_announcement(payload))
+        print(json.dumps(res))
+    elif action == "chat_conversational":
+        res = asyncio.run(handle_chat_conversational(payload))
         print(json.dumps(res))
     elif action == "generate_decision":
         res = asyncio.run(handle_generate_decision(payload))

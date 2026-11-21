@@ -57,6 +57,27 @@ class OpenRouterClient(LLMClient):
         temperature: float = 0.7,
         max_tokens: int = 150,
     ) -> CompletionResult:
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        messages.append({"role": "user", "content": prompt})
+        return await self.complete_messages(
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+
+    @retry(
+        retry=retry_if_exception(is_retryable_http_error),
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+    )
+    async def complete_messages(
+        self,
+        messages: list[dict[str, str]],
+        temperature: float = 0.7,
+        max_tokens: int = 500,
+    ) -> CompletionResult:
         if not self.api_key:
             return CompletionResult(
                 text="",
@@ -64,11 +85,6 @@ class OpenRouterClient(LLMClient):
                 latency_s=0.0,
                 raw_error="Missing OPENROUTER_API_KEY environment variable",
             )
-
-        messages = []
-        if system_prompt:
-            messages.append({"role": "system", "content": system_prompt})
-        messages.append({"role": "user", "content": prompt})
 
         payload = {
             "model": self.model,

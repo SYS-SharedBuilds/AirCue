@@ -89,7 +89,17 @@ app.get('/api/telemetry', async (req, res) => {
   }
 });
 
-// 4. LLM Spoken Announcement Generation
+// 4. Conversational Model Grounded on AQI Dataset
+app.post('/api/chat', async (req, res) => {
+  try {
+    const data = await callBridge('chat_conversational', req.body);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 5. LLM Spoken Announcement Generation (Trigger Based)
 app.post('/api/llm/announcement', async (req, res) => {
   try {
     const data = await callBridge('generate_announcement', req.body);
