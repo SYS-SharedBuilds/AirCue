@@ -7,12 +7,16 @@ from typing import Any
 
 
 def strip_reasoning_artifacts(text: str) -> str:
-    """Strip <think>...</think> chain-of-thought tags and reasoning tokens."""
+    """Strip <think>...</think> chain-of-thought tags, markdown fences, and outer quotation marks."""
     cleaned = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL)
-    # Also clean markdown backticks if wrapped in json block
+    # Clean markdown code blocks
     cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned.strip(), flags=re.MULTILINE)
     cleaned = re.sub(r"```$", "", cleaned.strip(), flags=re.MULTILINE)
-    return cleaned.strip()
+    cleaned = cleaned.strip()
+    # Strip wrapping outer double or single quotes if present
+    if (cleaned.startswith('"') and cleaned.endswith('"')) or (cleaned.startswith("'") and cleaned.endswith("'")):
+        cleaned = cleaned[1:-1].strip()
+    return cleaned
 
 
 def parse_json_robust(text: str) -> dict[str, Any] | None:

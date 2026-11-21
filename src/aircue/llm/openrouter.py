@@ -75,6 +75,7 @@ class OpenRouterClient(LLMClient):
             "messages": messages,
             "temperature": temperature,
             "max_tokens": max_tokens,
+            "reasoning": {"effort": "none"},
         }
 
         headers = {

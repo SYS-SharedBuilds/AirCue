@@ -56,8 +56,12 @@ def validate_word_limit(text: str, max_words: int = 20) -> bool:
 
 def validate_sentence_count(text: str, max_sentences: int = 2) -> bool:
     """Validate text is between 1 and max_sentences."""
+    # Strip any enclosing quotes first
+    cleaned = text.strip()
+    if (cleaned.startswith('"') and cleaned.endswith('"')) or (cleaned.startswith("'") and cleaned.endswith("'")):
+        cleaned = cleaned[1:-1].strip()
     # Split by period, exclamation, question mark, or Devanagari purna viram (।)
-    parts = [p.strip() for p in re.split(r"[.!?।]+", text) if p.strip()]
+    parts = [p.strip() for p in re.split(r"[.!?।]+", cleaned) if p.strip()]
     return 1 <= len(parts) <= max_sentences
 
 

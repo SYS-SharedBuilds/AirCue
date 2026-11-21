@@ -374,5 +374,19 @@ def tune_cmd(
         )
 
 
+@app.command("dashboard")
+def dashboard_cmd(
+    port: int = typer.Option(8501, "--port", "-p", help="Port to run Streamlit interface on"),
+    host: str = typer.Option("localhost", "--host", "-h", help="Host address"),
+) -> None:
+    """Launch interactive Streamlit web interface for telemetry and LLM testing."""
+    import subprocess
+    import sys
+    app_path = Path(__file__).resolve().parent / "dashboard" / "app.py"
+    cmd = [sys.executable, "-m", "streamlit", "run", str(app_path), "--server.port", str(port), "--server.address", host]
+    Console().print(f"[bold green]Starting AirCue Web Interface on http://{host}:{port}...[/bold green]")
+    subprocess.run(cmd)
+
+
 if __name__ == "__main__":
     app()
