@@ -374,18 +374,22 @@ def tune_cmd(
         )
 
 
-@app.command("dashboard")
-def dashboard_cmd(
-    port: int = typer.Option(8501, "--port", "-p", help="Port to run Streamlit interface on"),
-    host: str = typer.Option("localhost", "--host", "-h", help="Host address"),
+@app.command("web")
+def web_cmd(
+    port: int = typer.Option(5001, "--port", "-p", help="Port to run Node.js web server on"),
 ) -> None:
-    """Launch interactive Streamlit web interface for telemetry and LLM testing."""
+    """Launch full-fledged React & Node.js web application for AirCue."""
+    import os
     import subprocess
-    import sys
-    app_path = Path(__file__).resolve().parent / "dashboard" / "app.py"
-    cmd = [sys.executable, "-m", "streamlit", "run", str(app_path), "--server.port", str(port), "--server.address", host]
-    Console().print(f"[bold green]Starting AirCue Web Interface on http://{host}:{port}...[/bold green]")
-    subprocess.run(cmd)
+    server_dir = Path(__file__).resolve().parent.parent.parent / "web" / "server"
+    cmd = ["node", "index.js"]
+    env = dict(os.environ)
+    env["PORT"] = str(port)
+    Console().print(f"[bold green]Starting AirCue React + Node.js Web Platform on http://localhost:{port}...[/bold green]")
+    try:
+        subprocess.run(cmd, cwd=str(server_dir), env=env)
+    except KeyboardInterrupt:
+        Console().print("\n[yellow]AirCue Web Platform stopped.[/yellow]")
 
 
 if __name__ == "__main__":
